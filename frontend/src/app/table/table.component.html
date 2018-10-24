@@ -1,0 +1,61 @@
+<div class="mb-3">
+  <pre class="card card-block card-header" *ngIf="value">Event select is fired. The heading of the selected tab is: {{value}}</pre>
+</div>
+<tabset>
+  <tab heading="Students" class="mt-2" (select)="onSelect($event)">
+    <ng4-loading-spinner></ng4-loading-spinner>
+
+    <!-- ID: subjectsSCH -->
+    <div class="tab-pane active" id="subjectsSCH">
+      <div class="row">
+
+        <div class="col">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-success" id="addSubjectsSCH">Add</button>
+            <button type="button" class="btn btn-success" id="deleteSubjectsSCH">Delete</button>
+          </div>
+        </div>
+
+        <div class="col">
+          <!-- Search form -->
+          <div class="active-green-1 active-cyan-4 mb-4">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="subjectsSCHsearch">
+          </div>
+        </div>
+      </div>
+
+      <br/>
+
+      <table class="table table-hover" id="subjectsTable">
+        <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Group ID</th>
+          <th>First Name</th>
+          <th>Last name</th>
+          <th>E-mail</th>
+          <th>Birthday</th>
+          <th>Address</th>
+        </tr>
+        </thead>
+
+        <tbody id="subjectsTableBody" *ngFor="let student of studentAccounts">
+        <tr>
+          <td>{{ student.studentId }}</td>
+          <td>{{ student.groupId }}</td>
+          <td>{{ student.firstName }}</td>
+          <td>{{ student.lastName }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.birthday }}</td>
+          <td>{{ student.address }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </tab>
+
+  <tab heading="Another tab" class="mt-2" (select)="onSelect($event)">
+
+  </tab>
+</tabset>
