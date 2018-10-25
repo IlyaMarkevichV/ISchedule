@@ -27,10 +27,6 @@ export class TableComponent implements OnInit {
   }
 
   onSelect(data: TabDirective) {
-    this.loadingService.show();
-    setTimeout(() => {
-      this.loadingService.hide();
-    }, 2500);
     this.value = data.heading;
   }
 
@@ -44,5 +40,9 @@ export class TableComponent implements OnInit {
       // consoLe.log(this.studentAccounts);
       this.loadingService.hide();
     }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

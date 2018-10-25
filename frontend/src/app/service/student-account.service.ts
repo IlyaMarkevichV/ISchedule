@@ -14,7 +14,7 @@ export class StudentAccountService {
 
 // Ajax request for student account data
   getStudentAccounts(): Observable<StudentAccount[]> {
-    return this.http.get<StudentAccount[]>('/api/ba');
+    return this.http.get<StudentAccount[]>( '/api/ba');
   }
 
   saveStudentAccount(studentAccount: StudentAccount): Observable<StudentAccount> {
@@ -22,6 +22,6 @@ export class StudentAccountService {
   }
 
   deleteStudentAccount(studentAccount: StudentAccount): Observable<void> {
-    return this.http.delete<void>('/api/ba' + studentAccount);
+    return this.http.delete<void>( '/api/ba/' + studentAccount);
   }
 }
