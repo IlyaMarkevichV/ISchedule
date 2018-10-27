@@ -30,7 +30,7 @@ public class StudentEntityDataController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteStudentEntity(@PathVariable String id) {
-        studentEntityDataService.deleteStudentEntity(Integer.valueOf(id));
+    public void deleteStudentEntity(@PathVariable Integer id) {
+        studentEntityDataService.deleteStudentEntity(id);
     }
 }

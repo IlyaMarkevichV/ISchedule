@@ -21,7 +21,7 @@ export class StudentAccountService {
     return this.http.post<StudentAccount>('/api/ba', studentAccount);
   }
 
-  deleteStudentAccount(studentAccount: StudentAccount): Observable<void> {
-    return this.http.delete<void>( '/api/ba/' + studentAccount);
+  deleteStudentAccount(studentAccountId: string): Observable<void> {
+    return this.http.delete<void>( '/api/ba/' + studentAccountId);
   }
 }
