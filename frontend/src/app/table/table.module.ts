@@ -5,6 +5,8 @@ import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {AlertModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import {FilterPipeModule} from "ngx-filter-pipe";
+import { StudentComponent } from './student/student.component';
+import { ProfessorComponent } from './professor/professor.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import {FilterPipeModule} from "ngx-filter-pipe";
     ModalModule.forRoot()
   ],
   declarations: [
-    TableComponent
+    TableComponent,
+    StudentComponent,
+    ProfessorComponent
   ],
   exports: [
     TableComponent

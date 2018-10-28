@@ -42,6 +42,6 @@ public class StudentEntityController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteStudentEntity(@PathVariable(name = "id") Integer id) {
         studentService.deleteStudentEntity(id);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 }

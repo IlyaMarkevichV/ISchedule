@@ -1,133 +1,17 @@
 <div class="mb-3">
-  <pre class="card card-block card-header" *ngIf="value">Event select is fired. The heading of the selected tab is: {{value}}</pre>
+  <pre class="card card-block card-header">Event select is fired. The heading of the selected tab is: {{person}}</pre>
 </div>
 
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
   <tab heading="Students" class="mt-2" (select)="onSelect($event)">
-    <!-- ID: subjectsSCH -->
-    <div class="tab-pane active" id="subjectsSCH">
-      <div class="row">
-
-        <div class="col">
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-success" (click)="openModal(template)" id="addSubjectsSCH">Add Student</button>
-            <button type="button" class="btn btn-success" (click)="updateStudentAccounts()">Update</button>
-          </div>
-        </div>
-
-        <div class="col">
-          <!-- TODO: make search BY -->
-          <!-- Search form -->
-          <div class="active-green-1 active-cyan-4 mb-4">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchStr" (keyup)="filterStudents()">
-          </div>
-        </div>
-      </div>
-
-      <br/>
-
-      <table class="table table-hover" id="table">
-        <thead>
-        <tr>
-          <th>Student ID</th>
-          <th>Group ID</th>
-          <th>First Name</th>
-          <th>Last name</th>
-          <th>E-mail</th>
-          <th>Birthday</th>
-          <th>Address</th>
-        </tr>
-        </thead>
-
-        <tbody id="tableBody"
-               *ngFor="let student of studentAccounts">
-        <tr>
-          <td>{{ student.studentId }}</td>
-          <td>{{ student.groupId }}</td>
-          <td>{{ student.firstName }}</td>
-          <td>{{ student.lastName }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.birthday | date }}</td>
-          <td>{{ student.address }}</td>
-          <td><button type="button" class="btn btn-danger" (click)="deleteStudentAccount(student.studentId.toString())">Delete</button></td>
-          <td><button type="button" class="btn btn-secondary" (click)="openModal(template, student)">Edit</button></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-
+    <app-student></app-student>
   </tab>
 
-  <tab heading="Another tab" class="mt-2" (select)="onSelect($event)">
-
+  <tab heading="Professors" class="mt-2" (select)="onSelect($event)">
+    <app-professor></app-professor>
   </tab>
 </tabset>
 
-<!-- Modal -->
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}}  new Billing Account</h4>
-    <button type="button" class="close pull-right"
-            aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label>First Name</label>
-      <input class="form-control" name="firstName" [(ngModel)]="editableStudent.firstName" #firstName="ngModel" placeholder="First Name" required/>
-      <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
-        Pls set First Name <!--Easy way to create client validation-->
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Last Name</label>
-      <input class="form-control" name="lastName" [(ngModel)]="editableStudent.lastName" #lastName="ngModel" placeholder="Last Name" required/>
-      <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
-        Pls set Last Name <!--Easy way to create client validation-->
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>E-mail</label>
-      <input class="form-control" name="email" [(ngModel)]="editableStudent.email" #email="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
-      <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
-        E-mail is incorrect
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Address</label>
-      <input class="form-control" name="address" [(ngModel)]="editableStudent.address" #address="ngModel" required placeholder="Address"/>
-      <div [hidden]="address.valid || address.untouched" class="alert alert-danger">
-        Pls set Address
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Group ID</label>
-      <input class="form-control" name="address" [(ngModel)]="editableStudent.groupId" #groupID="ngModel" required pattern="[0-9]{6,}" placeholder="Group ID №"/>
-      <div [hidden]="groupID.valid || groupID.untouched" class="alert alert-danger">
-        Pls set Group ID
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Birthday</label>
-      <br/>
-      <input id="bday" type="date" placeholder="Date (YYYY-MM-DD)" [(ngModel)]="editableStudent.birthday" #bday="ngModel">
-      <div [hidden]="bday.valid || bday.untouched" class="alert alert-danger">
-        Pls set Group ID
-      </div>
-    </div>
-
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="addStudentAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid">{{editMode ? "Save": "Create"}}</button>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-  </div>
-</ng-template>
 

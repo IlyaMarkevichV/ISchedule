@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ba")
+@RequestMapping("/api/ba-student")
 public class StudentEntityDataController {
 
     @Autowired
     private StudentEntityDataService studentEntityDataService;
 
-    @RequestMapping
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<StudentEntityViewModel>> getAllStudentEntities() {
         return ResponseEntity.ok(studentEntityDataService.getAll());
     }
 
     // TODO: server validation
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<StudentEntityViewModel> saveStudentEntity(@RequestBody StudentEntityViewModel studentEntityViewModel) {
         if (studentEntityViewModel != null) {
             return ResponseEntity.ok(studentEntityDataService.saveStudentEntity(studentEntityViewModel));
@@ -30,7 +30,7 @@ public class StudentEntityDataController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteStudentEntity(@PathVariable Integer id) {
-        studentEntityDataService.deleteStudentEntity(id);
+    public void deleteStudentEntity(@PathVariable String id) {
+        studentEntityDataService.deleteStudentEntity(Integer.valueOf(id));
     }
 }

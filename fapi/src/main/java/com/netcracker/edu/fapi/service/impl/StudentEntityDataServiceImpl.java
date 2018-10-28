@@ -19,7 +19,8 @@ public class StudentEntityDataServiceImpl implements StudentEntityDataService {
     @Override
     public List<StudentEntityViewModel> getAll() {
         RestTemplate restTemplate = new RestTemplate();
-        StudentEntityViewModel[] studentEntityViewModelResponse = restTemplate.getForObject(backendServerUrl + "/api/student-entities", StudentEntityViewModel[].class);
+        StudentEntityViewModel[] studentEntityViewModelResponse =
+                restTemplate.getForObject(backendServerUrl + "/api/student-entities/", StudentEntityViewModel[].class);
         return studentEntityViewModelResponse == null ? Collections.emptyList() : Arrays.asList(studentEntityViewModelResponse);
     }
 
