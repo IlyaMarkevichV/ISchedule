@@ -1,9 +1,9 @@
 package com.netcracker.edu.backend.repository;
 
-import com.netcracker.edu.backend.entity.ProfessorEntity;
+import com.netcracker.edu.backend.entity.Professor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProfessorRepository extends CrudRepository<ProfessorEntity, Integer> {
+public interface ProfessorRepository extends CrudRepository<Professor, Integer> {
 }

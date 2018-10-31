@@ -5,34 +5,23 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "student", schema = "backend")
-public class StudentEntity {
-    private int studentId;
-    private int groupId;
+@Table(name = "professor", schema = "backend")
+public class Professor {
+    private int professorId;
     private String firstName;
     private String lastName;
-    private Date birthday;
     private String email;
     private String address;
+    private Date birthday;
 
     @Id
-    @Column(name = "student_id")
-    public int getStudentId() {
-        return studentId;
+    @Column(name = "professor_id")
+    public int getProfessorId() {
+        return professorId;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
-    @Basic
-    @Column(name = "group_id")
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setProfessorId(int professorId) {
+        this.professorId = professorId;
     }
 
     @Basic
@@ -56,16 +45,6 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "birthday")
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    @Basic
     @Column(name = "email")
     public String getEmail() {
         return email;
@@ -85,22 +64,31 @@ public class StudentEntity {
         this.address = address;
     }
 
+    @Basic
+    @Column(name = "birthday")
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentEntity that = (StudentEntity) o;
-        return studentId == that.studentId &&
-                groupId == that.groupId &&
+        Professor that = (Professor) o;
+        return professorId == that.professorId &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
-                Objects.equals(birthday, that.birthday) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(address, that.address);
+                Objects.equals(address, that.address) &&
+                Objects.equals(birthday, that.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, groupId, firstName, lastName, birthday, email, address);
+        return Objects.hash(professorId, firstName, lastName, email, address, birthday);
     }
 }

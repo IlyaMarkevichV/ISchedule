@@ -6,11 +6,11 @@ import java.util.Optional;
 
 // TODO: necessary?
 public interface FacultyService {
-    Faculty saveFacultyService(Faculty entity);
+    Faculty saveFaculty(Faculty entity);
 
-    Optional<Faculty> getProfessorById(Integer id);
+    Optional<Faculty> getFacultyById(Integer id);
 
-    Iterable<Faculty> getAllFacultyEntities();
+    Iterable<Faculty> getAllFaculty();
 
-    void deleteFacultyEntity(Integer id);
+    void deleteFaculty(Integer id);
 }

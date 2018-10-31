@@ -5,11 +5,11 @@ import com.netcracker.edu.backend.entity.UniversityGroup;
 import java.util.Optional;
 
 public interface UniversityGroupService {
-    UniversityGroup saveGroupEntity(UniversityGroup entity);
+    UniversityGroup saveGroup(UniversityGroup entity);
 
-    Optional<UniversityGroup> getGroupEntityById(Integer id);
+    Optional<UniversityGroup> getGroupById(Integer id);
 
-    Iterable<UniversityGroup> getAllGroupEntities();
+    Iterable<UniversityGroup> getAllGroups();
 
-    void deleteGroupEntity(Integer id);
+    void deleteGroup(Integer id);
 }

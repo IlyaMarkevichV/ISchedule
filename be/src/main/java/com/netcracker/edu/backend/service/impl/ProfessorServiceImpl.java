@@ -1,6 +1,6 @@
 package com.netcracker.edu.backend.service.impl;
 
-import com.netcracker.edu.backend.entity.ProfessorEntity;
+import com.netcracker.edu.backend.entity.Professor;
 import com.netcracker.edu.backend.repository.ProfessorRepository;
 import com.netcracker.edu.backend.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +19,22 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
-    public ProfessorEntity saveProfessorEntity(ProfessorEntity entity) {
+    public Professor saveProfessor(Professor entity) {
         return repository.save(entity);
     }
 
     @Override
-    public Optional<ProfessorEntity> getProfessorById(Integer id) {
+    public Optional<Professor> getProfessorById(Integer id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<ProfessorEntity> getAllProfessorEntities() {
+    public Iterable<Professor> getAllProfessors() {
         return repository.findAll();
     }
 
     @Override
-    public void deleteProfessorEntity(Integer id) {
+    public void deleteProfessor(Integer id) {
         repository.deleteById(id);
     }
 }

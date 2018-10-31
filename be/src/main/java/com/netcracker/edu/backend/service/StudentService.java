@@ -1,15 +1,15 @@
 package com.netcracker.edu.backend.service;
 
-import com.netcracker.edu.backend.entity.StudentEntity;
+import com.netcracker.edu.backend.entity.Student;
 
 import java.util.Optional;
 
 public interface StudentService {
-    StudentEntity saveStudentEntity(StudentEntity entity);
+    Student saveStudent(Student entity);
 
-    Optional<StudentEntity> getStudentEntityById(Integer id);
+    Optional<Student> getStudentById(Integer id);
 
-    Iterable<StudentEntity> getAllStudentEntities();
+    Iterable<Student> getAllStudents();
 
-    void deleteStudentEntity(Integer id);
+    void deleteStudents(Integer id);
 }

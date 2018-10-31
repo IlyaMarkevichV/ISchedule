@@ -1,6 +1,6 @@
 package com.netcracker.edu.backend.controller;
 
-import com.netcracker.edu.backend.entity.ProfessorEntity;
+import com.netcracker.edu.backend.entity.Professor;
 import com.netcracker.edu.backend.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,18 +10,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/professor-entities")
-public class ProfessorEntityController {
+public class ProfessorController {
 
     private ProfessorService professorService;
 
     @Autowired
-    public ProfessorEntityController(ProfessorService professorService) {
+    public ProfessorController(ProfessorService professorService) {
         this.professorService = professorService;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ProfessorEntity> getProfessorEntityById(@PathVariable(name = "id") Integer id) {
-        Optional<ProfessorEntity> professorEntity = professorService.getProfessorById(id);
+    public ResponseEntity<Professor> getProfessorEntityById(@PathVariable(name = "id") Integer id) {
+        Optional<Professor> professorEntity = professorService.getProfessorById(id);
         if (professorEntity.isPresent()) {
             return ResponseEntity.ok(professorEntity.get());
         } else {
@@ -30,18 +30,18 @@ public class ProfessorEntityController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<ProfessorEntity> getAllProfessorEntities() {
-        return professorService.getAllProfessorEntities();
+    public Iterable<Professor> getAllProfessorEntities() {
+        return professorService.getAllProfessors();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ProfessorEntity saveProfessorEntity(@RequestBody ProfessorEntity entity) {
-        return professorService.saveProfessorEntity(entity);
+    public Professor saveProfessorEntity(@RequestBody Professor entity) {
+        return professorService.saveProfessor(entity);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteProfessorEntity(@PathVariable(name = "id") Integer id) {
-        professorService.deleteProfessorEntity(id);
+        professorService.deleteProfessor(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,15 +1,15 @@
 package com.netcracker.edu.backend.service;
 
-import com.netcracker.edu.backend.entity.ProfessorEntity;
+import com.netcracker.edu.backend.entity.Professor;
 
 import java.util.Optional;
 
 public interface ProfessorService {
-    ProfessorEntity saveProfessorEntity(ProfessorEntity entity);
+    Professor saveProfessor(Professor entity);
 
-    Optional<ProfessorEntity> getProfessorById(Integer id);
+    Optional<Professor> getProfessorById(Integer id);
 
-    Iterable<ProfessorEntity> getAllProfessorEntities();
+    Iterable<Professor> getAllProfessors();
 
-    void deleteProfessorEntity(Integer id);
+    void deleteProfessor(Integer id);
 }

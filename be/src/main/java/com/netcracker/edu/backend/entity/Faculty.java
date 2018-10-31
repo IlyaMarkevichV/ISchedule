@@ -16,10 +16,6 @@ public class Faculty {
     @Column(name = "faculty_name")
     private String facultyName;
 
-    @OneToMany(cascade = CascadeType.ALL)
-
-    private Set<UniversityGroup> universityGroup = new HashSet<UniversityGroup>();
-
     public int getFacultyId() {
         return facultyId;
     }
@@ -36,26 +32,17 @@ public class Faculty {
         this.facultyName = facultyName;
     }
 
-    public Set<UniversityGroup> getUniversityGroup() {
-        return universityGroup;
-    }
-
-    public void setUniversityGroup(Set<UniversityGroup> universityGroup) {
-        this.universityGroup = universityGroup;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Faculty that = (Faculty) o;
-        return facultyId == that.facultyId &&
-                Objects.equals(facultyName, that.facultyName) &&
-                Objects.equals(universityGroup, that.universityGroup);
+        Faculty faculty = (Faculty) o;
+        return facultyId == faculty.facultyId &&
+                Objects.equals(facultyName, faculty.facultyName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(facultyId, facultyName, universityGroup);
+        return Objects.hash(facultyId, facultyName);
     }
 }

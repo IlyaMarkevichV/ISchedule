@@ -15,22 +15,22 @@ public class UniversityGroupServiceImpl implements UniversityGroupService {
     private UniversityGroupRepository repository;
 
     @Override
-    public UniversityGroup saveGroupEntity(UniversityGroup entity) {
+    public UniversityGroup saveGroup(UniversityGroup entity) {
         return repository.save(entity);
     }
 
     @Override
-    public Optional<UniversityGroup> getGroupEntityById(Integer id) {
+    public Optional<UniversityGroup> getGroupById(Integer id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<UniversityGroup> getAllGroupEntities() {
+    public Iterable<UniversityGroup> getAllGroups() {
         return repository.findAll();
     }
 
     @Override
-    public void deleteGroupEntity(Integer id) {
+    public void deleteGroup(Integer id) {
         repository.deleteById(id);
     }
 }

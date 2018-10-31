@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProfessorEntityViewModel {
+public class ProfessorViewModel {
 
     private int professorId;
     private String firstName;
@@ -14,10 +14,10 @@ public class ProfessorEntityViewModel {
     private String address;
     private Date birthday;
 
-    public ProfessorEntityViewModel() {
+    public ProfessorViewModel() {
     }
 
-    public ProfessorEntityViewModel(int professorId, String firstName, String lastName, String email, String address, Date birthday) {
+    public ProfessorViewModel(int professorId, String firstName, String lastName, String email, String address, Date birthday) {
         this.professorId = professorId;
         this.firstName = firstName;
         this.lastName = lastName;
