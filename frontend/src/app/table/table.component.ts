@@ -15,17 +15,9 @@ import {AppComponent} from "../app.component";
 })
 export class TableComponent implements OnInit {
 
-  // TODO: delete person
-  public person: string;
-
-  // Dependency injection
   constructor() {
   }
 
   ngOnInit() {
-  }
-
-  onSelect(data: TabDirective) {
-    this.person = data.heading;
   }
 }

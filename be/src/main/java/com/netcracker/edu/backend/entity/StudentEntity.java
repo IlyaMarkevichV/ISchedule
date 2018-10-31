@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "student_groups", schema = "backend", catalog = "")
+@Table(name = "student", schema = "backend")
 public class StudentEntity {
     private int studentId;
     private int groupId;
@@ -16,7 +16,6 @@ public class StudentEntity {
     private String address;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     public int getStudentId() {
         return studentId;
