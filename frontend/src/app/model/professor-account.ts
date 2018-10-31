@@ -13,7 +13,7 @@ export class ProfessorAccount {
     clonedAcc.lastName = acc.lastName;
     clonedAcc.email = acc.email;
     clonedAcc.address = acc.address;
-    clonedAcc.birthday = clonedAcc.birthday;
+    clonedAcc.birthday = acc.birthday;
     return clonedAcc;
   }
 }
