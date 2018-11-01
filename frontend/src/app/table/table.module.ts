@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from './table.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
-import {AlertModule, BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
-import { FormsModule } from '@angular/forms';
+import {AlertModule, BsDropdownModule, DatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
+import { FormsModule} from '@angular/forms';
 import {FilterPipeModule} from "ngx-filter-pipe";
 import { StudentComponent } from './student/student.component';
 import { ProfessorComponent } from './professor/professor.component';
 import { GroupComponent } from './group/group.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     BsDropdownModule.forRoot(),
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   declarations: [
     TableComponent,

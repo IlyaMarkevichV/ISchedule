@@ -4,6 +4,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {StudentAccountService} from "../../service/student-account.service";
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-student',
@@ -11,6 +12,12 @@ import {StudentAccountService} from "../../service/student-account.service";
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit, OnDestroy {
+
+  minDate = new Date(1900, 1, 1);
+
+  myForm = new FormGroup({
+    myDateYMD: new FormControl(new Date())
+  });
 
   public searchButton: string = 'Search by';
   public searchText: string;

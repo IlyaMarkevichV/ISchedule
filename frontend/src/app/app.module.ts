@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {AlertModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
+import {AlertModule, BsDatepickerModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NavbarComponent } from './navbar/navbar.component';
 import {StudentAccountService} from "./service/student-account.service";
@@ -23,7 +23,8 @@ import {TableModule} from "./table/table.module";
     TabsModule.forRoot(),
     AlertModule.forRoot(),
     BrowserModule,
-    TableModule
+    TableModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [StudentAccountService],
   bootstrap: [AppComponent]
