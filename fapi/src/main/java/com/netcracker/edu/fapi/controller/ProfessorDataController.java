@@ -20,6 +20,11 @@ public class ProfessorDataController {
         return ResponseEntity.ok(professorDataService.getAll());
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ProfessorViewModel> getProfessorById(@PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok(professorDataService.getProfessorById(id));
+    }
+
     // TODO: server validation
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ProfessorViewModel> saveProfessor(@RequestBody ProfessorViewModel professorViewModel) {

@@ -27,6 +27,16 @@ public class StudentDataServiceImpl implements StudentDataService {
     // TODO: write function StudentViewModel getStudentById(Integer id) implementation
     @Override
     public StudentViewModel getStudentById(Integer id) {
+        RestTemplate restTemplate = new RestTemplate();
+        StudentViewModel[] studentViewModelResponse =
+                restTemplate.getForObject(backendServerUrl + "/api/student-entities/", StudentViewModel[].class);
+        if (studentViewModelResponse != null) {
+            for (StudentViewModel student : studentViewModelResponse) {
+                if (student.getStudentId() == id) {
+                    return student;
+                }
+            }
+        }
         return null;
     }
 

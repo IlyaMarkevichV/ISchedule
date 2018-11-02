@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/group-entities")
+@RequestMapping("/api/group-entities")
 public class GroupController {
     private UniversityGroupService universityGroupService;
 

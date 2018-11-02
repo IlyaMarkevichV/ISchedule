@@ -4,15 +4,19 @@ import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.repository.UniversityGroupRepository;
 import com.netcracker.edu.backend.service.UniversityGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class UniversityGroupServiceImpl implements UniversityGroupService {
 
-    @Autowired
     private UniversityGroupRepository repository;
+
+    @Autowired
+    public UniversityGroupServiceImpl(UniversityGroupRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UniversityGroup saveGroup(UniversityGroup entity) {

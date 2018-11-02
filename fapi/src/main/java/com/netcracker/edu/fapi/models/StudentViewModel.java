@@ -6,9 +6,8 @@ import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudentViewModel {
-
     private int studentId;
-    private int groupId;
+    private GroupViewModel group;
     private String firstName;
     private String lastName;
     private Date birthday;
@@ -18,9 +17,9 @@ public class StudentViewModel {
     public StudentViewModel() {
     }
 
-    public StudentViewModel(int studentId, int groupId, String firstName, String lastName, Date birthday, String email, String address) {
+    public StudentViewModel(int studentId, GroupViewModel group, String firstName, String lastName, Date birthday, String email, String address) {
         this.studentId = studentId;
-        this.groupId = groupId;
+        this.group = group;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -36,12 +35,12 @@ public class StudentViewModel {
         this.studentId = studentId;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public GroupViewModel getGroup() {
+        return group;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroup(GroupViewModel group) {
+        this.group = group;
     }
 
     public String getFirstName() {

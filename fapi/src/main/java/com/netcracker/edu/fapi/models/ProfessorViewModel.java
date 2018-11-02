@@ -6,7 +6,6 @@ import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfessorViewModel {
-
     private int professorId;
     private String firstName;
     private String lastName;

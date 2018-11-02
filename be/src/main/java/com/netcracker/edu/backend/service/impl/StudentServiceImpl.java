@@ -4,11 +4,11 @@ import com.netcracker.edu.backend.entity.Student;
 import com.netcracker.edu.backend.repository.StudentRepository;
 import com.netcracker.edu.backend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository repository;

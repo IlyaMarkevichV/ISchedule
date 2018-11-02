@@ -1,18 +1,24 @@
 package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.netcracker.edu.backend.entity.Faculty;
 
 import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupViewModel {
     private int groupId;
-    private Faculty faculty;
+    private FacultyViewModel faculty;
     private int grade;
     private Date date;
 
     public GroupViewModel() {
+    }
+
+    public GroupViewModel(int groupId, FacultyViewModel faculty, int grade, Date date) {
+        this.groupId = groupId;
+        this.faculty = faculty;
+        this.grade = grade;
+        this.date = date;
     }
 
     public int getGroupId() {
@@ -23,11 +29,11 @@ public class GroupViewModel {
         this.groupId = groupId;
     }
 
-    public Faculty getFaculty() {
+    public FacultyViewModel getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(Faculty faculty) {
+    public void setFaculty(FacultyViewModel faculty) {
         this.faculty = faculty;
     }
 

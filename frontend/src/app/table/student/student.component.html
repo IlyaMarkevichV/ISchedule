@@ -29,6 +29,7 @@
               <li role="menuitem"><a class="dropdown-item" href="#" (click)="tab='id'; searchButton='Id'">Id</a></li>
             </ul>
           </div>
+          <!-- TODO: Filter array with students -->
           <input [(ngModel)]="searchText" [typeahead]="studentAccounts" typeaheadOptionField="{{tab}}"
                  [typeaheadScrollable]="true"
                  [typeaheadOptionsInScrollableView]="5" placeholder="Search...">

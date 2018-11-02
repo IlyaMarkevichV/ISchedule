@@ -7,16 +7,33 @@ import java.util.Objects;
 @Entity
 @Table(name = "student", schema = "backend")
 public class Student {
-    private int studentId;
-    private int groupId;
-    private String firstName;
-    private String lastName;
-    private Date birthday;
-    private String email;
-    private String address;
-
     @Id
     @Column(name = "student_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int studentId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private UniversityGroup group;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "address")
+    private String address;
+
+    public Student() {
+    }
+
     public int getStudentId() {
         return studentId;
     }
@@ -25,18 +42,14 @@ public class Student {
         this.studentId = studentId;
     }
 
-    @Basic
-    @Column(name = "group_id")
-    public int getGroupId() {
-        return groupId;
+    public UniversityGroup getGroup() {
+        return group;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroup(UniversityGroup group) {
+        this.group = group;
     }
 
-    @Basic
-    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -45,8 +58,6 @@ public class Student {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -55,8 +66,6 @@ public class Student {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "birthday")
     public Date getBirthday() {
         return birthday;
     }
@@ -65,8 +74,6 @@ public class Student {
         this.birthday = birthday;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -75,8 +82,6 @@ public class Student {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -89,18 +94,18 @@ public class Student {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Student that = (Student) o;
-        return studentId == that.studentId &&
-                groupId == that.groupId &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(birthday, that.birthday) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(address, that.address);
+        Student student = (Student) o;
+        return studentId == student.studentId &&
+                Objects.equals(group, student.group) &&
+                Objects.equals(firstName, student.firstName) &&
+                Objects.equals(lastName, student.lastName) &&
+                Objects.equals(birthday, student.birthday) &&
+                Objects.equals(email, student.email) &&
+                Objects.equals(address, student.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, groupId, firstName, lastName, birthday, email, address);
+        return Objects.hash(studentId, group, firstName, lastName, birthday, email, address);
     }
 }

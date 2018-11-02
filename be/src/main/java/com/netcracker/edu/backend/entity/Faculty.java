@@ -16,6 +16,9 @@ public class Faculty {
     @Column(name = "faculty_name")
     private String facultyName;
 
+    public Faculty() {
+    }
+
     public int getFacultyId() {
         return facultyId;
     }
