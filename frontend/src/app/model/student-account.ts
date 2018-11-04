@@ -1,7 +1,9 @@
 // Implementation on Student instance
+import {Group} from "./group";
+
 export class StudentAccount {
   studentId: number;
-  groupId: number;
+  group: Group;
   firstName: string;
   lastName: string;
   email: string;
@@ -10,18 +12,18 @@ export class StudentAccount {
 
   /**
    * Student cloning
-   * @param acc - real student account
+   * @param studentAccount - real student account
    * @return student prototype
    */
-  static cloneStudentAccount(acc: StudentAccount): StudentAccount {
-    let clonedAcc: StudentAccount = new StudentAccount();
-    clonedAcc.studentId = acc.studentId;
-    clonedAcc.groupId = acc.groupId;
-    clonedAcc.firstName = acc.firstName;
-    clonedAcc.lastName = acc.lastName;
-    clonedAcc.email = acc.email;
-    clonedAcc.birthday = acc.birthday;
-    clonedAcc.address = acc.address;
-    return clonedAcc;
+  static cloneStudentAccount(studentAccount: StudentAccount): StudentAccount {
+    let prototype: StudentAccount = new StudentAccount();
+    prototype.studentId = studentAccount.studentId;
+    prototype.group = studentAccount.group;
+    prototype.firstName = studentAccount.firstName;
+    prototype.lastName = studentAccount.lastName;
+    prototype.email = studentAccount.email;
+    prototype.birthday = studentAccount.birthday;
+    prototype.address = studentAccount.address;
+    return prototype;
   }
 }

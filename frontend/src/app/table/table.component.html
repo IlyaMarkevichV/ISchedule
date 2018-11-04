@@ -1,19 +1,19 @@
-<div class="mb-3">
-  <pre class="card card-block card-header">Event select is fired. The heading of the selected tab is: {{person}}</pre>
-</div>
+<!--<div class="mb-3">
+  <pre class="card card-block card-header">Event select is fired. The heading of the selected studentField is: {{person}}</pre>
+</div>-->
 
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
-  <tab heading="Students" class="mt-2" (select)="onSelect($event)">
+  <tab heading="Students" class="mt-2" >
     <app-student></app-student>
   </tab>
 
-  <tab heading="Professors" class="mt-2" (select)="onSelect($event)">
+  <tab heading="Professors" class="mt-2" >
     <app-professor></app-professor>
   </tab>
 
-  <tab heading="Groups" class="mt-2" (select)="onSelect($event)">
+  <tab heading="Groups" class="mt-2">
     <app-group></app-group>
   </tab>
 </tabset>

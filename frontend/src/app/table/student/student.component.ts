@@ -21,7 +21,9 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   public searchButton: string = 'Search by';
   public searchText: string;
-  public tab: string;
+  public studentField: string;
+
+  public tempStudent: StudentAccount = new StudentAccount();
 
   public studentAccounts: StudentAccount[];
   private modalRef: BsModalRef;
@@ -44,6 +46,15 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  public trigger() {
+    this.tempStudent = new StudentAccount();
+    if (this.studentField === 'firstName') {
+      this.tempStudent.firstName = this.searchText;
+    } else if (this.studentField === 'lastName') {
+      this.tempStudent.lastName = this.searchText;
+    }
   }
 
   private loadStudentAccounts(): void {
