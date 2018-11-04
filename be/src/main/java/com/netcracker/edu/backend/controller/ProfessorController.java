@@ -20,7 +20,7 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Professor> getProfessorEntityById(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<Professor> getProfessorById(@PathVariable(name = "id") Integer id) {
         Optional<Professor> professorEntity = professorService.getProfessorById(id);
         if (professorEntity.isPresent()) {
             return ResponseEntity.ok(professorEntity.get());
@@ -30,17 +30,17 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<Professor> getAllProfessorEntities() {
+    public Iterable<Professor> getAllProfessor() {
         return professorService.getAllProfessors();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Professor saveProfessorEntity(@RequestBody Professor entity) {
+    public Professor saveProfessor(@RequestBody Professor entity) {
         return professorService.saveProfessor(entity);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteProfessorEntity(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity deleteProfessor(@PathVariable(name = "id") Integer id) {
         professorService.deleteProfessor(id);
         return ResponseEntity.noContent().build();
     }
