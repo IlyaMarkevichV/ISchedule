@@ -123,7 +123,7 @@
     <div class="form-group">
       <label>Group ID</label>
       <input class="form-control" name="address" [(ngModel)]="editableStudent.group.groupId" #groupID="ngModel" required
-             pattern="[0-9]{6,11,}" placeholder="Group ID №"/>
+             pattern="[0-9]{6,11}" placeholder="Group ID №"/>
       <div [hidden]="groupID.valid || groupID.untouched" class="alert alert-danger">
         Pls set Group ID
       </div>

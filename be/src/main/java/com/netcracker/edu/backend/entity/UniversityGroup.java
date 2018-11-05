@@ -12,7 +12,7 @@ public class UniversityGroup {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 

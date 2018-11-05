@@ -15,7 +15,7 @@ public class Subject {
     @Column(name = "subject_name")
     private String subjectName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
 

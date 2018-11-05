@@ -12,11 +12,11 @@ public class GroupInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupInfoId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private UniversityGroup group;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
 

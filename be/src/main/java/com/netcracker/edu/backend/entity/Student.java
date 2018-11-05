@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -12,7 +14,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int studentId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private UniversityGroup group;
 

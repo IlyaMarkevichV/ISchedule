@@ -12,14 +12,14 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int scheduleId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "time")
     private LectureTime time;
 
