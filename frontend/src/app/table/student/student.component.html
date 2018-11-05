@@ -3,9 +3,7 @@
 
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success" (click)="openModal(studentModal)">Add
-          Student
-        </button>
+        <button type="button" class="btn btn-success" (click)="openModal(studentModal)">Add Student</button>
         <button type="button" class="btn btn-success" (click)="updateStudentAccounts()">Update</button>
       </div>
     </div>
@@ -17,21 +15,24 @@
           <div class="btn-group" dropdown>
             <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                     aria-controls="dropdown-visbility">
-              {{ searchButton }} <span class="caret"></span>
+              {{ searchButtonName }} <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-visbility">
               <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='firstName'; searchButton='First Name'">First Name</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='lastName'; searchButton='Last Name'">Last
+                                     (click)="studentField='firstName'; searchButtonName='First Name'">First Name</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='lastName'; searchButtonName='Last Name'">Last
                 Name</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='id'; searchButton='Id'">Id</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='studentId'; searchButtonName='Student Id'">Student Id</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='groupId'; searchButtonName='Group Id'">Group Id</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='address'; searchButtonName='Address'">Address</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='email'; searchButtonName='E-mail'">E-mail</a></li>
             </ul>
           </div>
-          <!-- TODO: Filter array with students -->
+
           <input [(ngModel)]="searchText" [typeahead]="studentAccounts" typeaheadOptionField="{{studentField}}"
                  [typeaheadScrollable]="true"
-                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="trigger()">
+                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
         </div>
       </div>
     </div>
@@ -53,7 +54,7 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let student of studentAccounts | filterBy: tempStudent">
+           *ngFor="let student of studentAccounts | filterBy: tempStudentForFilter">
     <tr>
       <td>{{ student.studentId }}</td>
       <td>{{ student.group.groupId }}</td>
@@ -108,7 +109,7 @@
       <input class="form-control" name="email" [(ngModel)]="editableStudent.email" #email="ngModel" required
              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
       <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
-        E-mail is incorrect
+        Incorrect E-mail
       </div>
     </div>
     <div class="form-group">
@@ -124,7 +125,7 @@
       <label>Group ID</label>
       <input class="form-control" name="address" [(ngModel)]="editableStudent.group.groupId" #groupID="ngModel" required
              pattern="[0-9]{6,11}" placeholder="Group ID №"/>
-      <div [hidden]="groupID.valid || groupID.untouched" class="alert alert-danger">
+      <div [hidden]="groupID.valid || groupID.untouched || isNotCorrect" class="alert alert-danger">
         Pls set Group ID
       </div>
     </div>
@@ -138,12 +139,13 @@
                  placement="right"
                  #bday="ngModel">
         </div>
+        <br/>
       </div>
 
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid">
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid || isNotCorrect">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

@@ -4,6 +4,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {ProfessorAccountService} from "../../service/professor-account.service";
+import {StudentAccount} from "../../model/student-account";
 
 @Component({
   selector: 'app-professor',
@@ -12,11 +13,16 @@ import {ProfessorAccountService} from "../../service/professor-account.service";
 })
 export class ProfessorComponent implements OnInit, OnDestroy {
 
+  public searchButtonName: string = "Search by";
+  public searchText: string;
+  public professorField: string;
+
   public professorAccounts: ProfessorAccount[];
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
 
+  public tempProfessorForFilter: ProfessorAccount = new ProfessorAccount();
   public editableProfessor: ProfessorAccount = new ProfessorAccount();
 
   private subscriptions: Subscription[] = [];
@@ -85,5 +91,30 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   closeModal(): void {
     this.modalRef.hide();
+  }
+
+  public searchTrigger(): void {
+    this.tempProfessorForFilter = new ProfessorAccount();
+    switch (this.professorField) {
+      case 'firstName':
+        this.tempProfessorForFilter.firstName = this.searchText;
+        break;
+      case 'lastName':
+        this.tempProfessorForFilter.lastName = this.searchText;
+        break;
+      case 'birthday':
+        this.tempProfessorForFilter.birthday = this.searchText;
+        break;
+      case 'address':
+        this.tempProfessorForFilter.address = this.searchText;
+        break;
+      case 'email':
+        this.tempProfessorForFilter.email = this.searchText;
+        break;
+      case 'id':
+        if (this.searchText !== '')
+          this.tempProfessorForFilter.professorId = Number(this.searchText);
+        break;
+    }
   }
 }

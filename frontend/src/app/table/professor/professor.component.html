@@ -1,19 +1,45 @@
-<!-- ID: subjectsSCH -->
-<div class="tab-pane active" id="subjectsSCH">
+<div class="tab-pane active">
   <div class="row">
 
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success" (click)="openModal(template)" id="addSubjectsSCH">Add Professor</button>
+        <button type="button" class="btn btn-success" (click)="openModal(template)">Add Professor</button>
         <button type="button" class="btn btn-success" (click)="updateProfessorAccounts()">Update</button>
       </div>
     </div>
 
     <div class="col">
-      <!-- TODO: make search BY -->
-      <!-- Search form -->
-      <div class="active-green-1 active-cyan-4 mb-4">
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchStr">
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-visbility">
+              {{ searchButtonName }} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-visbility">
+              <li role="menuitem"><a class="dropdown-item" (click)="professorField='id'; searchButtonName='Id'">Id</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="professorField='firstName'; searchButtonName='First Name'">First Name</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="professorField='lastName'; searchButtonName='Last Name'">Last
+                Name</a></li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="professorField='birthday'; searchButtonName='Birthday'">Birthday</a></li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="professorField='address'; searchButtonName='Address'">Address</a></li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="professorField='email'; searchButtonName='E-mail'">E-mail</a></li>
+            </ul>
+          </div>
+
+          <input [(ngModel)]="searchText" [typeahead]="professorAccounts" typeaheadOptionField="{{professorField}}"
+                 [typeaheadScrollable]="true"
+                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
+        </div>
       </div>
     </div>
   </div>
@@ -33,7 +59,7 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let professor of professorAccounts">
+           *ngFor="let professor of professorAccounts | filterBy: tempProfessorForFilter">
     <tr>
       <td>{{ professor.professorId }}</td>
       <td>{{ professor.firstName }}</td>
@@ -41,8 +67,14 @@
       <td>{{ professor.email }}</td>
       <td>{{ professor.birthday | date }}</td>
       <td>{{ professor.address }}</td>
-      <td><button type="button" class="btn btn-danger" (click)="deleteProfessorAccount(professor.professorId.toString())">Delete</button></td>
-      <td><button type="button" class="btn btn-secondary" (click)="openModal(template, professor)">Edit</button></td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="deleteProfessorAccount(professor.professorId.toString())">
+          Delete
+        </button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="openModal(template, professor)">Edit</button>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -51,7 +83,7 @@
 <!-- Modal -->
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}}  new Professor Account</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Professor Account</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -60,7 +92,8 @@
   <div class="modal-body">
     <div class="form-group">
       <label>First Name</label>
-      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.firstName" #firstName="ngModel" placeholder="First Name" required/>
+      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.firstName" #firstName="ngModel"
+             placeholder="First Name" required/>
       <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
         Pls set First Name <!--Easy way to create client validation-->
       </div>
@@ -68,7 +101,8 @@
 
     <div class="form-group">
       <label>Last Name</label>
-      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.lastName" #lastName="ngModel" placeholder="Last Name" required/>
+      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.lastName" #lastName="ngModel"
+             placeholder="Last Name" required/>
       <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
         Pls set Last Name <!--Easy way to create client validation-->
       </div>
@@ -76,14 +110,16 @@
 
     <div class="form-group">
       <label>E-mail</label>
-      <input class="form-control" name="email" [(ngModel)]="editableProfessor.email" #email="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+      <input class="form-control" name="email" [(ngModel)]="editableProfessor.email" #email="ngModel" required
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
       <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
         E-mail is incorrect
       </div>
     </div>
     <div class="form-group">
       <label>Address</label>
-      <input class="form-control" name="address" [(ngModel)]="editableProfessor.address" #address="ngModel" required placeholder="Address"/>
+      <input class="form-control" name="address" [(ngModel)]="editableProfessor.address" #address="ngModel" required
+             placeholder="Address"/>
       <div [hidden]="address.valid || address.untouched" class="alert alert-danger">
         Pls set Address
       </div>
@@ -92,7 +128,8 @@
     <div class="form-group">
       <label>Birthday</label>
       <br/>
-      <input id="bday" type="date" placeholder="Date (YYYY-MM-DD)" [(ngModel)]="editableProfessor.birthday" #bday="ngModel">
+      <input id="bday" type="date" placeholder="Date (YYYY-MM-DD)" [(ngModel)]="editableProfessor.birthday"
+             #bday="ngModel">
       <div [hidden]="bday.valid || bday.untouched" class="alert alert-danger">
         Pls set Birthday
       </div>
@@ -101,7 +138,9 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid ||  bday.invalid">{{editMode ? "Save": "Create"}}</button>
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid ||  bday.invalid">
+      {{editMode ? "Save": "Create"}}
+    </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
   </div>
 </ng-template>

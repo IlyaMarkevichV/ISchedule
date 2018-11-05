@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { TableComponent } from './table.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {AlertModule, BsDropdownModule, DatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
@@ -24,7 +24,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     AccordionModule.forRoot(),
     BsDropdownModule.forRoot(),
     TypeaheadModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    AlertModule.forRoot()
   ],
   declarations: [
     TableComponent,
@@ -34,6 +35,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
   ],
   exports: [
     TableComponent
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class TableModule { }
