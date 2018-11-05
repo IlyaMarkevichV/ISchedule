@@ -30,9 +30,9 @@ public class GroupInfoDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public GroupInfoViewModel saveGroupInfo(@RequestBody GroupInfoViewModel groupInfo) {
+    public ResponseEntity<GroupInfoViewModel> saveGroupInfo(@RequestBody GroupInfoViewModel groupInfo) {
         if (groupInfo != null)
-            return groupInfoDataService.saveGroupInfo(groupInfo);
+            return ResponseEntity.ok(groupInfoDataService.saveGroupInfo(groupInfo));
         else
             return null;
     }

@@ -3,7 +3,7 @@
 
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-success" (click)="openModal(template)">Add Professor</button>
+        <button type="button" class="btn btn-success" (click)="openModal(professorModal)">Add Professor</button>
         <button type="button" class="btn btn-success" (click)="updateProfessorAccounts()">Update</button>
       </div>
     </div>
@@ -73,7 +73,7 @@
         </button>
       </td>
       <td>
-        <button type="button" class="btn btn-secondary" (click)="openModal(template, professor)">Edit</button>
+        <button type="button" class="btn btn-secondary" (click)="openModal(professorModal, professor)">Edit</button>
       </td>
     </tr>
     </tbody>
@@ -81,7 +81,7 @@
 </div>
 
 <!-- Modal -->
-<ng-template #template>
+<ng-template #professorModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Professor Account</h4>
     <button type="button" class="close pull-right"
@@ -111,7 +111,7 @@
     <div class="form-group">
       <label>E-mail</label>
       <input class="form-control" name="email" [(ngModel)]="editableProfessor.email" #email="ngModel" required
-             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
       <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
         E-mail is incorrect
       </div>
@@ -127,18 +127,23 @@
 
     <div class="form-group">
       <label>Birthday</label>
-      <br/>
-      <input id="bday" type="date" placeholder="Date (YYYY-MM-DD)" [(ngModel)]="editableProfessor.birthday"
-             #bday="ngModel">
-      <div [hidden]="bday.valid || bday.untouched" class="alert alert-danger">
-        Pls set Birthday
+      <div class="row">
+        <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+          <input class="form-control"
+                 placeholder="Datepicker"
+                 bsDatepicker [(ngModel)]="editableProfessor.birthday"
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                 placement="right"
+                 #bday="ngModel">
+        </div>
+        <br/>
       </div>
     </div>
 
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid ||  bday.invalid">
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || bday.invalid">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

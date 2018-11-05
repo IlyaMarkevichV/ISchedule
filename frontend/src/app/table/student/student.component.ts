@@ -26,7 +26,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
-  public isNotCorrect: boolean = false;
+  public isCorrect: boolean = true;
 
   public editableStudent: StudentAccount = new StudentAccount();
 
@@ -119,12 +119,12 @@ export class StudentComponent implements OnInit, OnDestroy {
   public addStudentAccount(): void {
     this.loadingService.show();
     this.subscriptions.push(this.groupService.getGroupById(this.editableStudent.group.groupId).subscribe(gr => {
-      console.log('-----------------------' + gr + '----------------1-------------------------');
       if (gr) {
         this.editableStudent.group = gr as Group;
+        this.isCorrect = true;
       } else {
         this.loadingService.hide();
-        this.isNotCorrect = false;
+        this.isCorrect = false;
         return;
       }
 

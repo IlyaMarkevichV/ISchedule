@@ -29,9 +29,9 @@ public class GroupSubjectDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public GroupSubjectViewModel saveGroupSubject(GroupSubjectViewModel subjectViewModel) {
+    public ResponseEntity<GroupSubjectViewModel> saveGroupSubject(GroupSubjectViewModel subjectViewModel) {
         if (subjectViewModel != null) {
-            return groupSubjectDataService.saveGroupSubject(subjectViewModel);
+            return ResponseEntity.ok(groupSubjectDataService.saveGroupSubject(subjectViewModel));
         }
         return null;
     }

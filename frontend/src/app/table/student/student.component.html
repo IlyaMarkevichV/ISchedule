@@ -125,11 +125,13 @@
       <label>Group ID</label>
       <input class="form-control" name="address" [(ngModel)]="editableStudent.group.groupId" #groupID="ngModel" required
              pattern="[0-9]{6,11}" placeholder="Group ID №"/>
-      <div [hidden]="groupID.valid || groupID.untouched || isNotCorrect" class="alert alert-danger">
-        Pls set Group ID
+      <div [hidden]="(groupID.valid || groupID.untouched) && isCorrect" class="alert alert-danger">
+        Pls set correct Group ID
       </div>
     </div>
 
+    <div class="form-group">
+    <label>Birthday</label>
       <div class="row">
         <div class="col-xs-12 col-md-5 col-lg-4 form-group">
           <input class="form-control"
@@ -141,11 +143,12 @@
         </div>
         <br/>
       </div>
+    </div>
 
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid || isNotCorrect">
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

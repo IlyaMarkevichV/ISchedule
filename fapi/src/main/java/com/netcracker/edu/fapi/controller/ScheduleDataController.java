@@ -30,8 +30,8 @@ public class ScheduleDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ScheduleViewModel saveLectureInSchedule(@RequestBody ScheduleViewModel scheduleViewModel) {
-        return scheduleViewModel != null ? scheduleDataService.saveLectureInSchedule(scheduleViewModel) : null;
+    public ResponseEntity<ScheduleViewModel> saveLectureInSchedule(@RequestBody ScheduleViewModel scheduleViewModel) {
+        return scheduleViewModel != null ? ResponseEntity.ok(scheduleDataService.saveLectureInSchedule(scheduleViewModel)) : null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

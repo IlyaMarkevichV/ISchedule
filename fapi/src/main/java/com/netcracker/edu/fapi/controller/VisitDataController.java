@@ -31,8 +31,8 @@ public class VisitDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public VisitViewModel saveVisit(@RequestBody VisitViewModel visit) {
-        return visitDataService.saveVisit(visit);
+    public ResponseEntity<VisitViewModel> saveVisit(@RequestBody VisitViewModel visit) {
+        return visit != null ? ResponseEntity.ok(visitDataService.saveVisit(visit)) : null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

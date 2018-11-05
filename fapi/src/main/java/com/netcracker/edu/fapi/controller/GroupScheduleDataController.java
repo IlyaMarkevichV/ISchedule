@@ -30,8 +30,9 @@ public class GroupScheduleDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public GroupScheduleViewModel saveLectureOfGroup(@RequestBody GroupScheduleViewModel groupScheduleViewModel) {
-        return groupScheduleViewModel != null ? groupScheduleDataService.saveLectureOfGroup(groupScheduleViewModel) : null;
+    public ResponseEntity<GroupScheduleViewModel> saveLectureOfGroup(@RequestBody GroupScheduleViewModel groupScheduleViewModel) {
+        return groupScheduleViewModel != null ?
+                ResponseEntity.ok(groupScheduleDataService.saveLectureOfGroup(groupScheduleViewModel)) : null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
