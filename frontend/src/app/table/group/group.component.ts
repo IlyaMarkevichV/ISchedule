@@ -27,11 +27,16 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public isCorrect: boolean = true;
 
+  public tem: any;
+
+  public tempFacultyId: number;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private groupService: GroupService,
               private facultyService: FacultyService,
               private modalService: BsModalService,
-              private datePipe: DatePipe) { }
+              private datePipe: DatePipe) {
+  }
 
   ngOnInit() {
     this.editableGroup.faculty = new Faculty();
@@ -85,23 +90,34 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public addGroup(): void {
     this.loadingService.show();
-    this.subscriptions.push(this.facultyService.getFacultyById(this.editableGroup.faculty.facultyId).subscribe(faculty => {
-      if (faculty) {
-        this.editableGroup.faculty = faculty as Faculty;
-        this.isCorrect = true;
-      } else {
-        this.loadingService.hide();
-        this.isCorrect = false;
-        return;
-      }
 
-      this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
-      this.subscriptions.push(this.groupService.saveGroup(this.editableGroup).subscribe(() => {
-        this.updateGroups();
-        this.closeModal();
-        this.loadingService.hide();
-        this.freshEditableGroup();
-      }));
+    console.log(this.faculties + '-----' + this.tempFacultyId);
+    /*if group is edited then according to chosen faculty id select faculty from array*/
+    if (this.editMode === false) {
+    let tempBoolean: boolean = false;
+    for (let faculty of this.faculties) {
+      if (faculty.facultyId == this.tempFacultyId) {
+        tempBoolean = true;
+        this.editableGroup.faculty = faculty;
+        console.log(faculty.facultyId + '------' + faculty.facultyName + '-------' + tempBoolean);
+        break;
+      }
+    }
+
+      console.log(tempBoolean);
+    if (tempBoolean === false)
+      return;
+  }
+
+    console.log(this.editableGroup);
+    this.editableGroup.groupId = Number(this.editableGroup.groupId);
+    this.editableGroup.grade = Number(this.editableGroup.grade);
+    this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
+    this.subscriptions.push(this.groupService.saveGroup(this.editableGroup).subscribe(() => {
+      this.updateGroups();
+      this.closeModal();
+      this.loadingService.hide();
+      this.freshEditableGroup();
     }));
   }
 
@@ -118,4 +134,5 @@ export class GroupComponent implements OnInit, OnDestroy {
     else
       return false;
   }
+
 }

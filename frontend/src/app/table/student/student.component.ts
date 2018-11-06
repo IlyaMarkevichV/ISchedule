@@ -80,6 +80,10 @@ export class StudentComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getGroups() {
+
+  }
+
   private loadStudentAccounts(): void {
     this.loadingService.show();
     // Get data from StudentAccountService

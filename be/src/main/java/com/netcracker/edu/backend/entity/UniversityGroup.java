@@ -9,7 +9,6 @@ import java.util.Objects;
 public class UniversityGroup {
     @Id
     @Column(name = "group_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int groupId;
 
     @ManyToOne
