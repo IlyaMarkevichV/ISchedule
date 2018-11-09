@@ -1,23 +1,26 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, forwardRef, Inject, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {ProfessorAccount} from "../../model/professor-account";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {ProfessorAccountService} from "../../service/professor-account.service";
-import {StudentAccount} from "../../model/student-account";
+import {TableModel} from "../../model/TableModel";
+import {TableModelService} from "../../service/table-model.service";
+import {TableComponent} from "../table.component";
 
 @Component({
-  selector: 'app-professor',
+  selector: 'professor',
   templateUrl: './professor.component.html',
   styleUrls: ['./professor.component.css']
 })
 export class ProfessorComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public tableModel: TableModel;
+
   public searchButtonName: string = "Search by";
   public searchText: string;
   public professorField: string;
 
-  public professorAccounts: ProfessorAccount[];
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
@@ -29,32 +32,21 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   // Dependency injection
   constructor(private loadingService: Ng4LoadingSpinnerService,
-              private professorAccountService: ProfessorAccountService,
-              private modalService: BsModalService) {
+              private tableModelService: TableModelService,
+              private modalService: BsModalService,
+              @Inject(forwardRef(() => TableComponent)) private parent: TableComponent) {
   }
 
   ngOnInit() {
-    this.loadProfessorAccounts();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  loadProfessorAccounts(): void {
-    this.loadingService.show();
-
-    // wait for GET response and make it as array.
-    this.subscriptions.push(this.professorAccountService.getProfessorAccounts().subscribe(accounts => {
-      this.professorAccounts = accounts as ProfessorAccount[];
-      console.log(accounts);
-      this.loadingService.hide();
-    }));
-  }
-
   addProfessorAccount(): void {
     this.loadingService.show();
-    this.subscriptions.push(this.professorAccountService.saveProfessorAccount(this.editableProfessor).subscribe(() => {
+    this.subscriptions.push(this.tableModelService.saveProfessorAccount(this.editableProfessor).subscribe(() => {
       this.updateProfessorAccounts();
       this.closeModal();
       this.loadingService.hide();
@@ -63,15 +55,14 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   }
 
   deleteProfessorAccount(professorAccountId: string): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.professorAccountService.deleteProfessorAccount(professorAccountId).subscribe(() => {
-      this.updateProfessorAccounts();
-      this.loadingService.hide();
+    this.subscriptions.push(this.tableModelService.deleteProfessorAccount(professorAccountId).subscribe(() => {
+      /*refresh all stored data in tableModel in case when we can delete parent node */
+      this.parent.loadAllData();
     }));
   }
 
   updateProfessorAccounts(): void {
-    this.loadProfessorAccounts();
+    this.parent.loadProfessorAccounts();
   }
 
   private refreshEditableProfessor(): void {
@@ -94,6 +85,9 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   }
 
   public searchTrigger(): void {
+    if (this.searchButtonName === 'Search by')
+      return;
+
     this.tempProfessorForFilter = new ProfessorAccount();
     switch (this.professorField) {
       case 'firstName':

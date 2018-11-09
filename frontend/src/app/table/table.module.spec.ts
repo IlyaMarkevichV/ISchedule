@@ -1,6 +1,6 @@
 import { TableModule } from './table.module';
 
-describe('TableModule', () => {
+describe('TableModel', () => {
   let tableModule: TableModule;
 
   beforeEach(() => {

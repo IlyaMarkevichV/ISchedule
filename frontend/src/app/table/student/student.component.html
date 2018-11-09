@@ -9,28 +9,36 @@
     </div>
 
     <div class="col">
-
       <div class="input-group">
         <div class="input-group-prepend">
           <div class="btn-group" dropdown>
+
             <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                     aria-controls="dropdown-visbility">
               {{ searchButtonName }} <span class="caret"></span>
             </button>
+
             <ul *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-visbility">
               <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='firstName'; searchButtonName='First Name'">First Name</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='lastName'; searchButtonName='Last Name'">Last
+                                     (click)="studentField='firstName'; searchButtonName='First Name'">First Name</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="studentField='lastName'; searchButtonName='Last Name'">Last
                 Name</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='studentId'; searchButtonName='Student Id'">Student Id</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='groupId'; searchButtonName='Group Id'">Group Id</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='address'; searchButtonName='Address'">Address</a></li>
-              <li role="menuitem"><a class="dropdown-item" (click)="studentField='email'; searchButtonName='E-mail'">E-mail</a></li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="studentField='studentId'; searchButtonName='Student Id'">Student Id</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="studentField='groupId'; searchButtonName='Group Id'">Group Id</a></li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='address'; searchButtonName='Address'">Address</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item" (click)="studentField='email'; searchButtonName='E-mail'">E-mail</a>
+              </li>
             </ul>
           </div>
 
-          <input [(ngModel)]="searchText" [typeahead]="studentAccounts" typeaheadOptionField="{{studentField}}"
+          <input [(ngModel)]="searchText" [typeahead]="tableModel.students" typeaheadOptionField="{{studentField}}"
                  [typeaheadScrollable]="true"
                  [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
         </div>
@@ -40,7 +48,7 @@
 
   <br/>
 
-  <table class="table table-hover" id="table">
+  <table class="table table-hover">
     <thead>
     <tr>
       <th>Student ID</th>
@@ -53,8 +61,8 @@
     </tr>
     </thead>
 
-    <tbody id="tableBody"
-           *ngFor="let student of studentAccounts | filterBy: tempStudentForFilter">
+    <tbody
+      *ngFor="let student of tableModel.students | filterBy: tempStudentForFilter">
     <tr>
       <td>{{ student.studentId }}</td>
       <td>{{ student.group.groupId }}</td>
@@ -122,16 +130,15 @@
     </div>
 
     <div class="form-group">
-      <label>Group ID</label>
-      <input class="form-control" name="address" [(ngModel)]="editableStudent.group.groupId" #groupID="ngModel" required
-             pattern="[0-9]{6,11}" placeholder="Group ID №"/>
-      <div [hidden]="(groupID.valid || groupID.untouched) && isCorrect" class="alert alert-danger">
-        Pls set correct Group ID
-      </div>
+      <label>Faculty</label>
+      <select class="form-control" [(ngModel)]="tempGroupId">
+        <option *ngFor="let group of tableModel.groups" [value]="group.groupId">{{group.groupId}}
+        </option>
+      </select>
     </div>
 
     <div class="form-group">
-    <label>Birthday</label>
+      <label>Birthday</label>
       <div class="row">
         <div class="col-xs-12 col-md-5 col-lg-4 form-group">
           <input class="form-control"
@@ -148,7 +155,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || groupID.invalid || bday.invalid">
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || bday.invalid">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

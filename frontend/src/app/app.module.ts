@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import {AlertModule, BsDatepickerModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NavbarComponent } from './navbar/navbar.component';
-import {StudentAccountService} from "./service/student-account.service";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {TableModule} from "./table/table.module";
@@ -26,7 +25,7 @@ import {TableModule} from "./table/table.module";
     TableModule,
     BsDatepickerModule.forRoot()
   ],
-  providers: [StudentAccountService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

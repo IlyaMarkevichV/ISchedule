@@ -5,16 +5,16 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
-  <tab heading="Students" class="mt-2" >
-    <app-student></app-student>
+  <tab heading="Students" class="mt-2">
+    <student [(tableModel)]="tableModel"></student>
   </tab>
 
   <tab heading="Professors" class="mt-2" >
-    <app-professor></app-professor>
+    <professor [(tableModel)]="tableModel"></professor>
   </tab>
 
   <tab heading="Groups" class="mt-2">
-    <app-group></app-group>
+    <group [(tableModel)]="tableModel"></group>
   </tab>
 </tabset>
 

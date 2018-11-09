@@ -1,47 +1,48 @@
-import {Component, OnInit, TemplateRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, TemplateRef, OnDestroy, Input, Inject, forwardRef} from '@angular/core';
 import {StudentAccount} from "../../model/student-account";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {StudentAccountService} from "../../service/student-account.service";
-import {FormControl, FormGroup} from '@angular/forms';
 import {Group} from "../../model/group";
-import {GroupService} from "../../service/group.service";
 import {DatePipe} from "@angular/common";
+import {TableModel} from "../../model/TableModel";
+import {TableModelService} from "../../service/table-model.service";
+import {TableComponent} from "../table.component";
 
 @Component({
-  selector: 'app-student',
+  selector: 'student',
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public tableModel: TableModel;
+
   public searchButtonName: string = 'Search by';
   public searchText: string;
-  public studentField: string;
 
+  /* needed for filterBy*/
+  public studentField: string;
   public tempStudentForFilter: StudentAccount = new StudentAccount();
 
-  public studentAccounts: StudentAccount[];
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
-  public isCorrect: boolean = true;
-
   public editableStudent: StudentAccount = new StudentAccount();
 
   private subscriptions: Subscription[] = [];
 
-  // Dependency injection
+  public tempGroupId: number;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
-              private studentAccountService: StudentAccountService,
-              private groupService: GroupService,
+              private tableModelService: TableModelService,
               private modalService: BsModalService,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              @Inject(forwardRef(() => TableComponent)) private parent: TableComponent) {
   }
 
   ngOnInit() {
-    this.loadStudentAccounts();
     this.tempStudentForFilter.group = new Group();
     this.editableStudent.group = new Group();
   }
@@ -50,7 +51,56 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  public searchTrigger() {
+  openModal(template: TemplateRef<any>, studentAccount?: StudentAccount): void {
+    if (studentAccount) {
+      this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
+      this.editMode = true;
+    } else {
+      this.refreshEditableStudent();
+      this.editMode = false;
+    }
+    this.modalRef = this.modalService.show(template);
+    this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].groupId : 0;
+  }
+
+  public closeModal(): void {
+    this.modalRef.hide();
+  }
+
+  public updateStudentAccounts(): void {
+    this.parent.loadStudentAccounts();
+  }
+
+  public refreshEditableStudent() {
+    this.editableStudent = new StudentAccount();
+    this.editableStudent.group = new Group();
+  }
+
+  public addStudentAccount(): void {
+    this.loadingService.show();
+
+    if (this.editableStudent.group !== null)
+      this.editableStudent.birthday = this.datePipe.transform(this.editableStudent.birthday, 'yyyy-MM-dd');
+    this.subscriptions.push(this.tableModelService.saveStudentAccount(this.editableStudent).subscribe(() => {
+      this.updateStudentAccounts();
+      this.closeModal();
+      this.loadingService.hide();
+      this.refreshEditableStudent();
+    }));
+  }
+
+  public deleteStudentAccount(studentAccountId: string): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.deleteStudentAccount(studentAccountId).subscribe(() => {
+      /*refresh all stored data in tableModel in case when we can delete parent node */
+      this.parent.loadAllData();
+    }));
+  }
+
+  public searchTrigger(): void {
+    if (this.searchButtonName === 'Search by')
+      return;
+
     this.tempStudentForFilter = new StudentAccount();
     this.tempStudentForFilter.group = new Group();
     switch (this.studentField) {
@@ -79,76 +129,4 @@ export class StudentComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-  private getGroups() {
-
-  }
-
-  private loadStudentAccounts(): void {
-    this.loadingService.show();
-    // Get data from StudentAccountService
-    this.subscriptions.push(this.studentAccountService.getStudentAccounts().subscribe(accounts => {
-      // Parse json responce into local array
-      this.studentAccounts = accounts as StudentAccount[];
-      // Check data in console
-      // consoLe.log(this.studentAccounts);
-      this.loadingService.hide();
-    }));
-  }
-
-  openModal(template: TemplateRef<any>, studentAccount?: StudentAccount): void {
-    if (studentAccount) {
-      this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
-      this.editMode = true;
-    } else {
-      this.refreshEditableStudent();
-      this.editMode = false;
-    }
-    this.modalRef = this.modalService.show(template);
-  }
-
-  public closeModal(): void {
-    this.modalRef.hide();
-  }
-
-  public updateStudentAccounts(): void {
-    this.loadStudentAccounts();
-  }
-
-  public refreshEditableStudent() {
-    this.editableStudent = new StudentAccount();
-    this.editableStudent.group = new Group();
-  }
-
-  public addStudentAccount(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.groupService.getGroupById(this.editableStudent.group.groupId).subscribe(gr => {
-      if (gr) {
-        this.editableStudent.group = gr as Group;
-        this.isCorrect = true;
-      } else {
-        this.loadingService.hide();
-        this.isCorrect = false;
-        return;
-      }
-
-      if (this.editableStudent.group !== null)
-        this.editableStudent.birthday = this.datePipe.transform(this.editableStudent.birthday, 'yyyy-MM-dd');
-        this.subscriptions.push(this.studentAccountService.saveStudentAccount(this.editableStudent).subscribe(() => {
-          this.updateStudentAccounts();
-          this.closeModal();
-          this.loadingService.hide();
-          this.refreshEditableStudent();
-        }));
-
-    }));
-  }
-
-  public deleteStudentAccount(studentAccountId: string): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.studentAccountService.deleteStudentAccount(studentAccountId).subscribe(() => {
-      this.updateStudentAccounts();
-    }));
-  }
-
 }

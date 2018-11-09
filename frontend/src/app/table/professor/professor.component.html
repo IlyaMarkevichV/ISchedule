@@ -36,7 +36,7 @@
             </ul>
           </div>
 
-          <input [(ngModel)]="searchText" [typeahead]="professorAccounts" typeaheadOptionField="{{professorField}}"
+          <input [(ngModel)]="searchText" [typeahead]="tableModel.professors" typeaheadOptionField="{{professorField}}"
                  [typeaheadScrollable]="true"
                  [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
         </div>
@@ -59,7 +59,7 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let professor of professorAccounts | filterBy: tempProfessorForFilter">
+           *ngFor="let professor of tableModel.professors | filterBy: tempProfessorForFilter">
     <tr>
       <td>{{ professor.professorId }}</td>
       <td>{{ professor.firstName }}</td>
@@ -95,7 +95,7 @@
       <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.firstName" #firstName="ngModel"
              placeholder="First Name" required/>
       <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
-        Pls set First Name <!--Easy way to create client validation-->
+        Pls set First Name
       </div>
     </div>
 
@@ -104,7 +104,7 @@
       <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.lastName" #lastName="ngModel"
              placeholder="Last Name" required/>
       <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
-        Pls set Last Name <!--Easy way to create client validation-->
+        Pls set Last Name
       </div>
     </div>
 

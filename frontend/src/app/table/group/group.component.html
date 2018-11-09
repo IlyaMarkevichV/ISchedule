@@ -1,6 +1,6 @@
 <div class="tab-pane active">
-  <div class="row">
 
+  <div class="row">
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-success" (click)="openModal(groupModal)">Add Group</button>
@@ -8,9 +8,68 @@
       </div>
     </div>
 
+    <div class="col">
 
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-visbility">
+              {{ searchButtonName }} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-visbility">
+              <li role="menuitem"><a class="dropdown-item" (click)="groupField='groupId'; searchButtonName=' Group Id'">Id</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="groupField='grade'; searchButtonName='Grade'">Grade</a>
+              </li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="groupField='facultyName'; searchButtonName='Faculty Name'">Faculty
+                Name</a></li>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="groupField='date'; searchButtonName='Date'">Birthday</a></li>
+            </ul>
+          </div>
 
+          <input [(ngModel)]="searchText" [typeahead]="tableModel.groups" typeaheadOptionField="{{groupField}}"
+                 [typeaheadScrollable]="true"
+                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
+        </div>
+      </div>
+    </div>
   </div>
+
+  <br/>
+
+  <table class="table table-hover" id="table">
+    <thead>
+    <tr>
+      <th>Group ID</th>
+      <th>Faculty Name</th>
+      <th>Grade</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+
+    <tbody id="tableBody"
+           *ngFor="let group of tableModel.groups | filterBy: tempGroupForFilter">
+    <tr>
+      <td>{{ group.groupId }}</td>
+      <td>{{ group.faculty.facultyName }}</td>
+      <td>{{ group.grade }}</td>
+      <td>{{ group.date | date }}</td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="deleteGroup(group.groupId)">
+          Delete
+        </button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="openModal(groupModal, group)">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
 <!-- Modal -->
@@ -30,7 +89,6 @@
       <div [hidden]="groupId.valid || groupId.untouched" class="alert alert-danger">
         Pls set Group Id
       </div>
-      {{editableGroup.groupId}}
     </div>
 
     <div class="form-group">
@@ -45,9 +103,10 @@
 
     <div class="form-group">
       <label>Faculty</label>
-    <select class="form-control" [(ngModel)]="tempFacultyId">
-      <option *ngFor="let faculty of faculties" [value]="faculty.facultyId">{{faculty.facultyName}}</option>
-    </select>
+      <select class="form-control" [(ngModel)]="tempFacultyId">
+        <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.facultyId">{{faculty.facultyName}}
+        </option>
+      </select>
     </div>
 
     <div class="row">
