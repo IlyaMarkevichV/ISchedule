@@ -33,8 +33,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   // Dependency injection
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
-              private modalService: BsModalService,
-              @Inject(forwardRef(() => TableComponent)) private parent: TableComponent) {
+              private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -42,6 +41,14 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  public loadProfessorAccounts(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getProfessorAccounts().subscribe(accounts => {
+      this.tableModel.professors = accounts as ProfessorAccount[];
+      this.loadingService.hide();
+    }));
   }
 
   addProfessorAccount(): void {
@@ -57,12 +64,12 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   deleteProfessorAccount(professorAccountId: string): void {
     this.subscriptions.push(this.tableModelService.deleteProfessorAccount(professorAccountId).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
-      this.parent.loadAllData();
+      this.updateProfessorAccounts();
     }));
   }
 
   updateProfessorAccounts(): void {
-    this.parent.loadProfessorAccounts();
+    this.loadProfessorAccounts();
   }
 
   private refreshEditableProfessor(): void {

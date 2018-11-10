@@ -5,15 +5,15 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
-  <tab heading="Students" class="mt-2">
+  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudentAccounts()">
     <student [(tableModel)]="tableModel"></student>
   </tab>
 
-  <tab heading="Professors" class="mt-2" >
+  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessorAccounts()">
     <professor [(tableModel)]="tableModel"></professor>
   </tab>
 
-  <tab heading="Groups" class="mt-2">
+  <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">
     <group [(tableModel)]="tableModel"></group>
   </tab>
 </tabset>

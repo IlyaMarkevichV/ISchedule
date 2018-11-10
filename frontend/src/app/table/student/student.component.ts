@@ -8,6 +8,7 @@ import {DatePipe} from "@angular/common";
 import {TableModel} from "../../model/TableModel";
 import {TableModelService} from "../../service/table-model.service";
 import {TableComponent} from "../table.component";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'student',
@@ -38,8 +39,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
-              private datePipe: DatePipe,
-              @Inject(forwardRef(() => TableComponent)) private parent: TableComponent) {
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   public updateStudentAccounts(): void {
-    this.parent.loadStudentAccounts();
+    this.loadStudentAccounts();
   }
 
   public refreshEditableStudent() {
@@ -76,11 +76,29 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.editableStudent.group = new Group();
   }
 
+  public loadStudentAccounts(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getStudentAccounts().subscribe(accounts => {
+      this.tableModel.students = accounts as StudentAccount[];
+      // consoLe.log(this.studentAccounts);
+      this.loadingService.hide();
+    }));
+  }
+
   public addStudentAccount(): void {
     this.loadingService.show();
 
     if (this.editableStudent.group !== null)
       this.editableStudent.birthday = this.datePipe.transform(this.editableStudent.birthday, 'yyyy-MM-dd');
+
+    /*add group to student according to chosen id*/
+    for (let group of this.tableModel.groups){
+      if (group.groupId == this.tempGroupId) {
+        this.editableStudent.group = group;
+        break;
+      }
+    }
+
     this.subscriptions.push(this.tableModelService.saveStudentAccount(this.editableStudent).subscribe(() => {
       this.updateStudentAccounts();
       this.closeModal();
@@ -93,7 +111,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.deleteStudentAccount(studentAccountId).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
-      this.parent.loadAllData();
+      this.updateStudentAccounts();
     }));
   }
 

@@ -37,13 +37,11 @@ export class GroupComponent implements OnInit, OnDestroy {
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
-              private datePipe: DatePipe,
-              @Inject(forwardRef(() => TableComponent)) private parent: TableComponent) {
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
     this.editableGroup.faculty = new Faculty();
-
   }
 
   ngOnDestroy(): void {
@@ -72,17 +70,39 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
-  public updateGroups(): void {
-    this.parent.loadGroups();
+  public loadGroups(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
+      this.tableModel.groups = gr as Group[];
+      this.loadingService.hide();
+    }));
   }
 
+  public updateGroups(): void {
+    this.loadGroups();
+  }
+
+  /* check for the same group id*/
   public addGroup(): void {
     this.loadingService.show();
 
     /*convert data*/
     this.editableGroup.groupId = Number(this.editableGroup.groupId);
+    /* check for the same group id*/
+    for (let group of this.tableModel.groups){
+      if (group.groupId == this.editableGroup.groupId )
+        return;
+    }
     this.editableGroup.grade = Number(this.editableGroup.grade);
     this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
+
+    /*add faculty to editableGroup*/
+    for (let faculty of this.tableModel.faculties) {
+      if (this.tempFacultyId == faculty.facultyId) {
+        this.editableGroup.faculty = faculty;
+        break;
+      }
+    }
 
     this.subscriptions.push(this.tableModelService.saveGroup(this.editableGroup).subscribe(() => {
       this.updateGroups();
@@ -94,8 +114,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   public deleteGroup(groupId: number): void {
     this.subscriptions.push(this.tableModelService.deleteGroup(groupId).subscribe(() => {
-      /*refresh all stored data in tableModel in case when we can delete parent node */
-      this.parent.loadAllData();
+      this.updateGroups();
     }));
   }
 

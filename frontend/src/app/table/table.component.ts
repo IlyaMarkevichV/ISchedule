@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {TableModel} from "../model/TableModel";
 import {TableModelService} from "../service/table-model.service";
@@ -7,6 +7,9 @@ import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
+import {StudentComponent} from "./student/student.component";
+import {ProfessorComponent} from "./professor/professor.component";
+import {GroupComponent} from "./group/group.component";
 
 @Component({
   selector: 'app-table',
@@ -14,6 +17,15 @@ import {StudentAccount} from "../model/student-account";
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit, OnDestroy {
+
+  @ViewChild(StudentComponent)
+  protected studentComponent: StudentComponent;
+
+  @ViewChild(ProfessorComponent)
+  protected professorComponent: ProfessorComponent;
+
+  @ViewChild(GroupComponent)
+  protected groupComponent: GroupComponent;
 
   private subscriptions: Subscription[] = [];
 
@@ -37,9 +49,9 @@ export class TableComponent implements OnInit, OnDestroy {
   /*data update/upload*/
   public loadAllData() {
     this.loadFaculties();
-    this.loadGroups();
-    this.loadProfessorAccounts();
-    this.loadStudentAccounts();
+    this.groupComponent.loadGroups();
+    this.professorComponent.updateProfessorAccounts();
+    this.studentComponent.updateStudentAccounts();
   }
 
   public loadFaculties(): void {
@@ -48,30 +60,5 @@ export class TableComponent implements OnInit, OnDestroy {
       this.tableModel.faculties = faculties as Faculty[];
       this.loadingService.hide();
     }))
-  }
-
-  public loadGroups(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
-      this.tableModel.groups = gr as Group[];
-      this.loadingService.hide();
-    }));
-  }
-
-  public loadProfessorAccounts(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getProfessorAccounts().subscribe(accounts => {
-      this.tableModel.professors = accounts as ProfessorAccount[];
-      this.loadingService.hide();
-    }));
-  }
-
-  public loadStudentAccounts(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getStudentAccounts().subscribe(accounts => {
-      this.tableModel.students = accounts as StudentAccount[];
-      // consoLe.log(this.studentAccounts);
-      this.loadingService.hide();
-    }));
   }
 }
