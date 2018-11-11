@@ -1,6 +1,4 @@
 <head>
-  <title>{{ title }}</title>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -8,10 +6,11 @@
 <body>
 
 <div class="container">
-  <app-navbar></app-navbar>
+  <navbar [seeTables]="seeTables" (logout)="seeTables = $event"></navbar>
   <br/>
   <br/>
-  <app-table></app-table>
+  <authorization *ngIf="!seeTables" (authorized)="seeTables = $event"></authorization>
+  <table-component *ngIf="seeTables"></table-component>
 </div>
 
 </body>

@@ -5,14 +5,17 @@ import { AppComponent } from './app.component';
 import {AlertModule, BsDatepickerModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NavbarComponent } from './navbar/navbar.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {TableModule} from "./table/table.module";
+import { AuthorizationComponent } from './authorization/authorization.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    AuthorizationComponent,
   ],
   imports: [
     FormsModule,
@@ -23,7 +26,9 @@ import {TableModule} from "./table/table.module";
     AlertModule.forRoot(),
     BrowserModule,
     TableModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

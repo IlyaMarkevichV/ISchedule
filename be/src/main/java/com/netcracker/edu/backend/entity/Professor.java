@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -7,15 +9,38 @@ import java.util.Objects;
 @Entity
 @Table(name = "professor", schema = "backend")
 public class Professor {
-    private int professorId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String address;
-    private Date birthday;
-
     @Id
     @Column(name = "professor_id")
+    private int professorId;
+
+    @Basic
+    @Column(name = "first_name")
+    public String getFirstName() {
+        return firstName;
+    }
+    private String firstName;
+
+    @Basic
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Basic
+    @Column(name = "email")
+    private String email;
+
+    @Basic
+    @Column(name = "address")
+    private String address;
+
+    @Basic
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Account account;
+
     public int getProfessorId() {
         return professorId;
     }
@@ -24,18 +49,10 @@ public class Professor {
         this.professorId = professorId;
     }
 
-    @Basic
-    @Column(name = "first_name")
-    public String getFirstName() {
-        return firstName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -44,8 +61,6 @@ public class Professor {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -54,8 +69,6 @@ public class Professor {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -64,8 +77,6 @@ public class Professor {
         this.address = address;
     }
 
-    @Basic
-    @Column(name = "birthday")
     public Date getBirthday() {
         return birthday;
     }
@@ -74,21 +85,30 @@ public class Professor {
         this.birthday = birthday;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Professor that = (Professor) o;
-        return professorId == that.professorId &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(birthday, that.birthday);
+        Professor professor = (Professor) o;
+        return professorId == professor.professorId &&
+                Objects.equals(firstName, professor.firstName) &&
+                Objects.equals(lastName, professor.lastName) &&
+                Objects.equals(email, professor.email) &&
+                Objects.equals(address, professor.address) &&
+                Objects.equals(birthday, professor.birthday) &&
+                Objects.equals(account, professor.account);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(professorId, firstName, lastName, email, address, birthday);
+        return Objects.hash(professorId, firstName, lastName, email, address, birthday, account);
     }
 }

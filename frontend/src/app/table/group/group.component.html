@@ -53,7 +53,8 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let group of tableModel.groups | filterBy: tempGroupForFilter">
+           *ngFor="let group of tableModel.groups | filterBy: tempGroupForFilter |
+            paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'groups' }">
     <tr>
       <td>{{ group.groupId }}</td>
       <td>{{ group.faculty.facultyName }}</td>
@@ -70,6 +71,7 @@
     </tr>
     </tbody>
   </table>
+  <pagination-controls id="groups" (pageChange)="page = $event" *ngIf="!searchText" align="center"></pagination-controls>
 </div>
 
 <!-- Modal -->
@@ -87,7 +89,10 @@
       <input class="form-control" name="groupId" [(ngModel)]="editableGroup.groupId" #groupId="ngModel" required
              pattern="[0-9]{6,11}" placeholder="Group ID №"/>
       <div [hidden]="groupId.valid || groupId.untouched" class="alert alert-danger">
-        Pls set Group Id
+        Please set Group Id
+      </div>
+      <div [hidden]="isCorrect" class="alert alert-danger">
+        Group with the same id exists. Please set another
       </div>
     </div>
 
@@ -97,7 +102,7 @@
              placeholder="Grade" required
              pattern="[0-9]{1}"/>
       <div [hidden]="grade.valid || grade.untouched" class="alert alert-danger">
-        Pls set valid Grade (1-4)
+        Please set valid Grade (1-4)
       </div>
     </div>
 
@@ -124,7 +129,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addGroup()"
-            [disabled]="groupId.invalid || grade.invalid || bday.invalid">
+            [disabled]="groupId.invalid || grade.invalid || bday.invalid || !editableGroup.date">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

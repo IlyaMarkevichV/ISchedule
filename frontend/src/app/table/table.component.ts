@@ -12,7 +12,7 @@ import {ProfessorComponent} from "./professor/professor.component";
 import {GroupComponent} from "./group/group.component";
 
 @Component({
-  selector: 'app-table',
+  selector: 'table-component',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })

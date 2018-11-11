@@ -20,6 +20,10 @@ export class StudentComponent implements OnInit, OnDestroy {
   @Input()
   public tableModel: TableModel;
 
+  /*info for pagination*/
+  page: number = 1;
+  totalNumberOfEntities: number;
+
   public searchButtonName: string = 'Search by';
   public searchText: string;
 
@@ -55,12 +59,13 @@ export class StudentComponent implements OnInit, OnDestroy {
     if (studentAccount) {
       this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
       this.editMode = true;
+      this.tempGroupId = this.editableStudent.group.groupId;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;
+      this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].groupId : 0;
     }
     this.modalRef = this.modalService.show(template);
-    this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].groupId : 0;
   }
 
   public closeModal(): void {
@@ -69,6 +74,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   public updateStudentAccounts(): void {
     this.loadStudentAccounts();
+    this.page = 1;
   }
 
   public refreshEditableStudent() {
@@ -81,6 +87,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getStudentAccounts().subscribe(accounts => {
       this.tableModel.students = accounts as StudentAccount[];
       // consoLe.log(this.studentAccounts);
+      this.totalNumberOfEntities = this.tableModel.students.length;
       this.loadingService.hide();
     }));
   }

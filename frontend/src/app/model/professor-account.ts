@@ -5,6 +5,7 @@ export class ProfessorAccount {
   email: string;
   address: string;
   birthday: string;
+  account: Account;
 
   static cloneProfessorAccount(acc: ProfessorAccount): ProfessorAccount {
     let clonedAcc: ProfessorAccount = new ProfessorAccount();
@@ -14,6 +15,7 @@ export class ProfessorAccount {
     clonedAcc.email = acc.email;
     clonedAcc.address = acc.address;
     clonedAcc.birthday = acc.birthday;
+    clonedAcc.account = acc.account;
     return clonedAcc;
   }
 }

@@ -59,7 +59,8 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let professor of tableModel.professors | filterBy: tempProfessorForFilter">
+           *ngFor="let professor of tableModel.professors | filterBy: tempProfessorForFilter
+           | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'professors' }">
     <tr>
       <td>{{ professor.professorId }}</td>
       <td>{{ professor.firstName }}</td>
@@ -78,6 +79,7 @@
     </tr>
     </tbody>
   </table>
+  <pagination-controls id="professors" (pageChange)="page = $event" *ngIf="!searchText" align="center"></pagination-controls>
 </div>
 
 <!-- Modal -->
@@ -95,7 +97,7 @@
       <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.firstName" #firstName="ngModel"
              placeholder="First Name" required/>
       <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
-        Pls set First Name
+        Please set First Name
       </div>
     </div>
 
@@ -104,7 +106,7 @@
       <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.lastName" #lastName="ngModel"
              placeholder="Last Name" required/>
       <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
-        Pls set Last Name
+        Please set Last Name
       </div>
     </div>
 
@@ -121,7 +123,7 @@
       <input class="form-control" name="address" [(ngModel)]="editableProfessor.address" #address="ngModel" required
              placeholder="Address"/>
       <div [hidden]="address.valid || address.untouched" class="alert alert-danger">
-        Pls set Address
+        Please set Address
       </div>
     </div>
 
@@ -143,7 +145,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || bday.invalid">
+            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || bday.invalid || !editableProfessor.birthday">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

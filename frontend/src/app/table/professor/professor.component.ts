@@ -17,6 +17,10 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   @Input()
   public tableModel: TableModel;
 
+  /*info for pagination*/
+  page: number = 1;
+  totalNumberOfEntities: number;
+
   public searchButtonName: string = "Search by";
   public searchText: string;
   public professorField: string;
@@ -47,6 +51,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getProfessorAccounts().subscribe(accounts => {
       this.tableModel.professors = accounts as ProfessorAccount[];
+      this.totalNumberOfEntities = this.tableModel.professors.length;
       this.loadingService.hide();
     }));
   }
@@ -70,6 +75,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   updateProfessorAccounts(): void {
     this.loadProfessorAccounts();
+    this.page = 1;
   }
 
   private refreshEditableProfessor(): void {

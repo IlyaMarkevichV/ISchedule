@@ -19,6 +19,10 @@ export class GroupComponent implements OnInit, OnDestroy {
   @Input()
   public tableModel: TableModel;
 
+  /*info for pagination*/
+  page: number = 1;
+  totalNumberOfEntities: number;
+
   public tempGroupForFilter: Group = new Group();
 
   public searchButtonName: string = 'Search by';
@@ -31,6 +35,8 @@ export class GroupComponent implements OnInit, OnDestroy {
   public editableGroup: Group = new Group();
 
   private modalRef: BsModalRef;
+
+  public isCorrect: boolean = true;
 
   public tempFacultyId: number;
 
@@ -74,12 +80,14 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
       this.tableModel.groups = gr as Group[];
+      this.totalNumberOfEntities = this.tableModel.groups.length;
       this.loadingService.hide();
     }));
   }
 
   public updateGroups(): void {
     this.loadGroups();
+    this.page = 1;
   }
 
   /* check for the same group id*/
@@ -90,9 +98,14 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.editableGroup.groupId = Number(this.editableGroup.groupId);
     /* check for the same group id*/
     for (let group of this.tableModel.groups){
-      if (group.groupId == this.editableGroup.groupId )
+      if (group.groupId == this.editableGroup.groupId ) {
+        this.isCorrect = false;
+        this.loadingService.hide();
         return;
+      }
     }
+    this.isCorrect = true;
+
     this.editableGroup.grade = Number(this.editableGroup.grade);
     this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
 
