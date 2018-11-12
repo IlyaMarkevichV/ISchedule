@@ -1,7 +1,5 @@
 package com.netcracker.edu.backend.entity;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -36,9 +34,8 @@ public class Professor {
     @Column(name = "birthday")
     private Date birthday;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "account_id")
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Account account;
 
     public int getProfessorId() {
@@ -110,5 +107,18 @@ public class Professor {
     @Override
     public int hashCode() {
         return Objects.hash(professorId, firstName, lastName, email, address, birthday, account);
+    }
+
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "professorId=" + professorId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", birthday=" + birthday +
+                ", account=" + account +
+                '}';
     }
 }

@@ -1,3 +1,6 @@
+import {UserAccount} from "./UserAccount";
+
+
 export class ProfessorAccount {
   professorId: number;
   firstName: string;
@@ -5,7 +8,7 @@ export class ProfessorAccount {
   email: string;
   address: string;
   birthday: string;
-  account: Account;
+  account: UserAccount;
 
   static cloneProfessorAccount(acc: ProfessorAccount): ProfessorAccount {
     let clonedAcc: ProfessorAccount = new ProfessorAccount();

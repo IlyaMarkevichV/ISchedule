@@ -2,15 +2,16 @@
   <pre class="card card-block card-header">Event select is fired. The heading of the selected professorField is: {{person}}</pre>
 </div>-->
 
+<!--
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
   <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudentAccounts()">
-    <student [(tableModel)]="tableModel"></student>
+    <student-tab [(tableModel)]="tableModel"></student-tab>
   </tab>
 
   <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessorAccounts()">
-    <professor [(tableModel)]="tableModel"></professor>
+    <professor-tab [(tableModel)]="tableModel"></professor-tab>
   </tab>
 
   <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">
@@ -18,5 +19,9 @@
   </tab>
 
 </tabset>
+-->
+
+<!--<administrator [(tableModel)]="tableModel"></administrator>-->
+<professor></professor>
 
 

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int account_id;
+    private int accountId;
 
     @Column(name = "email")
     private String email;
@@ -16,15 +16,18 @@ public class Account {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "user_role")
+    private String role;
+
     public Account() {
     }
 
-    public int getAccount_id() {
-        return account_id;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setAccount_id(int account_id) {
-        this.account_id = account_id;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public String getEmail() {
@@ -43,18 +46,37 @@ public class Account {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id &&
+        return accountId == account.accountId &&
                 Objects.equals(email, account.email) &&
-                Objects.equals(password, account.password);
+                Objects.equals(password, account.password) &&
+                Objects.equals(role, account.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account_id, email, password);
+        return Objects.hash(accountId, email, password, role);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

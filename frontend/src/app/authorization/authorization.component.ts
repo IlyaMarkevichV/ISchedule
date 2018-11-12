@@ -31,7 +31,7 @@ export class AuthorizationComponent implements OnInit {
         this.user = "administrator";
         this.router.navigate(['administrator'])
       }
-      , 1000);
+      , 1500);
     this.loadingService.hide();
   }
 

@@ -3,18 +3,18 @@ import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {DatePipe} from "@angular/common";
 import {Subscription} from "rxjs";
-import {Group} from "../../model/group";
-import {Faculty} from "../../model/faculty";
-import {TableModel} from "../../model/TableModel";
-import {TableModelService} from "../../service/table-model.service";
-import {TableComponent} from "../table.component";
+import {TableModel} from "../../../model/TableModel";
+import {Group} from "../../../model/group";
+import {TableModelService} from "../../../service/table-model.service";
+import {Faculty} from "../../../model/faculty";
+
 
 @Component({
-  selector: 'group',
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.css']
+  selector: 'group-tab',
+  templateUrl: './group-tab.component.html',
+  styleUrls: ['./group-tab.component.css']
 })
-export class GroupComponent implements OnInit, OnDestroy {
+export class GroupTabComponent implements OnInit, OnDestroy {
 
   @Input()
   public tableModel: TableModel;

@@ -1,17 +1,25 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
-import { TableComponent } from './table.component';
+import {TableComponent} from './table.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {AlertModule, BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
-import { FormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {FilterPipeModule} from "ngx-filter-pipe";
+import {AccordionModule} from 'ngx-bootstrap/accordion';
+import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
+import {BsDatepickerModule} from 'ngx-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {AdministratorComponent} from "./administrator/administrator.component";
+import {GroupTabComponent} from "./administrator/group-tab/group-tab.component";
+import {ProfessorTabComponent} from "./administrator/professor-tab/professor-tab.component";
+import {StudentTabComponent} from "./administrator/student-tab/student-tab.component";
 import { StudentComponent } from './student/student.component';
 import { ProfessorComponent } from './professor/professor.component';
-import { GroupComponent } from './group/group.component';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { BsDatepickerModule } from 'ngx-bootstrap';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { ProfessorProfileComponent } from './professor/professor-profile/professor-profile.component';
+import { ProfessorSubjectComponent } from './professor/professor-subject/professor-subject.component';
+import { ProfessorGroupScheduleComponent } from './professor/professor-group-schedule/professor-group-schedule.component';
+import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
+
 
 @NgModule({
   imports: [
@@ -31,13 +39,21 @@ import {NgxPaginationModule} from 'ngx-pagination';
   ],
   declarations: [
     TableComponent,
+    GroupTabComponent,
+    ProfessorTabComponent,
+    StudentTabComponent,
+    AdministratorComponent,
     StudentComponent,
     ProfessorComponent,
-    GroupComponent,
+    ProfessorProfileComponent,
+    ProfessorSubjectComponent,
+    ProfessorGroupScheduleComponent,
+    ProfessorGroupInfoComponent
   ],
   exports: [
-    TableComponent
+    TableComponent,
   ],
   providers: [DatePipe]
 })
-export class TableModule { }
+export class TableModule {
+}

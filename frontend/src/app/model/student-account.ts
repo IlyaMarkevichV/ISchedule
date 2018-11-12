@@ -12,8 +12,8 @@ export class StudentAccount {
 
   /**
    * Student cloning
-   * @param studentAccount - real student account
-   * @return student prototype
+   * @param studentAccount - real student-tab account
+   * @return student-tab prototype
    */
   static cloneStudentAccount(studentAccount: StudentAccount): StudentAccount {
     let prototype: StudentAccount = new StudentAccount();

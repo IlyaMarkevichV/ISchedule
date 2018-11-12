@@ -36,6 +36,7 @@ public class ProfessorController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Professor saveProfessor(@RequestBody Professor entity) {
+        System.out.println(entity);
         return professorService.saveProfessor(entity);
     }
 

@@ -1,0 +1,16 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<tabset>
+  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudentAccounts()">
+    <student-tab [(tableModel)]="tableModel"></student-tab>
+  </tab>
+
+  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessorAccounts()" >
+    <professor-tab [(tableModel)]="tableModel"></professor-tab>
+  </tab>
+
+  <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">
+    <group-tab [(tableModel)]="tableModel"></group-tab>
+  </tab>
+
+</tabset>

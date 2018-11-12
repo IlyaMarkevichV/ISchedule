@@ -12,17 +12,19 @@ public class ProfessorViewModel {
     private String email;
     private String address;
     private Date birthday;
+    private AccountViewModel account;
 
     public ProfessorViewModel() {
     }
 
-    public ProfessorViewModel(int professorId, String firstName, String lastName, String email, String address, Date birthday) {
+    public ProfessorViewModel(int professorId, String firstName, String lastName, String email, String address, Date birthday, AccountViewModel account) {
         this.professorId = professorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.birthday = birthday;
+        this.account = account;
     }
 
     public int getProfessorId() {
@@ -71,5 +73,13 @@ public class ProfessorViewModel {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public AccountViewModel getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountViewModel account) {
+        this.account = account;
     }
 }
