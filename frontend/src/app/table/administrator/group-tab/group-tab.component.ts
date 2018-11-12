@@ -31,6 +31,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public editMode: boolean = false;
+  public addFac: string = 'true';
 
   public editableGroup: Group = new Group();
 
@@ -54,7 +55,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  public freshEditableGroup() {
+  public refreshEditableGroup() {
     this.editableGroup = new Group();
     this.editableGroup.faculty = new Faculty();
   }
@@ -65,7 +66,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
       this.editMode = true;
       this.tempFacultyId = this.editableGroup.faculty.facultyId;
     } else {
-      this.freshEditableGroup();
+      this.refreshEditableGroup();
       this.editMode = false;
       this.tempFacultyId = this.tableModel.faculties.length != 0 ? this.tableModel.faculties[0].facultyId : 0;
     }
@@ -90,6 +91,25 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.page = 1;
   }
 
+  public addFaculty(): void {
+    this.loadingService.show();
+    this.editableGroup.faculty.facultyId = 3;
+    console.log(this.editableGroup.faculty);
+    this.subscriptions.push(this.tableModelService.saveFaculty(this.editableGroup.faculty).subscribe(() => {
+      this.closeModal();
+      this.loadingService.hide();
+    }));
+  }
+
+  public deleteFaculty(): void {
+    this.loadingService.show();
+    console.log(this.editableGroup.faculty);
+    this.subscriptions.push(this.tableModelService.deleteFaculty(this.tempFacultyId).subscribe(() => {
+      this.closeModal();
+      this.loadingService.hide();
+    }));
+  }
+
   /* check for the same group id*/
   public addGroup(): void {
     this.loadingService.show();
@@ -97,14 +117,14 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     /*convert data*/
     this.editableGroup.groupId = Number(this.editableGroup.groupId);
     /* check for the same group id*/
-    for (let group of this.tableModel.groups){
+/*    for (let group of this.tableModel.groups){
       if (group.groupId == this.editableGroup.groupId ) {
         this.isCorrect = false;
         this.loadingService.hide();
         return;
       }
     }
-    this.isCorrect = true;
+    this.isCorrect = true;*/
 
     this.editableGroup.grade = Number(this.editableGroup.grade);
     this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
@@ -121,13 +141,15 @@ export class GroupTabComponent implements OnInit, OnDestroy {
       this.updateGroups();
       this.closeModal();
       this.loadingService.hide();
-      this.freshEditableGroup();
+      this.refreshEditableGroup();
     }));
   }
 
   public deleteGroup(groupId: number): void {
+    this.loadingService.show();
     this.subscriptions.push(this.tableModelService.deleteGroup(groupId).subscribe(() => {
       this.updateGroups();
+      this.loadingService.hide();
     }));
   }
 

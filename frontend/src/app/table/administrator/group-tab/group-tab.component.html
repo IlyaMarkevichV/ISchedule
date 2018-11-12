@@ -5,6 +5,7 @@
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-success" (click)="openModal(groupModal)">Add Group</button>
         <button type="button" class="btn btn-success" (click)="updateGroups()">Update</button>
+        <button type="button" class="btn btn-success" (click)="openModal(facultyModal)">Add/Delete faculty</button>
       </div>
     </div>
 
@@ -71,7 +72,8 @@
     </tr>
     </tbody>
   </table>
-  <pagination-controls id="groups" (pageChange)="page = $event" *ngIf="!searchText" align="center"></pagination-controls>
+  <pagination-controls id="groups" (pageChange)="page = $event" *ngIf="!searchText"
+                       align="center"></pagination-controls>
 </div>
 
 <!-- Modal -->
@@ -131,6 +133,59 @@
     <button type="button" class="btn btn-default" (click)="addGroup()"
             [disabled]="groupId.invalid || grade.invalid || bday.invalid || !editableGroup.date">
       {{editMode ? "Save": "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #facultyModal>
+  <div class="modal-header">
+    <form>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" id="customRadio" name="example" value="false" [(ngModel)]="addFac">
+        <label class="custom-control-label" for="customRadio">Create</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" id="customRadio2" name="example" [(ngModel)]="addFac" value="true">
+        <label class="custom-control-label" for="customRadio2">Delete</label>
+      </div>
+    </form>
+    <br/>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="addFac==='false'">
+    <div class="form-group">
+      <label>Faculty name</label>
+      {{editableGroup.faculty.facultyName}}
+      <input class="form-control" name="groupId" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
+             required
+             pattern="[0-9]{6,11}" placeholder="Group ID №"/>
+      <div [hidden]="editableGroup.faculty.facultyName" class="alert alert-danger">
+        Please set Faculty name
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="addFac==='true'">
+    <label>Faculty</label>
+    <select class="form-control" [(ngModel)]="tempFacultyId">
+      <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.facultyId">{{faculty.facultyName}}</option>
+    </select>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="addFaculty()" *ngIf="addFac==='false'"
+            [disabled]="!editableGroup.faculty.facultyName">
+      Create
+    </button>
+
+    <button type="button" class="btn btn-default" (click)="deleteFaculty()" *ngIf="addFac==='true'">
+      Delete
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
   </div>

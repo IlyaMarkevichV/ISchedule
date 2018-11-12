@@ -55,7 +55,7 @@ export class TableModelService {
   }
 
   saveFaculty(faculty: Faculty): Observable<Faculty> {
-    return this.http.post<Faculty>('/api/ba-faculty/', faculty);
+    return this.http.post<Faculty>('/api/ba-faculty', faculty);
   }
 
   deleteFaculty(id: number): Observable<void> {

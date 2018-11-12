@@ -1,5 +1,6 @@
 // Implementation on Student instance
 import {Group} from "./group";
+import {UserAccount} from "./UserAccount";
 
 export class StudentAccount {
   studentId: number;
@@ -9,6 +10,7 @@ export class StudentAccount {
   email: string;
   birthday: string;
   address: string;
+  account: UserAccount;
 
   /**
    * Student cloning
@@ -24,6 +26,7 @@ export class StudentAccount {
     prototype.email = studentAccount.email;
     prototype.birthday = studentAccount.birthday;
     prototype.address = studentAccount.address;
+    prototype.account = studentAccount.account;
     return prototype;
   }
 }

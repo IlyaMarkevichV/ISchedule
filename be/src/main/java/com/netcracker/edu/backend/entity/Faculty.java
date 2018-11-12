@@ -10,7 +10,6 @@ import java.util.Set;
 public class Faculty {
     @Id
     @Column(name = "faculty_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int facultyId;
 
     @Column(name = "faculty_name")
@@ -47,5 +46,13 @@ public class Faculty {
     @Override
     public int hashCode() {
         return Objects.hash(facultyId, facultyName);
+    }
+
+    @Override
+    public String toString() {
+        return "Faculty{" +
+                "facultyId=" + facultyId +
+                ", facultyName='" + facultyName + '\'' +
+                '}';
     }
 }

@@ -31,7 +31,8 @@ public class FacultyDataController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<FacultyViewModel> saveFaculty(@RequestBody FacultyViewModel facultyViewModel) {
-        return facultyViewModel != null ? ResponseEntity.ok(facultyViewModel) : null;
+        System.out.println(facultyViewModel);
+        return facultyViewModel != null ? ResponseEntity.ok(facultyDataService.saveFaculty(facultyViewModel)) : null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -32,6 +32,7 @@ public class FacultyController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Faculty saveFaculty(@RequestBody Faculty faculty) {
+        System.out.println(faculty);
         return facultyService.saveFaculty(faculty);
     }
 

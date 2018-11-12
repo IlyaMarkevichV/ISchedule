@@ -25,4 +25,12 @@ public class FacultyViewModel {
     public void setFacultyName(String facultyName) {
         this.facultyName = facultyName;
     }
+
+    @Override
+    public String toString() {
+        return "FacultyViewModel{" +
+                "facultyId=" + facultyId +
+                ", facultyName='" + facultyName + '\'' +
+                '}';
+    }
 }

@@ -13,11 +13,14 @@ public class StudentViewModel {
     private Date birthday;
     private String email;
     private String address;
+    private AccountViewModel account;
 
     public StudentViewModel() {
     }
 
-    public StudentViewModel(int studentId, GroupViewModel group, String firstName, String lastName, Date birthday, String email, String address) {
+    public StudentViewModel(int studentId, GroupViewModel group, String firstName,
+                            String lastName, Date birthday, String email, String address,
+                            AccountViewModel account) {
         this.studentId = studentId;
         this.group = group;
         this.firstName = firstName;
@@ -25,6 +28,7 @@ public class StudentViewModel {
         this.birthday = birthday;
         this.email = email;
         this.address = address;
+        this.account = account;
     }
 
     public int getStudentId() {
@@ -81,5 +85,13 @@ public class StudentViewModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public AccountViewModel getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountViewModel account) {
+        this.account = account;
     }
 }

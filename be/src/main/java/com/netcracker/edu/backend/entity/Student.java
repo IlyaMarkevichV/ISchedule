@@ -33,6 +33,10 @@ public class Student {
     @Column(name = "address")
     private String address;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     public Student() {
     }
 
@@ -92,6 +96,14 @@ public class Student {
         this.address = address;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,11 +115,12 @@ public class Student {
                 Objects.equals(lastName, student.lastName) &&
                 Objects.equals(birthday, student.birthday) &&
                 Objects.equals(email, student.email) &&
-                Objects.equals(address, student.address);
+                Objects.equals(address, student.address) &&
+                Objects.equals(account, student.account);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, group, firstName, lastName, birthday, email, address);
+        return Objects.hash(studentId, group, firstName, lastName, birthday, email, address, account);
     }
 }

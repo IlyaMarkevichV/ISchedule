@@ -41,8 +41,4 @@ export class TableComponent implements OnInit, OnDestroy {
       this.loadingService.hide();
     }))
   }
-
-  public qwe(): void  {
-    this.temp = 'qweqweqweqwe';
-  }
 }

@@ -7,6 +7,7 @@ import {StudentAccount} from "../../../model/student-account";
 import {Group} from "../../../model/group";
 import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
+import {UserAccount} from "../../../model/UserAccount";
 
 
 @Component({
@@ -48,6 +49,10 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tempStudentForFilter.group = new Group();
     this.editableStudent.group = new Group();
+    this.editableStudent.account = new UserAccount();
+    this.editableStudent.account.email = "qaz@qwe.ads";
+    this.editableStudent.account.password = "qwerty12345";
+    this.editableStudent.account.role = "student";
   }
 
   ngOnDestroy(): void {
@@ -79,6 +84,10 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   public refreshEditableStudent() {
     this.editableStudent = new StudentAccount();
     this.editableStudent.group = new Group();
+    this.editableStudent.account = new UserAccount();
+    this.editableStudent.account.email = "qaz@qwe.ads";
+    this.editableStudent.account.password = "qwerty12345";
+    this.editableStudent.account.role = "student";
   }
 
   public loadStudentAccounts(): void {
