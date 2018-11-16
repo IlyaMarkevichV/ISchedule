@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Router} from "@angular/router";
+import {TableModelService} from "../service/table-model.service";
 
 @Component({
   selector: 'authorization',
@@ -21,6 +22,7 @@ export class AuthorizationComponent implements OnInit {
               private router: Router) {
   }
 
+
   ngOnInit() {
   }
 
@@ -34,6 +36,7 @@ export class AuthorizationComponent implements OnInit {
       , 1500);
     this.loadingService.hide();
   }
+
 
 
 }

@@ -165,7 +165,7 @@
       <input class="form-control" name="groupId" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
              required
              pattern="[0-9]{6,11}" placeholder="Group ID №"/>
-      <div [hidden]="editableGroup.faculty.facultyName" class="alert alert-danger">
+      <div [hidden]="facName.valid || facName.untouched" class="alert alert-danger">
         Please set Faculty name
       </div>
     </div>

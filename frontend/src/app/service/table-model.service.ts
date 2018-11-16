@@ -14,36 +14,32 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
-  getStudentAccountById(id: number): Observable<StudentAccount> {
-    return this.http.get<StudentAccount>( '/api/ba-student/' + id);
-  }
-
   getStudentAccounts(): Observable<StudentAccount[]> {
-    return this.http.get<StudentAccount[]>( '/api/ba-student');
+    return this.http.get<StudentAccount[]>( '/api/ba-user-group');
   }
 
   saveStudentAccount(studentAccount: StudentAccount): Observable<StudentAccount> {
-    return this.http.post<StudentAccount>('/api/ba-student', studentAccount);
+    return this.http.post<StudentAccount>('/api/ba-user-group', studentAccount);
   }
 
   deleteStudentAccount(studentAccountId: string): Observable<void> {
-    return this.http.delete<void>( '/api/ba-student/' + studentAccountId);
+    return this.http.delete<void>( '/api/ba-user-group/' + studentAccountId);
   }
 
   getProfessorAccountById(id: number): Observable<ProfessorAccount> {
-    return this.http.get<ProfessorAccount>('/api/ba-professor/' + id);
+    return this.http.get<ProfessorAccount>('/api/ba-users/' + id);
   }
 
   getProfessorAccounts(): Observable<ProfessorAccount[]> {
-    return this.http.get<ProfessorAccount[]>('/api/ba-professor');
+    return this.http.get<ProfessorAccount[]>('/api/ba-users?role=professor');
   }
 
   saveProfessorAccount(professorAccount: ProfessorAccount): Observable<ProfessorAccount> {
-    return this.http.post<ProfessorAccount>('/api/ba-professor', professorAccount);
+    return this.http.post<ProfessorAccount>('/api/ba-users', professorAccount);
   }
 
   deleteProfessorAccount(professorAccountId: string): Observable<void> {
-    return this.http.delete<void>('/api/ba-professor/' + professorAccountId);
+    return this.http.delete<void>('/api/ba-users/' + professorAccountId);
   }
 
   getFacultyById(id: number): Observable<Faculty> {

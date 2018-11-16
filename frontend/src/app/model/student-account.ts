@@ -3,30 +3,20 @@ import {Group} from "./group";
 import {UserAccount} from "./UserAccount";
 
 export class StudentAccount {
-  studentId: number;
+  tableId: number;
+  user: UserAccount;
   group: Group;
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthday: string;
-  address: string;
-  account: UserAccount;
 
   /**
    * Student cloning
-   * @param studentAccount - real student-tab account
+   * @param acc - real student-tab account
    * @return student-tab prototype
    */
-  static cloneStudentAccount(studentAccount: StudentAccount): StudentAccount {
-    let prototype: StudentAccount = new StudentAccount();
-    prototype.studentId = studentAccount.studentId;
-    prototype.group = studentAccount.group;
-    prototype.firstName = studentAccount.firstName;
-    prototype.lastName = studentAccount.lastName;
-    prototype.email = studentAccount.email;
-    prototype.birthday = studentAccount.birthday;
-    prototype.address = studentAccount.address;
-    prototype.account = studentAccount.account;
-    return prototype;
+  static cloneStudentAccount(acc: StudentAccount): StudentAccount {
+    let clonedAcc: StudentAccount = new StudentAccount();
+    clonedAcc.tableId = acc.tableId;
+    clonedAcc.user = acc.user;
+    clonedAcc.group = acc.group;
+    return clonedAcc;
   }
 }

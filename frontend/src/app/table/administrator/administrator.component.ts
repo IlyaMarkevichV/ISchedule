@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {TableModel} from "../../model/TableModel";
 import {Subscription} from "rxjs";
 import {ProfessorTabComponent} from "./professor-tab/professor-tab.component";
@@ -20,26 +20,27 @@ export class AdministratorComponent implements OnInit, OnDestroy {
   @ViewChild(GroupTabComponent)
   protected groupComponent: GroupTabComponent;
 
-  private subscriptions: Subscription[] = [];
-
   @Input()
   public tableModel: TableModel;
+
+  @Output()
+  loadFaculties: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  loadGroups: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  loadProfessors: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  loadStudents: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
   }
 
   ngOnInit() {
-    this.loadAllData();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-  /*data update/upload*/
-  public loadAllData() {
-    this.groupComponent.loadGroups();
-    this.professorComponent.updateProfessorAccounts();
-    this.studentComponent.updateStudentAccounts();
   }
 }

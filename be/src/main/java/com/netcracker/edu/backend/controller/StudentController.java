@@ -1,7 +1,9 @@
 package com.netcracker.edu.backend.controller;
 
-import com.netcracker.edu.backend.entity.Student;
-import com.netcracker.edu.backend.service.StudentService;
+import com.netcracker.edu.backend.entity.Account;
+import com.netcracker.edu.backend.entity.StudentGroup;
+import com.netcracker.edu.backend.service.AccountService;
+import com.netcracker.edu.backend.service.StudentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,39 +11,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/student-entities")
+@RequestMapping("/api/students")
 public class StudentController {
 
-    private StudentService studentService;
+    private AccountService service;
+    private StudentGroupService studentGroupService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentController(AccountService service, StudentGroupService studentGroupService) {
+        this.service = service;
+        this.studentGroupService = studentGroupService;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Student> getStudentById(@PathVariable(name = "id") Integer id) {
-        Optional<Student> studentEntity = studentService.getStudentById(id);
-        if (studentEntity.isPresent()) {
-            return ResponseEntity.ok(studentEntity.get());
-        } else {
-            return ResponseEntity.notFound().build();
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public Account saveStudentProfessor(@RequestBody Account account) {
+        Account student =  service.saveAccount(account);
+        if (student == null) {
+            System.out.println(student);
+            return student;
         }
+
+        System.out.println(student);
+
+        StudentGroup studentGroup =
+                studentGroupService.saveStudent(new StudentGroup(account));
+        if (studentGroup == null) {
+            service.deleteAccount(account.getAccountId());
+            return null;
+        }
+        return student;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<Student> getAllStudents(){
-        return studentService.getAllStudents();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public Student saveStudent(@RequestBody Student entity) {
-        return studentService.saveStudent(entity);
+    public Iterable<StudentGroup> getAllStudents() {
+        return studentGroupService.getAllStudentGroups();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteStudent(@PathVariable(name = "id") Integer id) {
-        studentService.deleteStudents(id);
-        return ResponseEntity.noContent().build();
+            service.deleteAccount(id);
+            studentGroupService.deleteStudentByAccountId(id);
+            return ResponseEntity.noContent().build();
     }
 }

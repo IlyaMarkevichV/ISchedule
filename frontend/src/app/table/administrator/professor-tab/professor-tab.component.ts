@@ -29,6 +29,9 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   @Input()
   public tableModel: TableModel;
 
+  @Output()
+  loadProfessors: EventEmitter<any> = new EventEmitter<any>();
+
   /*info for pagination*/
   page: number = 1;
   totalNumberOfEntities: number;
@@ -54,33 +57,22 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.editableProfessor.account = new UserAccount();
-    this.editableProfessor.account.email = 'qwe@asd.qwe';
-    this.editableProfessor.account.password = 'zxcas';
-    this.editableProfessor.account.role = 'professor';
+    this.editableProfessor = new UserAccount();
+    this.editableProfessor.email = 'qwe@asd.qwe';
+    this.editableProfessor.password = 'zxcas';
+    this.editableProfessor.role = 'professor';
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  public loadProfessorAccounts(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getProfessorAccounts().subscribe(accounts => {
-      this.tableModel.professors = accounts as ProfessorAccount[];
-      this.totalNumberOfEntities = this.tableModel.professors.length;
-      this.loadingService.hide();
-    }));
-  }
-
   addProfessorAccount(): void {
     this.loadingService.show();
-    console.log('Add account: -------');
-    console.log(this.editableProfessor);
 
     this.editableProfessor.birthday = this.datePipe.transform(this.editableProfessor.birthday, 'yyyy-MM-dd');
     this.subscriptions.push(this.tableModelService.saveProfessorAccount(this.editableProfessor).subscribe(() => {
-      this.updateProfessorAccounts();
+      this.updateProfessors();
       this.closeModal();
       this.loadingService.hide();
       this.refreshEditableProfessor();
@@ -90,13 +82,14 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   deleteProfessorAccount(professorAccountId: string): void {
     this.subscriptions.push(this.tableModelService.deleteProfessorAccount(professorAccountId).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
-      this.updateProfessorAccounts();
+      this.updateProfessors();
     }));
   }
 
-  updateProfessorAccounts(): void {
-    this.loadProfessorAccounts();
+  updateProfessors(): void {
+    this.loadProfessors.emit();
     this.page = 1;
+    this.totalNumberOfEntities = this.tableModel.professors.length;
   }
 
   private refreshEditableProfessor(): void {

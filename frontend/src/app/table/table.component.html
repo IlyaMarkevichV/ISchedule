@@ -6,11 +6,11 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset>
-  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudentAccounts()">
+  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudents()">
     <student-tab [(tableModel)]="tableModel"></student-tab>
   </tab>
 
-  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessorAccounts()">
+  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessors()">
     <professor-tab [(tableModel)]="tableModel"></professor-tab>
   </tab>
 
@@ -21,7 +21,10 @@
 </tabset>
 -->
 
-<administrator [(tableModel)]="tableModel"></administrator>
+<administrator [(tableModel)]="tableModel"
+               (loadFaculties)="loadFaculties()"
+               (loadGroups)="loadGroups()"
+               (loadProfessors)="loadProfessors()"
+               (loacStudents)="loadStudents()"></administrator>
+
 <!--<professor></professor>-->
-
-

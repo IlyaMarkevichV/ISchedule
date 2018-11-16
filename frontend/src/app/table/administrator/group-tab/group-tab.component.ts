@@ -1,4 +1,12 @@
-import {Component, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {DatePipe} from "@angular/common";
@@ -18,6 +26,12 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   @Input()
   public tableModel: TableModel;
+
+  @Output()
+  loadFaculties: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  loadGroups: EventEmitter<any> = new EventEmitter<any>();
 
   /*info for pagination*/
   page: number = 1;
@@ -77,18 +91,10 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
-  public loadGroups(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
-      this.tableModel.groups = gr as Group[];
-      this.totalNumberOfEntities = this.tableModel.groups.length;
-      this.loadingService.hide();
-    }));
-  }
-
   public updateGroups(): void {
-    this.loadGroups();
+    this.loadGroups.emit();
     this.page = 1;
+    this.totalNumberOfEntities = this.tableModel.groups.length;
   }
 
   public addFaculty(): void {
@@ -96,6 +102,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.editableGroup.faculty.facultyId = 3;
     console.log(this.editableGroup.faculty);
     this.subscriptions.push(this.tableModelService.saveFaculty(this.editableGroup.faculty).subscribe(() => {
+      this.loadFaculties.emit();
       this.closeModal();
       this.loadingService.hide();
     }));
@@ -106,6 +113,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     console.log(this.editableGroup.faculty);
     this.subscriptions.push(this.tableModelService.deleteFaculty(this.tempFacultyId).subscribe(() => {
       this.closeModal();
+      this.loadFaculties.emit();
       this.loadingService.hide();
     }));
   }
@@ -116,16 +124,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
     /*convert data*/
     this.editableGroup.groupId = Number(this.editableGroup.groupId);
-    /* check for the same group id*/
-/*    for (let group of this.tableModel.groups){
-      if (group.groupId == this.editableGroup.groupId ) {
-        this.isCorrect = false;
-        this.loadingService.hide();
-        return;
-      }
-    }
-    this.isCorrect = true;*/
-
     this.editableGroup.grade = Number(this.editableGroup.grade);
     this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
 

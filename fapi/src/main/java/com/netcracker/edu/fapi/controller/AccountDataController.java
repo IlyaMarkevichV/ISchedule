@@ -5,10 +5,7 @@ import com.netcracker.edu.fapi.service.AccountDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,14 +20,9 @@ public class AccountDataController {
         this.accountDataService = accountDataService;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<AccountViewModel> getAccountById(@PathVariable(name = "id") Integer id) {
-        return ResponseEntity.ok(accountDataService.getAccountById(id));
-    }
-
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List<AccountViewModel>> getAllAccounts() {
-        return ResponseEntity.ok(accountDataService.getAllAccounts());
+    public ResponseEntity<List<AccountViewModel>> getAllAccounts(@RequestParam(name = "role", required = true) String userRole) {
+        return ResponseEntity.ok(accountDataService.getAllAccounts(userRole));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -39,8 +31,8 @@ public class AccountDataController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteAccount(@PathVariable(name = "id") Integer id) {
-        accountDataService.deleteAccount(id);
+    public void deleteAccount(@PathVariable(name = "id") Integer id, @RequestParam(name = "role", required = true) String userRole) {
+        accountDataService.deleteAccount(id, userRole);
     }
 
 }

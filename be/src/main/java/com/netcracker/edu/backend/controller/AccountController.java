@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/account-entities")
+@RequestMapping("/api/accounts")
 public class AccountController {
 
     private AccountService accountService;

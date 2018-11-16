@@ -6,10 +6,12 @@ import com.netcracker.edu.backend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
     private AccountRepository repository;
 
     @Autowired
@@ -19,6 +21,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account saveAccount(Account account) {
+        System.out.println(account);
         return repository.save(account);
     }
 
@@ -34,6 +37,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(Integer id) {
-        repository.deleteById(id);
+        repository.findAll();
+    }
+
+    @Override
+    public List<Account> getAccountsByRole(String userRoleName) {
+        return repository.getAccountsByRole(userRoleName);
     }
 }

@@ -34,9 +34,6 @@ public class Professor {
     @Column(name = "birthday")
     private Date birthday;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_id")
-    private Account account;
 
     public int getProfessorId() {
         return professorId;
@@ -82,13 +79,6 @@ public class Professor {
         this.birthday = birthday;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -100,25 +90,11 @@ public class Professor {
                 Objects.equals(lastName, professor.lastName) &&
                 Objects.equals(email, professor.email) &&
                 Objects.equals(address, professor.address) &&
-                Objects.equals(birthday, professor.birthday) &&
-                Objects.equals(account, professor.account);
+                Objects.equals(birthday, professor.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(professorId, firstName, lastName, email, address, birthday, account);
-    }
-
-    @Override
-    public String toString() {
-        return "Professor{" +
-                "professorId=" + professorId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", birthday=" + birthday +
-                ", account=" + account +
-                '}';
+        return Objects.hash(professorId, firstName, lastName, email, address, birthday);
     }
 }

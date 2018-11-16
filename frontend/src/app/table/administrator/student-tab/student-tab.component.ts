@@ -1,4 +1,14 @@
-import {Component, OnInit, TemplateRef, OnDestroy, Input, Inject, forwardRef} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  OnDestroy,
+  Input,
+  Inject,
+  forwardRef,
+  EventEmitter,
+  Output
+} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
@@ -19,6 +29,9 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
   @Input()
   public tableModel: TableModel;
+
+  @Output()
+  loadStudents: EventEmitter<any> = new EventEmitter<any>();
 
   /*info for pagination*/
   page: number = 1;
@@ -76,9 +89,10 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
-  public updateStudentAccounts(): void {
-    this.loadStudentAccounts();
+  public updateStudents(): void {
+    this.loadStudents.emit();
     this.page = 1;
+    this.totalNumberOfEntities = this.tableModel.students.length;
   }
 
   public refreshEditableStudent() {
@@ -88,16 +102,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.editableStudent.account.email = "qaz@qwe.ads";
     this.editableStudent.account.password = "qwerty12345";
     this.editableStudent.account.role = "student";
-  }
-
-  public loadStudentAccounts(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getStudentAccounts().subscribe(accounts => {
-      this.tableModel.students = accounts as StudentAccount[];
-      // consoLe.log(this.studentAccounts);
-      this.totalNumberOfEntities = this.tableModel.students.length;
-      this.loadingService.hide();
-    }));
   }
 
   public addStudentAccount(): void {
@@ -115,7 +119,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(this.tableModelService.saveStudentAccount(this.editableStudent).subscribe(() => {
-      this.updateStudentAccounts();
+      this.updateStudents();
       this.closeModal();
       this.loadingService.hide();
       this.refreshEditableStudent();
@@ -126,7 +130,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.deleteStudentAccount(studentAccountId).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
-      this.updateStudentAccounts();
+      this.updateStudents();
     }));
   }
 
