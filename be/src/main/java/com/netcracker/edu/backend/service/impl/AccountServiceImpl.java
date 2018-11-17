@@ -21,7 +21,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account saveAccount(Account account) {
-        System.out.println(account);
         return repository.save(account);
     }
 

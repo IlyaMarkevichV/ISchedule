@@ -27,11 +27,8 @@ public class StudentController {
     public Account saveStudentProfessor(@RequestBody Account account) {
         Account student =  service.saveAccount(account);
         if (student == null) {
-            System.out.println(student);
             return student;
         }
-
-        System.out.println(student);
 
         StudentGroup studentGroup =
                 studentGroupService.saveStudent(new StudentGroup(account));

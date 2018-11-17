@@ -5,6 +5,7 @@ import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
+import {UserAccount} from "../model/UserAccount";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
+/*
   getStudentAccounts(): Observable<StudentAccount[]> {
     return this.http.get<StudentAccount[]>( '/api/ba-user-group');
   }
@@ -41,7 +43,38 @@ export class TableModelService {
   deleteProfessorAccount(professorAccountId: string): Observable<void> {
     return this.http.delete<void>('/api/ba-users/' + professorAccountId);
   }
+*/
 
+
+  /***************************************************************************************************/
+
+  getProfessors(): Observable<UserAccount[]> {
+    return this.http.get<UserAccount[]>('/api/ba-account?role=professor');
+  }
+
+  saveProfessor(professor: UserAccount): Observable<UserAccount> {
+    return this.http.post<UserAccount>('/api/ba-account', professor);
+  }
+
+  deleteProfessor(professor: UserAccount): Observable<void> {
+    return this.http.delete<void>('/api/ba-account/' + professor.accountId + '?role=' + professor.role);
+  }
+
+  /*****/
+
+  getStudents(): Observable<UserAccount[]> {
+    return this.http.get<UserAccount[]>('/api/ba-account?role=student');
+  }
+
+  saveStudent(student: UserAccount): Observable<UserAccount> {
+    return this.http.post<UserAccount>('/api/ba-account', student);
+  }
+
+  deleteStudent(student: UserAccount): Observable<void> {
+    return this.http.delete<void>('/api/ba-account/' + student.accountId + '?role=' + student.role);
+  }
+
+  /***************************************************************************************************/
   getFacultyById(id: number): Observable<Faculty> {
     return this.http.get<Faculty>('/api/ba-faculty/' + id);
   }

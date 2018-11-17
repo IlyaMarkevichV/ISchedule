@@ -19,8 +19,6 @@
             </button>
             <ul *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-visbility">
-              <li role="menuitem"><a class="dropdown-item" (click)="professorField='id'; searchButtonName='Id'">Id</a>
-              </li>
               <li role="menuitem"><a class="dropdown-item"
                                      (click)="professorField='firstName'; searchButtonName='First Name'">First Name</a>
               </li>
@@ -29,10 +27,6 @@
                 Name</a></li>
               <li role="menuitem"><a class="dropdown-item"
                                      (click)="professorField='birthday'; searchButtonName='Birthday'">Birthday</a></li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="professorField='address'; searchButtonName='Address'">Address</a></li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="professorField='email'; searchButtonName='E-mail'">E-mail</a></li>
             </ul>
           </div>
 
@@ -49,12 +43,9 @@
   <table class="table table-hover" id="table">
     <thead>
     <tr>
-      <th>Professor ID</th>
       <th>First Name</th>
       <th>Last name</th>
-      <th>E-mail</th>
       <th>Birthday</th>
-      <th>Address</th>
     </tr>
     </thead>
 
@@ -62,14 +53,11 @@
            *ngFor="let professor of tableModel.professors | filterBy: tempProfessorForFilter
            | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'professors' }">
     <tr>
-      <td>{{ professor.professorId }}</td>
-      <td>{{ professor.firstName }}</td>
-      <td>{{ professor.lastName }}</td>
-      <td>{{ professor.email }}</td>
-      <td>{{ professor.birthday | date }}</td>
-      <td>{{ professor.address }}</td>
+      <td>{{ professor.studentProfessor.firstName }}</td>
+      <td>{{ professor.studentProfessor.lastName }}</td>
+      <td>{{ professor.studentProfessor.birthday | date }}</td>
       <td>
-        <button type="button" class="btn btn-danger" (click)="deleteProfessorAccount(professor.professorId.toString())">
+        <button type="button" class="btn btn-danger" (click)="deleteProfessorAccount(professor)">
           Delete
         </button>
       </td>
@@ -94,7 +82,7 @@
   <div class="modal-body">
     <div class="form-group">
       <label>First Name</label>
-      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.firstName" #firstName="ngModel"
+      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.studentProfessor.firstName" #firstName="ngModel"
              placeholder="First Name" required/>
       <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
         Please set First Name
@@ -103,7 +91,7 @@
 
     <div class="form-group">
       <label>Last Name</label>
-      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.lastName" #lastName="ngModel"
+      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.studentProfessor.lastName" #lastName="ngModel"
              placeholder="Last Name" required/>
       <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
         Please set Last Name
@@ -111,19 +99,19 @@
     </div>
 
     <div class="form-group">
-      <label>E-mail</label>
-      <input class="form-control" name="email" [(ngModel)]="editableProfessor.email" #email="ngModel" required
+      <label>Login</label>
+      <input class="form-control" name="log" [(ngModel)]="editableProfessor.login" #log="ngModel" required
              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
-      <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
-        E-mail is incorrect
+      <div [hidden]="log.valid || log.untouched" class="alert alert-danger">
+        Login is incorrect
       </div>
     </div>
     <div class="form-group">
-      <label>Address</label>
-      <input class="form-control" name="address" [(ngModel)]="editableProfessor.address" #address="ngModel" required
-             placeholder="Address"/>
-      <div [hidden]="address.valid || address.untouched" class="alert alert-danger">
-        Please set Address
+      <label>Password</label>
+      <input class="form-control" name="pass" [(ngModel)]="editableProfessor.password" #pass="ngModel" required
+             placeholder="Password"/>
+      <div [hidden]="pass.valid || pass.untouched" class="alert alert-danger">
+        Please set password
       </div>
     </div>
 
@@ -133,7 +121,7 @@
         <div class="col-xs-12 col-md-5 col-lg-4 form-group">
           <input class="form-control"
                  placeholder="Datepicker"
-                 bsDatepicker [(ngModel)]="editableProfessor.birthday"
+                 bsDatepicker [(ngModel)]="editableProfessor.studentProfessor.birthday"
                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
                  placement="right"
                  #bday="ngModel">
@@ -145,7 +133,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
-            [disabled]="firstName.invalid || lastName.invalid || email.invalid || address.invalid || bday.invalid || !editableProfessor.birthday">
+            [disabled]="firstName.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableProfessor.studentProfessor.birthday">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

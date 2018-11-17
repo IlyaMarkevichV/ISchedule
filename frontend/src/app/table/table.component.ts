@@ -5,8 +5,7 @@ import {TableModelService} from "../service/table-model.service";
 import {Subscription} from "rxjs";
 import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
-import {StudentAccount} from "../model/student-account";
-import {ProfessorAccount} from "../model/professor-account";
+import {UserAccount} from "../model/UserAccount";
 
 @Component({
   selector: 'table-component',
@@ -56,16 +55,18 @@ export class TableComponent implements OnInit, OnDestroy {
 
   public loadStudents(): void {
     this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getStudentAccounts().subscribe(accounts => {
-      this.tableModel.students = accounts as StudentAccount[];
+    this.subscriptions.push(this.tableModelService.getStudents().subscribe(accounts => {
+      this.tableModel.students = accounts as UserAccount[];
+      console.log( this.tableModel.students);
       this.loadingService.hide();
     }));
   }
 
+  /*Done*/
   public loadProfessors(): void {
     this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getProfessorAccounts().subscribe(accounts => {
-      this.tableModel.professors = accounts as ProfessorAccount[];
+    this.subscriptions.push(this.tableModelService.getProfessors().subscribe(accounts => {
+      this.tableModel.professors = accounts as UserAccount[];
       this.loadingService.hide();
     }));
   }

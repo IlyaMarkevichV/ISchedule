@@ -39,8 +39,11 @@ public class AccountDataServiceImpl implements AccountDataService {
                     return Collections.emptyList();
 
                 ArrayList<AccountViewModel> accountList = new ArrayList<AccountViewModel>();
+                AccountViewModel tempAcc;
                 for (StudentGroupViewModel studentGroup : studentGroupViewModels) {
-                    accountList.add(studentGroup.getAccount());
+                    tempAcc = studentGroup.getAccount();
+                    tempAcc.getStudentProfessor().setGroup(studentGroup.getGroup());
+                    accountList.add(tempAcc);
                 }
 
                 return accountList;

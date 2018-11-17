@@ -17,6 +17,7 @@ import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
 import {UserAccount} from "../../../model/UserAccount";
 import {DatePipe} from "@angular/common";
+import {StudentProfessor} from "../../../model/StudentProfessor";
 
 
 @Component({
@@ -44,8 +45,8 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   public editMode: boolean = false;
 
-  public tempProfessorForFilter: ProfessorAccount = new ProfessorAccount();
-  public editableProfessor: ProfessorAccount = new ProfessorAccount();
+  public tempProfessorForFilter: UserAccount = new UserAccount();
+  public editableProfessor: UserAccount = new UserAccount();
 
   private subscriptions: Subscription[] = [];
 
@@ -58,8 +59,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.editableProfessor = new UserAccount();
-    this.editableProfessor.email = 'qwe@asd.qwe';
-    this.editableProfessor.password = 'zxcas';
+    this.editableProfessor.studentProfessor = new StudentProfessor();
     this.editableProfessor.role = 'professor';
   }
 
@@ -70,8 +70,9 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   addProfessorAccount(): void {
     this.loadingService.show();
 
-    this.editableProfessor.birthday = this.datePipe.transform(this.editableProfessor.birthday, 'yyyy-MM-dd');
-    this.subscriptions.push(this.tableModelService.saveProfessorAccount(this.editableProfessor).subscribe(() => {
+    this.editableProfessor.studentProfessor.birthday =
+      this.datePipe.transform(this.editableProfessor.studentProfessor.birthday, 'yyyy-MM-dd');
+    this.subscriptions.push(this.tableModelService.saveProfessor(this.editableProfessor).subscribe(() => {
       this.updateProfessors();
       this.closeModal();
       this.loadingService.hide();
@@ -79,8 +80,8 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     }));
   }
 
-  deleteProfessorAccount(professorAccountId: string): void {
-    this.subscriptions.push(this.tableModelService.deleteProfessorAccount(professorAccountId).subscribe(() => {
+  deleteProfessorAccount(professor: UserAccount): void {
+    this.subscriptions.push(this.tableModelService.deleteProfessor(professor).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
       this.updateProfessors();
     }));
@@ -93,21 +94,17 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   }
 
   private refreshEditableProfessor(): void {
-    this.editableProfessor = new ProfessorAccount();
-    this.editableProfessor.account = new UserAccount();
-    this.editableProfessor.account.email = 'qwe@asd.qwe';
-    this.editableProfessor.account.password = 'zxcas';
-    this.editableProfessor.account.role = 'professor';
+    this.editableProfessor = new UserAccount();
+    this.editableProfessor.studentProfessor = new StudentProfessor();
+    this.editableProfessor.role = 'professor';
   }
 
-  openModal(template: TemplateRef<any>, professorAccount?: ProfessorAccount): void {
+  openModal(template: TemplateRef<any>, professorAccount?: UserAccount): void {
     if (professorAccount) {
-      this.editableProfessor = ProfessorAccount.cloneProfessorAccount(professorAccount);
+      this.editableProfessor = UserAccount.cloneAccount(professorAccount);
       this.editMode = true;
     } else {
       this.refreshEditableProfessor();
-      console.log('Open modal:---------');
-      console.log(this.editableProfessor);
       this.editMode = false;
     }
     this.modalRef = this.modalService.show(template);
@@ -121,26 +118,16 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     if (this.searchButtonName === 'Search by')
       return;
 
-    this.tempProfessorForFilter = new ProfessorAccount();
+    this.tempProfessorForFilter = new UserAccount();
     switch (this.professorField) {
       case 'firstName':
-        this.tempProfessorForFilter.firstName = this.searchText;
+        this.tempProfessorForFilter.studentProfessor.firstName = this.searchText;
         break;
       case 'lastName':
-        this.tempProfessorForFilter.lastName = this.searchText;
+        this.tempProfessorForFilter.studentProfessor.lastName = this.searchText;
         break;
       case 'birthday':
-        this.tempProfessorForFilter.birthday = this.searchText;
-        break;
-      case 'address':
-        this.tempProfessorForFilter.address = this.searchText;
-        break;
-      case 'email':
-        this.tempProfessorForFilter.email = this.searchText;
-        break;
-      case 'id':
-        if (this.searchText !== '')
-          this.tempProfessorForFilter.professorId = Number(this.searchText);
+        this.tempProfessorForFilter.studentProfessor.birthday = this.searchText;
         break;
     }
   }

@@ -18,6 +18,7 @@ import {Group} from "../../../model/group";
 import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
 import {UserAccount} from "../../../model/UserAccount";
+import {StudentProfessor} from "../../../model/StudentProfessor";
 
 
 @Component({
@@ -42,12 +43,12 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
   /* needed for filterBy*/
   public studentField: string;
-  public tempStudentForFilter: StudentAccount = new StudentAccount();
+  public tempStudentForFilter: UserAccount;
 
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
-  public editableStudent: StudentAccount = new StudentAccount();
+  public editableStudent: UserAccount;
 
   private subscriptions: Subscription[] = [];
 
@@ -60,23 +61,25 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.tempStudentForFilter.group = new Group();
-    this.editableStudent.group = new Group();
-    this.editableStudent.account = new UserAccount();
-    this.editableStudent.account.email = "qaz@qwe.ads";
-    this.editableStudent.account.password = "qwerty12345";
-    this.editableStudent.account.role = "student";
+    this.tempStudentForFilter = new UserAccount();
+    this.tempStudentForFilter.studentProfessor = new StudentProfessor();
+    this.tempStudentForFilter.studentProfessor.group = new Group();
+
+    this.editableStudent = new UserAccount();
+    this.editableStudent.studentProfessor = new StudentProfessor();
+    this.editableStudent.studentProfessor.group = new Group();
+    this.editableStudent.role = "student";
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  openModal(template: TemplateRef<any>, studentAccount?: StudentAccount): void {
+  openModal(template: TemplateRef<any>, studentAccount?: UserAccount): void {
     if (studentAccount) {
-      this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
+      this.editableStudent = UserAccount.cloneAccount(studentAccount);
       this.editMode = true;
-      this.tempGroupId = this.editableStudent.group.groupId;
+      this.tempGroupId = this.editableStudent.studentProfessor.group.groupId;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;
@@ -96,29 +99,28 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   }
 
   public refreshEditableStudent() {
-    this.editableStudent = new StudentAccount();
-    this.editableStudent.group = new Group();
-    this.editableStudent.account = new UserAccount();
-    this.editableStudent.account.email = "qaz@qwe.ads";
-    this.editableStudent.account.password = "qwerty12345";
-    this.editableStudent.account.role = "student";
+    this.editableStudent = new UserAccount();
+    this.editableStudent.studentProfessor = new StudentProfessor();
+    this.editableStudent.studentProfessor.group = new Group();
+    this.editableStudent.role = "student";
   }
 
   public addStudentAccount(): void {
     this.loadingService.show();
 
-    if (this.editableStudent.group !== null)
-      this.editableStudent.birthday = this.datePipe.transform(this.editableStudent.birthday, 'yyyy-MM-dd');
+/*    if (this.editableStudent.studentProfessor.group !== null)*/
+      this.editableStudent.studentProfessor.birthday =
+        this.datePipe.transform(this.editableStudent.studentProfessor.birthday, 'yyyy-MM-dd');
 
     /*add group to student-tab according to chosen id*/
     for (let group of this.tableModel.groups){
       if (group.groupId == this.tempGroupId) {
-        this.editableStudent.group = group;
+        this.editableStudent.studentProfessor.group = group;
         break;
       }
     }
 
-    this.subscriptions.push(this.tableModelService.saveStudentAccount(this.editableStudent).subscribe(() => {
+    this.subscriptions.push(this.tableModelService.saveStudent(this.editableStudent).subscribe(() => {
       this.updateStudents();
       this.closeModal();
       this.loadingService.hide();
@@ -126,9 +128,9 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     }));
   }
 
-  public deleteStudentAccount(studentAccountId: string): void {
+  public deleteStudentAccount(student: UserAccount): void {
     this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.deleteStudentAccount(studentAccountId).subscribe(() => {
+    this.subscriptions.push(this.tableModelService.deleteStudent(student).subscribe(() => {
       /*refresh all stored data in tableModel in case when we can delete parent node */
       this.updateStudents();
     }));
@@ -138,31 +140,22 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     if (this.searchButtonName === 'Search by')
       return;
 
-    this.tempStudentForFilter = new StudentAccount();
-    this.tempStudentForFilter.group = new Group();
+    this.tempStudentForFilter = new UserAccount();
+    this.tempStudentForFilter.studentProfessor = new StudentProfessor();
+    this.tempStudentForFilter.studentProfessor.group = new Group();
     switch (this.studentField) {
       case 'firstName':
-        this.tempStudentForFilter.firstName = this.searchText;
+        this.tempStudentForFilter.studentProfessor.firstName = this.searchText;
         break;
       case 'lastName':
-        this.tempStudentForFilter.lastName = this.searchText;
+        this.tempStudentForFilter.studentProfessor.lastName = this.searchText;
         break;
       case 'birthday':
-        this.tempStudentForFilter.birthday = this.searchText;
+        this.tempStudentForFilter.studentProfessor.birthday = this.searchText;
         break;
       case 'groupId':
         if (this.searchText !== '')
-          this.tempStudentForFilter.group.groupId = Number(this.searchText);
-        break;
-      case 'studentId':
-        if (this.searchText !== '')
-          this.tempStudentForFilter.studentId = Number(this.searchText);
-        break;
-      case 'address':
-        this.tempStudentForFilter.address = this.searchText;
-        break;
-      case 'email':
-        this.tempStudentForFilter.email = this.searchText;
+          this.tempStudentForFilter.studentProfessor.group.groupId = Number(this.searchText);
         break;
     }
   }

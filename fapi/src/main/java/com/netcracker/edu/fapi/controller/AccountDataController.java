@@ -26,7 +26,7 @@ public class AccountDataController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<AccountViewModel> saveAccount(AccountViewModel account) {
+    public ResponseEntity<AccountViewModel> saveAccount(@RequestBody AccountViewModel account) {
         return ResponseEntity.ok(accountDataService.saveAccount(account));
     }
 

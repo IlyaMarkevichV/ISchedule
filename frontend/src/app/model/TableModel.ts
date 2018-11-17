@@ -1,11 +1,11 @@
 import {StudentAccount} from "./student-account";
-import {ProfessorAccount} from "./professor-account";
 import {Group} from "./group";
 import {Faculty} from "./faculty";
+import {UserAccount} from "./UserAccount";
 
 export class TableModel {
-  students: StudentAccount[];
-  professors: ProfessorAccount[];
+  students: UserAccount[];
+  professors: UserAccount[];
   groups: Group[];
   faculties: Faculty[];
 }

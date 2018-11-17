@@ -11,6 +11,7 @@ public class StudentProfessorViewModel {
     private String firstName;
     private String lastName;
     private Date birthday;
+    private GroupViewModel group;
 
     @JsonBackReference
     private AccountViewModel account;
@@ -18,11 +19,12 @@ public class StudentProfessorViewModel {
     public StudentProfessorViewModel() {
     }
 
-    public StudentProfessorViewModel(int id, String firstName, String lastName, Date birthday, AccountViewModel account) {
+    public StudentProfessorViewModel(int id, String firstName, String lastName, Date birthday, GroupViewModel group, AccountViewModel account) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
+        this.group = group;
         this.account = account;
     }
 
@@ -64,5 +66,13 @@ public class StudentProfessorViewModel {
 
     public void setAccount(AccountViewModel account) {
         this.account = account;
+    }
+
+    public GroupViewModel getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupViewModel group) {
+        this.group = group;
     }
 }
