@@ -19,6 +19,7 @@ import { ProfessorProfileComponent } from './professor/professor-profile/profess
 import { ProfessorSubjectComponent } from './professor/professor-subject/professor-subject.component';
 import { ProfessorGroupScheduleComponent } from './professor/professor-group-schedule/professor-group-schedule.component';
 import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
+import {AppRoutingModule} from "../app-routing.module";
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ProfessorGroupInfoComponent } from './professor/professor-group-info/pr
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),
     AlertModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    AppRoutingModule
   ],
   declarations: [
     TableComponent,

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -25,13 +23,14 @@ public class StudentController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Account saveStudentProfessor(@RequestBody Account account) {
-        Account student =  service.saveAccount(account);
+        //add in 'account' table and also in 'student_professor' table too
+        Account student = service.saveAccount(account);
         if (student == null) {
-            return student;
+            return null;
         }
 
-        StudentGroup studentGroup =
-                studentGroupService.saveStudent(new StudentGroup(account));
+        //add student in table to bind him to the group
+        StudentGroup studentGroup = studentGroupService.saveStudentGroup(new StudentGroup(account));
         if (studentGroup == null) {
             service.deleteAccount(account.getAccountId());
             return null;
@@ -46,8 +45,12 @@ public class StudentController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteStudent(@PathVariable(name = "id") Integer id) {
-            service.deleteAccount(id);
-            studentGroupService.deleteStudentByAccountId(id);
-            return ResponseEntity.noContent().build();
+        //delete from 'account' & 'student_professor' tables by one request
+        System.out.println("step one");
+        service.deleteAccount(id);
+
+        //delete from 'student_group'
+        studentGroupService.deleteStudentByAccountId(id);
+        return ResponseEntity.noContent().build();
     }
 }

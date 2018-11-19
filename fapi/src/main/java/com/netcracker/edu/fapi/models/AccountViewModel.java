@@ -9,6 +9,7 @@ public class AccountViewModel {
     private String login;
     private String password;
     private String role;
+    private int studentGroupId;
 
     @JsonManagedReference
     private StudentProfessorViewModel studentProfessor;
@@ -16,11 +17,12 @@ public class AccountViewModel {
     public AccountViewModel() {
     }
 
-    public AccountViewModel(int accountId, String email, String password, String role, StudentProfessorViewModel studentProfessor) {
+    public AccountViewModel(int accountId, String login, String password, String role, int studentGroupId, StudentProfessorViewModel studentProfessor) {
         this.accountId = accountId;
-        this.login = email;
+        this.login = login;
         this.password = password;
         this.role = role;
+        this.studentGroupId = studentGroupId;
         this.studentProfessor = studentProfessor;
     }
 
@@ -62,5 +64,13 @@ public class AccountViewModel {
 
     public void setStudentProfessor(StudentProfessorViewModel studentProfessor) {
         this.studentProfessor = studentProfessor;
+    }
+
+    public int getStudentGroupId() {
+        return studentGroupId;
+    }
+
+    public void setStudentGroupId(int studentGroupId) {
+        this.studentGroupId = studentGroupId;
     }
 }

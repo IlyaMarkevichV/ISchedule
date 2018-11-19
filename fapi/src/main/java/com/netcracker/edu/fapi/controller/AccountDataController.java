@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -33,6 +34,13 @@ public class AccountDataController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteAccount(@PathVariable(name = "id") Integer id, @RequestParam(name = "role", required = true) String userRole) {
         accountDataService.deleteAccount(id, userRole);
+    }
+
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public ResponseEntity<AccountViewModel> getAccountByLoginAndPassword(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password) {
+        System.out.println("login=" + login +"     /     "  + "password=" + password);
+        AccountViewModel account = accountDataService.getAccountByLoginAndPassword(login, password);
+        return ResponseEntity.ok(account);
     }
 
 }

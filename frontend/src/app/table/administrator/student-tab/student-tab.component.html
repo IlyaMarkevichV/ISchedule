@@ -61,7 +61,7 @@
       <td>{{ student.studentProfessor.lastName }}</td>
       <td>{{ student.studentProfessor.birthday | date }}</td>
       <td>
-        <button type="button" class="btn btn-danger" (click)="deleteStudentAccount(student.studentId.toString())">
+        <button type="button" class="btn btn-danger" (click)="deleteStudentAccount(student)">
           Delete
         </button>
       </td>

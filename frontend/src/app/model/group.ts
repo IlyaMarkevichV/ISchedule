@@ -7,6 +7,8 @@ export class Group {
   date: string;
 
   static cloneGroup(group: Group): Group {
+    if (!group)
+      return null;
     let prototype = new Group();
     prototype.groupId = group.groupId;
     prototype.faculty = group.faculty;

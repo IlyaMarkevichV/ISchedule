@@ -6,6 +6,7 @@ import com.netcracker.edu.backend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +37,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(Integer id) {
-        repository.findAll();
+        repository.deleteById(id);
     }
 
     @Override
     public List<Account> getAccountsByRole(String userRoleName) {
         return repository.getAccountsByRole(userRoleName);
+    }
+
+    @Override
+    public Optional<Account> getAccountByLoginAndPassword(@NotNull String login,@NotNull String password) {
+        return repository.getAccountByLoginAndPassword(login, password);
     }
 }

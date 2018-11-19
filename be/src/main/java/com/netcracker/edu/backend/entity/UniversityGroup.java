@@ -71,4 +71,23 @@ public class UniversityGroup {
     public int hashCode() {
         return Objects.hash(groupId, faculty, grade, date);
     }
+
+    @Override
+    public String toString() {
+        return "UniversityGroup{" +
+                "groupId=" + groupId +
+                ", faculty=" + faculty +
+                ", grade=" + grade +
+                ", date=" + date +
+                '}';
+    }
+
+    static UniversityGroup cloneGroup(UniversityGroup group) {
+        UniversityGroup cloned = new UniversityGroup();
+        cloned.groupId = group.groupId;
+        cloned.grade = group.grade;
+        cloned.date = group.date;
+        cloned.faculty = group.faculty;
+        return cloned;
+    }
 }

@@ -29,6 +29,10 @@ public class StudentProfessor {
     @JsonBackReference
     private Account account;
 
+    /**
+     * Save info about group for related student. It variable help
+     * us avoid unnecessary calls to database
+     */
     @Transient
     private UniversityGroup group;
 

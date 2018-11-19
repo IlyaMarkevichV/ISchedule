@@ -3,8 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
-import {ProfessorAccount} from "../model/professor-account";
-import {StudentAccount} from "../model/student-account";
 import {UserAccount} from "../model/UserAccount";
 
 @Injectable({
@@ -72,6 +70,11 @@ export class TableModelService {
 
   deleteStudent(student: UserAccount): Observable<void> {
     return this.http.delete<void>('/api/ba-account/' + student.accountId + '?role=' + student.role);
+  }
+
+  getUserByLoginAndPassword(login: string, password: string): Observable<UserAccount> {
+    console.log("/api/ba-account/auth?login=" + login + "&password=" + password);
+    return this.http.get<UserAccount>("/api/ba-account/auth?login=" + login + "&password=" + password);
   }
 
   /***************************************************************************************************/

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @RestController
@@ -26,18 +27,9 @@ public class AccountController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<Account> getAllAccounts() {
-        return accountService.getAllAccounts();
-    }
-
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public Account saveAccount(@RequestBody Account account) {
-        return accountService.saveAccount(account);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteAccount(@PathVariable(name = "id") Integer id) {
-        accountService.deleteAccount(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Account> getAccountByLoginAndPassword(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password) {
+        System.out.println("login=" + login +"     /     "  + "password=" + password);
+        Optional<Account> account = accountService.getAccountByLoginAndPassword(login, password);
+        return account.isPresent() ? ResponseEntity.ok(account.get()) : ResponseEntity.ok(new Account());
     }
 }

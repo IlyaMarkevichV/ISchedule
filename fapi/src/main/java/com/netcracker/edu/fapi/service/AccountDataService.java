@@ -10,4 +10,6 @@ public interface AccountDataService {
     AccountViewModel saveAccount(AccountViewModel account);
 
     void deleteAccount(Integer id, String userRole);
+
+    AccountViewModel getAccountByLoginAndPassword(String login, String password);
 }

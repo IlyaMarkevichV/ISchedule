@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {TableModel} from "../../model/TableModel";
-import {Subscription} from "rxjs";
 import {ProfessorTabComponent} from "./professor-tab/professor-tab.component";
 import {GroupTabComponent} from "./group-tab/group-tab.component";
 import {StudentTabComponent} from "./student-tab/student-tab.component";

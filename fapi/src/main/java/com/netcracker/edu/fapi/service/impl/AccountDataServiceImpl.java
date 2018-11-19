@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,15 +40,17 @@ public class AccountDataServiceImpl implements AccountDataService {
                     return Collections.emptyList();
 
                 ArrayList<AccountViewModel> accountList = new ArrayList<AccountViewModel>();
-                AccountViewModel tempAcc;
+                /*convert data*/
                 for (StudentGroupViewModel studentGroup : studentGroupViewModels) {
-                    tempAcc = studentGroup.getAccount();
+                    AccountViewModel tempAcc = studentGroup.getAccount();
+                    tempAcc.setStudentGroupId(studentGroup.getId());
                     tempAcc.getStudentProfessor().setGroup(studentGroup.getGroup());
                     accountList.add(tempAcc);
                 }
 
                 return accountList;
             }
+            case "administrator":
             case "professor": {
                 accounts = restTemplate.getForObject(
                         backendUrlServer + "/api/professors",
@@ -71,6 +74,7 @@ public class AccountDataServiceImpl implements AccountDataService {
                         account,
                         AccountViewModel.class).getBody();
             }
+            case "administrator":
             case "professor": {
                 return new RestTemplate().postForEntity(
                         backendUrlServer + "/api/professors",
@@ -89,6 +93,7 @@ public class AccountDataServiceImpl implements AccountDataService {
                 new RestTemplate().delete(backendUrlServer + "/api/students/" + id);
             }
             break;
+            case "administrator":
             case "professor": {
                 new RestTemplate().delete(backendUrlServer + "/api/professors/" + id);
             }
@@ -96,5 +101,12 @@ public class AccountDataServiceImpl implements AccountDataService {
             default:
                 return;
         }
+    }
+
+    @Override
+    public AccountViewModel getAccountByLoginAndPassword(@NotNull String login, @NotNull String password) {
+        return new RestTemplate().getForObject(
+                backendUrlServer + "/api/accounts?login=" + login + "&password=" + password,
+                AccountViewModel.class);
     }
 }

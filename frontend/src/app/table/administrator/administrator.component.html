@@ -8,7 +8,7 @@
 
   <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessors()">
     <professor-tab [(tableModel)]="tableModel"
-                   (loadProfessor)="loadProfessors.emit()"></professor-tab>
+                   (loadProfessors)="loadProfessors.emit()"></professor-tab>
   </tab>
 
   <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">

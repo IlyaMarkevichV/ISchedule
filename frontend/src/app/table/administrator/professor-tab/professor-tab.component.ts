@@ -18,6 +18,7 @@ import {TableModel} from "../../../model/TableModel";
 import {UserAccount} from "../../../model/UserAccount";
 import {DatePipe} from "@angular/common";
 import {StudentProfessor} from "../../../model/StudentProfessor";
+import {Group} from "../../../model/group";
 
 
 @Component({
@@ -60,6 +61,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.editableProfessor = new UserAccount();
     this.editableProfessor.studentProfessor = new StudentProfessor();
+    this.editableProfessor.studentProfessor.group = new Group();
     this.editableProfessor.role = 'professor';
   }
 
@@ -96,6 +98,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   private refreshEditableProfessor(): void {
     this.editableProfessor = new UserAccount();
     this.editableProfessor.studentProfessor = new StudentProfessor();
+    this.editableProfessor.studentProfessor.group = new Group();
     this.editableProfessor.role = 'professor';
   }
 

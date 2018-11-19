@@ -5,6 +5,7 @@ export class UserAccount {
   login: string;
   password: string;
   role: string;
+  studentGroupId: number;
   studentProfessor: StudentProfessor;
 
   static cloneAccount(acc: UserAccount): UserAccount {
@@ -13,6 +14,7 @@ export class UserAccount {
     clonedAcc.login = acc.login;
     clonedAcc.password = acc.password;
     clonedAcc.role = acc.role;
+    clonedAcc.studentGroupId = acc.studentGroupId;
     clonedAcc.studentProfessor = StudentProfessor.clonedStudentProfessor(acc.studentProfessor);
     return clonedAcc;
   }

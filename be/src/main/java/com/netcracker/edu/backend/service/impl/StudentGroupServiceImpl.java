@@ -21,7 +21,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     }
 
     @Override
-    public StudentGroup saveStudent(StudentGroup studentGroup) {
+    public StudentGroup saveStudentGroup(StudentGroup studentGroup) {
         return repository.save(studentGroup);
     }
 

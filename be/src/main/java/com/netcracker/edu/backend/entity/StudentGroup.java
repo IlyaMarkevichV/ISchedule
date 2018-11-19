@@ -23,7 +23,9 @@ public class StudentGroup {
     public StudentGroup() {
     }
 
+    /*put all needed data from Account to StudentGroup to make true POST request*/
     public StudentGroup(Account account) {
+        this.id = account.getStudentGroupId();
         this.account = account;
         this.group = account.getStudentProfessor().getGroup();
     }
@@ -65,5 +67,14 @@ public class StudentGroup {
     @Override
     public int hashCode() {
         return Objects.hash(id, account, group);
+    }
+
+    @Override
+    public String toString() {
+        return "StudentGroup{" +
+                "id=" + id +
+                ", account=" + account +
+                ", group=" + group +
+                '}';
     }
 }

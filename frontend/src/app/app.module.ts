@@ -10,6 +10,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {TableModule} from "./table/table.module";
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { AppRoutingModule } from './app-routing.module';
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
+import {CalendarModule, DateAdapter} from "angular-calendar";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,11 @@ import { AppRoutingModule } from './app-routing.module';
     TableModule,
     BsDatepickerModule.forRoot(),
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

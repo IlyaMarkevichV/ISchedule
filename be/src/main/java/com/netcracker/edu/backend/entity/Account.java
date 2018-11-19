@@ -23,6 +23,14 @@ public class Account {
     @Column(name = "role")
     private String role;
 
+    /**
+     * In order to save student in table with related group we save
+     * id number from table 'student_group'. It variable help
+     * avoid unnecessary calls to database
+     */
+    @Transient
+    private int studentGroupId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @JsonManagedReference
@@ -69,6 +77,14 @@ public class Account {
 
     public void setStudentProfessor(StudentProfessor studentProfessor) {
         this.studentProfessor = studentProfessor;
+    }
+
+    public int getStudentGroupId() {
+        return studentGroupId;
+    }
+
+    public void setStudentGroupId(int studentGroupId) {
+        this.studentGroupId = studentGroupId;
     }
 
     @Override

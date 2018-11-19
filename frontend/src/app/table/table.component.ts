@@ -14,7 +14,6 @@ import {UserAccount} from "../model/UserAccount";
 })
 export class TableComponent implements OnInit, OnDestroy {
 
-
   private subscriptions: Subscription[] = [];
 
   public tableModel: TableModel;
@@ -57,12 +56,10 @@ export class TableComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getStudents().subscribe(accounts => {
       this.tableModel.students = accounts as UserAccount[];
-      console.log( this.tableModel.students);
       this.loadingService.hide();
     }));
   }
 
-  /*Done*/
   public loadProfessors(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getProfessors().subscribe(accounts => {
