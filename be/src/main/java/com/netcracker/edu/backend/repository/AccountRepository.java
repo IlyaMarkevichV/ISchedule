@@ -11,4 +11,6 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     List<Account> getAccountsByRole(String userRoleName);
 
     Optional<Account> getAccountByLoginAndPassword(String login, String password);
+
+    Optional<Account> getAccountByLogin(String login);
 }

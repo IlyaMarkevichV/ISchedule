@@ -6,13 +6,14 @@
 <body>
 
 <div class="container">
-  <navbar [seeTables]="seeTables" (logout)="seeTables = $event"></navbar>
+  <!--[seeTables]="seeTables" (logout)="seeTables = $event"-->
+  <navbar></navbar>
   <br/>
   <br/>
-<!--  <authorization *ngIf="!seeTables" (authorized)="seeTables = $event"></authorization>
-  <table-component *ngIf="seeTables"></table-component>-->
+  <!--  <authorization *ngIf="!seeTables" (authorizedEvent)="seeTables = $event"></authorization>
+    <table-component *ngIf="seeTables"></table-component>-->
 
-<!--  <router-outlet></router-outlet>-->
+  <router-outlet></router-outlet>
 </div>
 
 </body>

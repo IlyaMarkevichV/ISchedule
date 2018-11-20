@@ -1,23 +1,32 @@
 package com.netcracker.edu.fapi.service.impl;
 
+import com.netcracker.edu.fapi.FapiApplication;
 import com.netcracker.edu.fapi.models.AccountViewModel;
 import com.netcracker.edu.fapi.models.StudentGroupViewModel;
 import com.netcracker.edu.fapi.service.AccountDataService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-@Service
-public class AccountDataServiceImpl implements AccountDataService {
+@Service("userDataService")
+public class AccountDataServiceImpl implements AccountDataService, UserDetailsService {
 
     @Value("${backend.server.url}")
     private String backendUrlServer;
+
+
 
     @Override
     public List<AccountViewModel> getAllAccounts(String userRole) {
@@ -104,9 +113,38 @@ public class AccountDataServiceImpl implements AccountDataService {
     }
 
     @Override
-    public AccountViewModel getAccountByLoginAndPassword(@NotNull String login, @NotNull String password) {
-        return new RestTemplate().getForObject(
-                backendUrlServer + "/api/accounts?login=" + login + "&password=" + password,
+    public AccountViewModel getAccountByLogin(@NotNull String login) {
+        ResponseEntity<AccountViewModel> acc = new RestTemplate().getForEntity(
+                backendUrlServer + "/api/accounts?login=" + login,
                 AccountViewModel.class);
+        System.out.println(acc);
+        return acc.getBody();
+    }
+
+    @Override
+    public AccountViewModel getAccountById(Integer id) {
+        return new RestTemplate().getForObject(
+                backendUrlServer + "/api/accounts/" + id,
+                AccountViewModel.class);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        AccountViewModel account = getAccountByLogin(login);
+        System.out.println("Account info:" + "[login=" + account.getLogin() + "], [password=" + account.getPassword() +
+                "], [role=" + account.getRole() + "]");
+
+        if (account == null) {
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
+        return new User(account.getLogin(),
+                account.getPassword(),
+                getAuthority(account));
+    }
+
+    private Set<GrantedAuthority> getAuthority(AccountViewModel account) {
+        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(account.getRole()));
+        return authorities;
     }
 }

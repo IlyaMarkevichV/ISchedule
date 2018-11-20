@@ -8,16 +8,16 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {TableModule} from "./table/table.module";
-import { AuthorizationComponent } from './authorization/authorization.component';
 import { AppRoutingModule } from './app-routing.module';
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import {CalendarModule, DateAdapter} from "angular-calendar";
+import { AuthorizationComponent } from './authorization/authorization.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AuthorizationComponent,
+    AuthorizationComponent
   ],
   imports: [
     FormsModule,

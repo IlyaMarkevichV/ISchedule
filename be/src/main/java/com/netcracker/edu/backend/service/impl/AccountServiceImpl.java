@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> getAccountByLoginAndPassword(@NotNull String login,@NotNull String password) {
-        return repository.getAccountByLoginAndPassword(login, password);
+    public Optional<Account> getAccountByLogin(String login) {
+        return repository.getAccountByLogin(login);
     }
 }

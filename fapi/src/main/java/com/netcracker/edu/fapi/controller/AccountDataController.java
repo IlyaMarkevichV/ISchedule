@@ -37,10 +37,13 @@ public class AccountDataController {
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public ResponseEntity<AccountViewModel> getAccountByLoginAndPassword(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password) {
-        System.out.println("login=" + login +"     /     "  + "password=" + password);
-        AccountViewModel account = accountDataService.getAccountByLoginAndPassword(login, password);
+    public ResponseEntity<AccountViewModel> getAccountByLoginAndPassword(@RequestParam(name = "login") String login) {
+        AccountViewModel account = accountDataService.getAccountByLogin(login);
         return ResponseEntity.ok(account);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<AccountViewModel> getAccountById(@PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok(accountDataService.getAccountById(id));
+    }
 }

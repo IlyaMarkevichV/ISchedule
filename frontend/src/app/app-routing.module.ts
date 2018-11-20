@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {AuthorizationComponent} from "./authorization/authorization.component";
+
 import {StudentComponent} from "./table/student/student.component";
 import {ProfessorComponent} from "./table/professor/professor.component";
 import {AdministratorComponent} from "./table/administrator/administrator.component";
 import {TableComponent} from "./table/table.component";
+import {AuthorizationComponent} from "./authorization/authorization.component";
+
 
 const routes: Routes = [
   /*  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -13,13 +15,13 @@ const routes: Routes = [
     { path: 'heroes', component: HeroesComponent }*/
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: AuthorizationComponent},
-  {path: 'administrator', component: AdministratorComponent},
-  {path: 'student', component: StudentComponent},
-  {path: 'professor', component: ProfessorComponent}
+  {path: 'administrator/:id', component: TableComponent},
+  {path: 'student/:id', component: TableComponent},
+  {path: 'professor/:id', component: TableComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

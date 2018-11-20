@@ -11,5 +11,7 @@ public interface AccountDataService {
 
     void deleteAccount(Integer id, String userRole);
 
-    AccountViewModel getAccountByLoginAndPassword(String login, String password);
+    AccountViewModel getAccountByLogin(String login);
+
+    AccountViewModel getAccountById(Integer id);
 }

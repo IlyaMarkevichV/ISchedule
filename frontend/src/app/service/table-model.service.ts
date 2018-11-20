@@ -73,8 +73,11 @@ export class TableModelService {
   }
 
   getUserByLoginAndPassword(login: string, password: string): Observable<UserAccount> {
-    console.log("/api/ba-account/auth?login=" + login + "&password=" + password);
     return this.http.get<UserAccount>("/api/ba-account/auth?login=" + login + "&password=" + password);
+  }
+
+  getAccountById(id: number): Observable<UserAccount> {
+    return this.http.get<UserAccount>("/api/ba-account/" + id);
   }
 
   /***************************************************************************************************/

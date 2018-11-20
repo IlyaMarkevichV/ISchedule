@@ -16,5 +16,5 @@ public interface AccountService {
 
     List<Account> getAccountsByRole(String userRoleName);
 
-    Optional<Account> getAccountByLoginAndPassword(String login, String password);
+    Optional<Account> getAccountByLogin(String login);
 }

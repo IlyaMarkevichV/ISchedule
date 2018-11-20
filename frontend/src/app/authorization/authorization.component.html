@@ -17,7 +17,7 @@
   Enter password
 </div>
 
-<div *ngIf="alertUser" class="alert alert-danger">
+<div *ngIf="alertUserAboutError" class="alert alert-danger">
   The username and password that you entered did not match our records. Please double-check and try again.
 </div>
 
@@ -25,4 +25,5 @@
         [disabled]="email.invalid || pass.invalid">
   LOG IN
 </button>
+
 

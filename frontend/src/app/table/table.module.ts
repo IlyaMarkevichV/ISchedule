@@ -22,6 +22,7 @@ import { ProfessorGroupInfoComponent } from './professor/professor-group-info/pr
 import {AppRoutingModule} from "../app-routing.module";
 
 
+
 @NgModule({
   imports: [
     FilterPipeModule,

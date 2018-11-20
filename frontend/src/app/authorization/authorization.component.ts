@@ -1,9 +1,11 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Router} from "@angular/router";
-import {TableModelService} from "../service/table-model.service";
-import {UserAccount} from "../model/UserAccount";
+
 import {Subscription} from "rxjs";
+import {UserAccount} from "../model/UserAccount";
+import {TableModelService} from "../service/table-model.service";
+
 
 @Component({
   selector: 'authorization',
@@ -12,14 +14,15 @@ import {Subscription} from "rxjs";
 })
 export class AuthorizationComponent implements OnInit, OnDestroy {
 
-  @Output()
-  public authorized: EventEmitter<boolean> = new EventEmitter<boolean>();
-  public alertUser: boolean = false;
+  public alertUserAboutError: boolean = false;
 
   public login: string;
   public password: string;
 
   private subscriptions: Subscription[] = [];
+
+  @Output()
+  public authorizationInfoEvent: EventEmitter<UserAccount> = new EventEmitter<UserAccount>();
 
   private authorizationAccount: UserAccount;
 
@@ -29,49 +32,41 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.authorizationAccount = new UserAccount();
+    this.authorizationAccount.role = 'administrator';
+    this.authorizationInfoEvent.emit(this.authorizationAccount);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  /*  public loginFunction(): void {
-      this.loadingService.show();
-      setTimeout(() => {
-          this.authorized.emit(true);
-          this.user = "administrator";
-          this.router.navigate(['administrator'])
-        }
-        , 1500);
-      this.loadingService.hide();
-    }*/
-
   public authorization(): void {
-    console.log('auth method');
+
     this.loadingService.show();
 
     this.subscriptions.push(this.tableModelService.getUserByLoginAndPassword(this.login, this.password).subscribe(acc => {
       this.authorizationAccount = acc as UserAccount;
 
-      console.log(this.authorizationAccount);
+      this.authorizationInfoEvent.emit(this.authorizationAccount);
       if (!acc.login && !acc.password && !acc.role) {
-        this.alertUser = true;
+        this.alertUserAboutError = false;
       } else {
-        this.alertUser = false;
+        this.alertUserAboutError = true;
+
         switch (acc.role) {
           case "student":
-            this.router.navigate(['student']);
+            this.router.navigate(['/student/', acc.accountId]);
             break;
           case "professor":
-            this.router.navigate(['professor']);
+            this.router.navigate(['/professor', acc.accountId]);
             break;
           case "administrator":
-            this.router.navigate(['administrator']);
+            this.router.navigate(['/administrator', acc.accountId]);
             break;
         }
       }
       this.loadingService.hide();
     }));
   }
-
 }

@@ -27,9 +27,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<Account> getAccountByLoginAndPassword(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password) {
-        System.out.println("login=" + login +"     /     "  + "password=" + password);
-        Optional<Account> account = accountService.getAccountByLoginAndPassword(login, password);
+    public ResponseEntity<Account> getAccountByLogin(@RequestParam(name = "login") String login) {
+        Optional<Account> account = accountService.getAccountByLogin(login);
         return account.isPresent() ? ResponseEntity.ok(account.get()) : ResponseEntity.ok(new Account());
     }
 }
