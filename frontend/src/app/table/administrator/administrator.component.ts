@@ -9,7 +9,8 @@ import {StudentTabComponent} from "./student-tab/student-tab.component";
   templateUrl: './administrator.component.html',
   styleUrls: ['./administrator.component.css']
 })
-export class AdministratorComponent implements OnInit, OnDestroy {
+export class AdministratorComponent {
+
   @ViewChild(StudentTabComponent)
   protected studentComponent: StudentTabComponent;
 
@@ -35,11 +36,5 @@ export class AdministratorComponent implements OnInit, OnDestroy {
   loadStudents: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
   }
 }

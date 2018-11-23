@@ -8,17 +8,11 @@ import java.sql.Date;
 public class GroupViewModel {
     private int groupId;
     private FacultyViewModel faculty;
+    private String speciality;
     private int grade;
-    private Date date;
+    private Date graduation;
 
     public GroupViewModel() {
-    }
-
-    public GroupViewModel(int groupId, FacultyViewModel faculty, int grade, Date date) {
-        this.groupId = groupId;
-        this.faculty = faculty;
-        this.grade = grade;
-        this.date = date;
     }
 
     public int getGroupId() {
@@ -37,6 +31,14 @@ public class GroupViewModel {
         this.faculty = faculty;
     }
 
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
     public int getGrade() {
         return grade;
     }
@@ -45,11 +47,11 @@ public class GroupViewModel {
         this.grade = grade;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getGraduation() {
+        return graduation;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setGraduation(Date graduation) {
+        this.graduation = graduation;
     }
 }

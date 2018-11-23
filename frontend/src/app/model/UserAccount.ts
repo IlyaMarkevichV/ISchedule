@@ -1,21 +1,23 @@
-import {StudentProfessor} from "./StudentProfessor";
+import {Role} from "./role";
 
 export class UserAccount {
   accountId: number;
   login: string;
   password: string;
-  role: string;
-  studentGroupId: number;
-  studentProfessor: StudentProfessor;
+  role: Role;
+  firstName: string;
+  lastName: string;
+  birthday: string;
 
   static cloneAccount(acc: UserAccount): UserAccount {
     let clonedAcc = new UserAccount();
     clonedAcc.accountId = acc.accountId;
     clonedAcc.login = acc.login;
     clonedAcc.password = acc.password;
-    clonedAcc.role = acc.role;
-    clonedAcc.studentGroupId = acc.studentGroupId;
-    clonedAcc.studentProfessor = StudentProfessor.clonedStudentProfessor(acc.studentProfessor);
+    clonedAcc.role = Role.cloneRole(acc.role);
+    clonedAcc.firstName = acc.firstName;
+    clonedAcc.lastName = acc.lastName;
+    clonedAcc.birthday = acc.birthday;
     return clonedAcc;
   }
 }

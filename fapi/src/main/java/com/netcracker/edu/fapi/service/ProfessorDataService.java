@@ -7,8 +7,6 @@ import java.util.List;
 public interface ProfessorDataService {
     List<ProfessorViewModel> getAll();
 
-    ProfessorViewModel getProfessorById(Integer id);
-
     ProfessorViewModel saveProfessor(ProfessorViewModel entityViewModel);
 
     void deleteProfessor(Integer id);

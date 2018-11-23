@@ -4,8 +4,6 @@ import {
   TemplateRef,
   OnDestroy,
   Input,
-  Inject,
-  forwardRef,
   EventEmitter,
   Output
 } from '@angular/core';
@@ -17,8 +15,8 @@ import {StudentAccount} from "../../../model/student-account";
 import {Group} from "../../../model/group";
 import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
+import {Role} from "../../../model/role";
 import {UserAccount} from "../../../model/UserAccount";
-import {StudentProfessor} from "../../../model/StudentProfessor";
 
 
 @Component({
@@ -41,14 +39,16 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   public searchButtonName: string = 'Search by';
   public searchText: string;
 
+  private studentRole: Role;
+
   /* needed for filterBy*/
   public studentField: string;
-  public tempStudentForFilter: UserAccount;
+  public tempStudentForFilter: StudentAccount;
 
   private modalRef: BsModalRef;
 
   public editMode: boolean = false;
-  public editableStudent: UserAccount;
+  public editableStudent: StudentAccount;
 
   private subscriptions: Subscription[] = [];
 
@@ -61,25 +61,34 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.tempStudentForFilter = new UserAccount();
-    this.tempStudentForFilter.studentProfessor = new StudentProfessor();
-    this.tempStudentForFilter.studentProfessor.group = new Group();
+    this.tempStudentForFilter = new StudentAccount();
+    this.tempStudentForFilter.account = new UserAccount();
+    this.tempStudentForFilter.group = new Group();
 
-    this.editableStudent = new UserAccount();
-    this.editableStudent.studentProfessor = new StudentProfessor();
-    this.editableStudent.studentProfessor.group = new Group();
-    this.editableStudent.role = "student";
+    this.editableStudent = new StudentAccount();
+    this.editableStudent.account = new UserAccount();
+    this.editableStudent.group = new Group();
+
+    for (let role of this.tableModel.roles) {
+      if (role.roleName === 'student') {
+        this.studentRole = role;
+        break;
+      }
+    }
+
+    this.tempStudentForFilter.account.role = this.studentRole;
+    this.editableStudent.account.role = this.studentRole;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  openModal(template: TemplateRef<any>, studentAccount?: UserAccount): void {
+  openModal(template: TemplateRef<any>, studentAccount?: StudentAccount): void {
     if (studentAccount) {
-      this.editableStudent = UserAccount.cloneAccount(studentAccount);
+      this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
       this.editMode = true;
-      this.tempGroupId = this.editableStudent.studentProfessor.group.groupId;
+      this.tempGroupId = this.editableStudent.group.groupId;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;
@@ -99,23 +108,23 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   }
 
   public refreshEditableStudent() {
-    this.editableStudent = new UserAccount();
-    this.editableStudent.studentProfessor = new StudentProfessor();
-    this.editableStudent.studentProfessor.group = new Group();
-    this.editableStudent.role = "student";
+    this.editableStudent = new StudentAccount();
+    this.editableStudent.account = new UserAccount();
+    this.editableStudent.group = new Group();
+    this.editableStudent.account.role = this.studentRole;
   }
 
   public addStudentAccount(): void {
     this.loadingService.show();
 
-/*    if (this.editableStudent.studentProfessor.group !== null)*/
-      this.editableStudent.studentProfessor.birthday =
-        this.datePipe.transform(this.editableStudent.studentProfessor.birthday, 'yyyy-MM-dd');
+    /*    if (this.editableStudent.studentProfessor.group !== null)*/
+    this.editableStudent.account.birthday =
+      this.datePipe.transform(this.editableStudent.account.birthday, 'yyyy-MM-dd');
 
     /*add group to student-tab according to chosen id*/
-    for (let group of this.tableModel.groups){
+    for (let group of this.tableModel.groups) {
       if (group.groupId == this.tempGroupId) {
-        this.editableStudent.studentProfessor.group = group;
+        this.editableStudent.group = group;
         break;
       }
     }
@@ -123,15 +132,14 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.saveStudent(this.editableStudent).subscribe(() => {
       this.updateStudents();
       this.closeModal();
-      this.loadingService.hide();
       this.refreshEditableStudent();
+      this.loadingService.hide()
     }));
   }
 
-  public deleteStudentAccount(student: UserAccount): void {
+  public deleteStudentAccount(student: StudentAccount): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.deleteStudent(student).subscribe(() => {
-      /*refresh all stored data in tableModel in case when we can delete parent node */
       this.updateStudents();
     }));
   }
@@ -140,22 +148,22 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     if (this.searchButtonName === 'Search by')
       return;
 
-    this.tempStudentForFilter = new UserAccount();
-    this.tempStudentForFilter.studentProfessor = new StudentProfessor();
-    this.tempStudentForFilter.studentProfessor.group = new Group();
+    this.tempStudentForFilter = new StudentAccount();
+    this.tempStudentForFilter.account = new UserAccount();
+    this.tempStudentForFilter.group = new Group();
     switch (this.studentField) {
       case 'firstName':
-        this.tempStudentForFilter.studentProfessor.firstName = this.searchText;
+        this.tempStudentForFilter.account.firstName = this.searchText;
         break;
       case 'lastName':
-        this.tempStudentForFilter.studentProfessor.lastName = this.searchText;
+        this.tempStudentForFilter.account.lastName = this.searchText;
         break;
       case 'birthday':
-        this.tempStudentForFilter.studentProfessor.birthday = this.searchText;
+        this.tempStudentForFilter.account.birthday = this.searchText;
         break;
       case 'groupId':
         if (this.searchText !== '')
-          this.tempStudentForFilter.studentProfessor.group.groupId = Number(this.searchText);
+          this.tempStudentForFilter.group.groupId = Number(this.searchText);
         break;
     }
   }

@@ -3,17 +3,19 @@ import {Faculty} from "./faculty";
 export class Group {
   groupId: number;
   faculty: Faculty;
+  speciality: string;
   grade: number;
-  date: string;
+  graduation: string;
 
   static cloneGroup(group: Group): Group {
     if (!group)
       return null;
-    let prototype = new Group();
-    prototype.groupId = group.groupId;
-    prototype.faculty = group.faculty;
-    prototype.grade = group.grade;
-    prototype.date = group.date;
-    return prototype;
+    let clonedAcc = new Group();
+    clonedAcc.groupId = group.groupId;
+    clonedAcc.faculty = Faculty.cloneFaculty(group.faculty);
+    clonedAcc.speciality = group.speciality;
+    clonedAcc.grade = group.grade;
+    clonedAcc.graduation = group.graduation;
+    return clonedAcc;
   }
 }

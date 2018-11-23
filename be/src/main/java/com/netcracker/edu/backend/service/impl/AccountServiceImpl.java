@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.Account;
+import com.netcracker.edu.backend.entity.Role;
 import com.netcracker.edu.backend.repository.AccountRepository;
 import com.netcracker.edu.backend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> getAccountsByRole(String userRoleName) {
-        return repository.getAccountsByRole(userRoleName);
+    public List<Account> getAccountsByRole(Role role) {
+        return repository.getAccountsByRole(role);
     }
 
     @Override

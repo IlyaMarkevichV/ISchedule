@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/ba-group")
+@RequestMapping("api/ba-groups")
 public class GroupDataController {
 
     private GroupDataService groupService;

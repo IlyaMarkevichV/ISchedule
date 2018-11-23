@@ -3,27 +3,19 @@ package com.netcracker.edu.fapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.sql.Date;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountViewModel {
     private int accountId;
     private String login;
     private String password;
-    private String role;
-    private int studentGroupId;
-
-    @JsonManagedReference
-    private StudentProfessorViewModel studentProfessor;
+    private RoleViewModel role;
+    private String firstName;
+    private String lastName;
+    private Date birthday;
 
     public AccountViewModel() {
-    }
-
-    public AccountViewModel(int accountId, String login, String password, String role, int studentGroupId, StudentProfessorViewModel studentProfessor) {
-        this.accountId = accountId;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-        this.studentGroupId = studentGroupId;
-        this.studentProfessor = studentProfessor;
     }
 
     public int getAccountId() {
@@ -50,27 +42,35 @@ public class AccountViewModel {
         this.password = password;
     }
 
-    public String getRole() {
+    public RoleViewModel getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleViewModel role) {
         this.role = role;
     }
 
-    public StudentProfessorViewModel getStudentProfessor() {
-        return studentProfessor;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStudentProfessor(StudentProfessorViewModel studentProfessor) {
-        this.studentProfessor = studentProfessor;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getStudentGroupId() {
-        return studentGroupId;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setStudentGroupId(int studentGroupId) {
-        this.studentGroupId = studentGroupId;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }

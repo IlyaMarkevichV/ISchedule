@@ -5,6 +5,10 @@ import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {UserAccount} from "../model/UserAccount";
 import {TableModelService} from "../service/table-model.service";
+import {Constants} from "../share/constants";
+import {Token} from "../model/token";
+import {TokenStorage} from "../service/token-storage.service";
+
 
 
 @Component({
@@ -20,21 +24,15 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   public password: string;
 
   private subscriptions: Subscription[] = [];
-
-  @Output()
-  public authorizationInfoEvent: EventEmitter<UserAccount> = new EventEmitter<UserAccount>();
-
   private authorizationAccount: UserAccount;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private router: Router,
-              private tableModelService: TableModelService) {
+              private tableModelService: TableModelService,
+              private tokeStorage: TokenStorage) {
   }
 
   ngOnInit() {
-    this.authorizationAccount = new UserAccount();
-    this.authorizationAccount.role = 'administrator';
-    this.authorizationInfoEvent.emit(this.authorizationAccount);
   }
 
   ngOnDestroy(): void {
@@ -45,27 +43,31 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
     this.loadingService.show();
 
-    this.subscriptions.push(this.tableModelService.getUserByLoginAndPassword(this.login, this.password).subscribe(acc => {
-      this.authorizationAccount = acc as UserAccount;
+    this.subscriptions.push(this.tableModelService.attemptAuth(this.login, this.password).subscribe(authToken => {
+      let token: Token = authToken as Token;
+      this.tokeStorage.saveToken(token.token);
+      let decodedJwtJsonData = window.atob(token.token);
+      this.authorizationAccount = JSON.parse(decodedJwtJsonData);
+      console.log(this.authorizationAccount);
 
-      this.authorizationInfoEvent.emit(this.authorizationAccount);
-      if (!acc.login && !acc.password && !acc.role) {
+      if (!this.authorizationAccount) {
         this.alertUserAboutError = false;
       } else {
         this.alertUserAboutError = true;
 
-        switch (acc.role) {
+        switch (this.authorizationAccount.role.roleName) {
           case "student":
-            this.router.navigate(['/student/', acc.accountId]);
+            this.router.navigate(['/student']);
             break;
           case "professor":
-            this.router.navigate(['/professor', acc.accountId]);
+            this.router.navigate(['/professor']);
             break;
           case "administrator":
-            this.router.navigate(['/administrator', acc.accountId]);
+            this.router.navigate(['/administrator']);
             break;
         }
       }
+
       this.loadingService.hide();
     }));
   }

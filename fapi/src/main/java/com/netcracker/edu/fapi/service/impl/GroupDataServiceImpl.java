@@ -20,14 +20,14 @@ public class GroupDataServiceImpl implements GroupDataService {
     @Override
     public List<GroupViewModel> getAll() {
         RestTemplate restTemplate = new RestTemplate();
-        GroupViewModel[] groupViewModels = restTemplate.getForObject(backendServerUrl + "/api/group-entities", GroupViewModel[].class);
+        GroupViewModel[] groupViewModels = restTemplate.getForObject(backendServerUrl + "/api/groups", GroupViewModel[].class);
         return groupViewModels == null ? Collections.emptyList() : Arrays.asList(groupViewModels);
     }
 
     @Override
     public GroupViewModel getGroupById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        GroupViewModel[] groupViewModels = restTemplate.getForObject(backendServerUrl + "/api/group-entities", GroupViewModel[].class);
+        GroupViewModel[] groupViewModels = restTemplate.getForObject(backendServerUrl + "/api/groups", GroupViewModel[].class);
 
         if (groupViewModels != null) {
             for (GroupViewModel groupViewModel : groupViewModels) {
@@ -41,12 +41,12 @@ public class GroupDataServiceImpl implements GroupDataService {
     @Override
     public GroupViewModel saveGroup(GroupViewModel groupViewModel) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/group-entities", groupViewModel, GroupViewModel.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/groups", groupViewModel, GroupViewModel.class).getBody();
     }
 
     @Override
     public void deleteGroup(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(backendServerUrl + "/api/group-entities/" + id);
+        restTemplate.delete(backendServerUrl + "/api/groups/" + id);
     }
 }

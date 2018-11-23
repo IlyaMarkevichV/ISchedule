@@ -125,7 +125,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     /*convert data*/
     this.editableGroup.groupId = Number(this.editableGroup.groupId);
     this.editableGroup.grade = Number(this.editableGroup.grade);
-    this.editableGroup.date = this.datePipe.transform(this.editableGroup.date, 'yyyy-MM-dd');
+    this.editableGroup.graduation = this.datePipe.transform(this.editableGroup.graduation, 'yyyy-MM-dd');
 
     /*add faculty to editableGroup*/
     for (let faculty of this.tableModel.faculties) {
@@ -169,8 +169,8 @@ export class GroupTabComponent implements OnInit, OnDestroy {
       case 'facultyName':
         this.tempGroupForFilter.faculty.facultyName = this.searchText;
         break;
-      case 'date':
-        this.tempGroupForFilter.date = this.searchText;
+      case 'graduation':
+        this.tempGroupForFilter.graduation = this.searchText;
         break;
     }
   }

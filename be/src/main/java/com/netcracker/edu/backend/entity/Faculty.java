@@ -6,9 +6,11 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "faculty", schema = "backend")
+@Table(name = "faculty", schema = "project")
 public class Faculty {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "faculty_id")
     private int facultyId;
 
@@ -46,13 +48,5 @@ public class Faculty {
     @Override
     public int hashCode() {
         return Objects.hash(facultyId, facultyName);
-    }
-
-    @Override
-    public String toString() {
-        return "Faculty{" +
-                "facultyId=" + facultyId +
-                ", facultyName='" + facultyName + '\'' +
-                '}';
     }
 }

@@ -7,6 +7,9 @@ import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
 import {UserAccount} from "../model/UserAccount";
 import {ActivatedRoute} from "@angular/router";
+import {Role} from "../model/role";
+import {ProfessorAccount} from "../model/professor-account";
+import {StudentAccount} from "../model/student-account";
 
 @Component({
   selector: 'table-component',
@@ -23,22 +26,15 @@ export class TableComponent implements OnInit, OnDestroy {
 
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
-    private tableModelService: TableModelService,
-     private route: ActivatedRoute) {
+    private tableModelService: TableModelService) {
   }
 
   ngOnInit() {
-    this.logginedUserAccount = new UserAccount();
-
-    this.route.params.subscribe(params => {
-      this.logginedUserAccount.accountId = params['id'];
-      this.subscriptions.push(this.tableModelService.getAccountById(this.logginedUserAccount.accountId).subscribe( acc => {
-        this.logginedUserAccount = acc as UserAccount;
-      }));
-    });
+    //TODO: get logginedAcc
 
     this.tableModel = new TableModel();
 
+    this.loadRoles();
     this.loadFaculties();
     this.loadGroups();
     this.loadProfessors();
@@ -68,7 +64,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadStudents(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getStudents().subscribe(accounts => {
-      this.tableModel.students = accounts as UserAccount[];
+      this.tableModel.students = accounts as StudentAccount[];
       this.loadingService.hide();
     }));
   }
@@ -76,8 +72,15 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadProfessors(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getProfessors().subscribe(accounts => {
-      this.tableModel.professors = accounts as UserAccount[];
+      this.tableModel.professors = accounts as ProfessorAccount[];
       this.loadingService.hide();
     }));
+  }
+
+  public loadRoles(): void {
+    this.loadingService.show();
+    this.subscriptions.push((this.tableModelService.getRoles().subscribe(roles => {
+      this.tableModel.roles = roles as Role[];
+    })));
   }
 }

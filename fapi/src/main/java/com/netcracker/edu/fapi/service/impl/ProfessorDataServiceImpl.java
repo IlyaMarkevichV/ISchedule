@@ -20,33 +20,19 @@ public class ProfessorDataServiceImpl implements ProfessorDataService {
     public List<ProfessorViewModel> getAll() {
         RestTemplate restTemplate = new RestTemplate();
         ProfessorViewModel[] studentEntityViewModelsResponse =
-                restTemplate.getForObject(backendServerUrl + "api/professor-entities/", ProfessorViewModel[].class);
+                restTemplate.getForObject(backendServerUrl + "api/professors/", ProfessorViewModel[].class);
         return studentEntityViewModelsResponse == null ? Collections.emptyList() : Arrays.asList(studentEntityViewModelsResponse);
-    }
-
-    @Override
-    public ProfessorViewModel getProfessorById(Integer id) {
-        RestTemplate restTemplate = new RestTemplate();
-        ProfessorViewModel[] professorViewModelsResponse = restTemplate.getForObject(backendServerUrl + "api/professor-entities/", ProfessorViewModel[].class);
-
-        if (professorViewModelsResponse != null) {
-            for (ProfessorViewModel entityViewModel : professorViewModelsResponse) {
-                if (entityViewModel.getProfessorId() == id)
-                    return entityViewModel;
-            }
-        }
-        return null;
     }
 
     @Override
     public ProfessorViewModel saveProfessor(ProfessorViewModel entityViewModel) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/professor-entities", entityViewModel, ProfessorViewModel.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/professors", entityViewModel, ProfessorViewModel.class).getBody();
     }
 
     @Override
     public void deleteProfessor(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(backendServerUrl + "/api/professor-entities/" + id);
+        restTemplate.delete(backendServerUrl + "/api/professors/" + id);
     }
 }

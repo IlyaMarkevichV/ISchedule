@@ -21,26 +21,23 @@ public class LectureTimeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<LectureTime> getLectureTimeById(@RequestParam @PathVariable(name = "id") Integer id) {
+    public ResponseEntity<LectureTime> getLectureTimeById(@RequestParam @PathVariable(name = "id") Integer id) {
         Optional<LectureTime> lectureTime = lectureTimeService.getLectureById(id);
         return lectureTime.isPresent() ? ResponseEntity.ok(lectureTime.get()) : null;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody
-    Iterable<LectureTime> getAllLectureTimes() {
+    public Iterable<LectureTime> getAllLectureTimes() {
         return lectureTimeService.getAllLectureTimes();
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public @ResponseBody
-    LectureTime saveLectureTime(@RequestBody LectureTime lectureTime) {
+    public LectureTime saveLectureTime(@RequestBody LectureTime lectureTime) {
         return lectureTimeService.saveLectureTime(lectureTime);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity deleteLectureTime(@RequestParam @PathVariable(name = "id") Integer id) {
+    public ResponseEntity deleteLectureTime(@RequestParam @PathVariable(name = "id") Integer id) {
         lectureTimeService.deleteLectureTime(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,8 +1,6 @@
 import {
   Component,
   EventEmitter,
-  forwardRef,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -12,13 +10,13 @@ import {
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {ProfessorAccount} from "../../../model/professor-account";
 import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
 import {UserAccount} from "../../../model/UserAccount";
 import {DatePipe} from "@angular/common";
-import {StudentProfessor} from "../../../model/StudentProfessor";
 import {Group} from "../../../model/group";
+import {ProfessorAccount} from "../../../model/professor-account";
+import {Role} from "../../../model/role";
 
 
 @Component({
@@ -38,6 +36,8 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   page: number = 1;
   totalNumberOfEntities: number;
 
+  private professorRole: Role;
+
   public searchButtonName: string = "Search by";
   public searchText: string;
   public professorField: string;
@@ -46,8 +46,8 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   public editMode: boolean = false;
 
-  public tempProfessorForFilter: UserAccount = new UserAccount();
-  public editableProfessor: UserAccount = new UserAccount();
+  public tempProfessorForFilter: ProfessorAccount;
+  public editableProfessor: ProfessorAccount;
 
   private subscriptions: Subscription[] = [];
 
@@ -59,10 +59,21 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.editableProfessor = new UserAccount();
-    this.editableProfessor.studentProfessor = new StudentProfessor();
-    this.editableProfessor.studentProfessor.group = new Group();
-    this.editableProfessor.role = 'professor';
+    this.tempProfessorForFilter = new ProfessorAccount();
+    this.tempProfessorForFilter.account = new UserAccount();
+
+    this.editableProfessor = new ProfessorAccount();
+    this.editableProfessor.account = new UserAccount();
+
+    for (let role of this.tableModel.roles) {
+      if (role.roleName === 'professor') {
+        this.professorRole = role;
+        break;
+      }
+    }
+
+    this.tempProfessorForFilter.account.role = this.professorRole;
+    this.editableProfessor.account.role = this.professorRole;
   }
 
   ngOnDestroy(): void {
@@ -72,19 +83,19 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   addProfessorAccount(): void {
     this.loadingService.show();
 
-    this.editableProfessor.studentProfessor.birthday =
-      this.datePipe.transform(this.editableProfessor.studentProfessor.birthday, 'yyyy-MM-dd');
+    this.editableProfessor.account.birthday =
+      this.datePipe.transform(this.editableProfessor.account.birthday, 'yyyy-MM-dd');
+
     this.subscriptions.push(this.tableModelService.saveProfessor(this.editableProfessor).subscribe(() => {
       this.updateProfessors();
       this.closeModal();
-      this.loadingService.hide();
       this.refreshEditableProfessor();
+      this.loadingService.hide();
     }));
   }
 
-  deleteProfessorAccount(professor: UserAccount): void {
+  deleteProfessorAccount(professor: ProfessorAccount): void {
     this.subscriptions.push(this.tableModelService.deleteProfessor(professor).subscribe(() => {
-      /*refresh all stored data in tableModel in case when we can delete parent node */
       this.updateProfessors();
     }));
   }
@@ -96,15 +107,14 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   }
 
   private refreshEditableProfessor(): void {
-    this.editableProfessor = new UserAccount();
-    this.editableProfessor.studentProfessor = new StudentProfessor();
-    this.editableProfessor.studentProfessor.group = new Group();
-    this.editableProfessor.role = 'professor';
+    this.editableProfessor = new ProfessorAccount();
+    this.editableProfessor.account = new UserAccount();
+    this.editableProfessor.account.role = this.professorRole;
   }
 
-  openModal(template: TemplateRef<any>, professorAccount?: UserAccount): void {
+  openModal(template: TemplateRef<any>, professorAccount?: ProfessorAccount): void {
     if (professorAccount) {
-      this.editableProfessor = UserAccount.cloneAccount(professorAccount);
+      this.editableProfessor = ProfessorAccount.cloneAcc(professorAccount);
       this.editMode = true;
     } else {
       this.refreshEditableProfessor();
@@ -121,16 +131,16 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     if (this.searchButtonName === 'Search by')
       return;
 
-    this.tempProfessorForFilter = new UserAccount();
+    this.tempProfessorForFilter = new ProfessorAccount();
     switch (this.professorField) {
       case 'firstName':
-        this.tempProfessorForFilter.studentProfessor.firstName = this.searchText;
+        this.tempProfessorForFilter.account.firstName = this.searchText;
         break;
       case 'lastName':
-        this.tempProfessorForFilter.studentProfessor.lastName = this.searchText;
+        this.tempProfessorForFilter.account.lastName = this.searchText;
         break;
       case 'birthday':
-        this.tempProfessorForFilter.studentProfessor.birthday = this.searchText;
+        this.tempProfessorForFilter.account.birthday = this.searchText;
         break;
     }
   }

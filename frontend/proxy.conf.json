@@ -7,5 +7,14 @@
     },
     "secure": false,
     "logLevel": "info"
+  },
+  "/token/*": {
+    "target": {
+      "host": "localhost",
+      "protocol": "http:",
+      "port": 8081
+    },
+    "secure": false,
+    "logLevel": "info"
   }
 }

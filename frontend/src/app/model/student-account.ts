@@ -3,9 +3,10 @@ import {Group} from "./group";
 import {UserAccount} from "./UserAccount";
 
 export class StudentAccount {
-  tableId: number;
-  user: UserAccount;
+  studentId: number;
+  account: UserAccount;
   group: Group;
+  address: string;
 
   /**
    * Student cloning
@@ -14,9 +15,10 @@ export class StudentAccount {
    */
   static cloneStudentAccount(acc: StudentAccount): StudentAccount {
     let clonedAcc: StudentAccount = new StudentAccount();
-    clonedAcc.tableId = acc.tableId;
-    clonedAcc.user = acc.user;
-    clonedAcc.group = acc.group;
+    clonedAcc.studentId = acc.studentId;
+    clonedAcc.account = UserAccount.cloneAccount(acc.account);
+    clonedAcc.group = Group.cloneGroup(acc.group);
+    clonedAcc.address = acc.address;
     return clonedAcc;
   }
 }

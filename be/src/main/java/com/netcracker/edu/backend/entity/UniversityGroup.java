@@ -5,9 +5,11 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "university_group", schema = "backend")
+@Table(name = "university_group", schema = "project")
 public class UniversityGroup {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "group_id")
     private int groupId;
 
@@ -15,11 +17,14 @@ public class UniversityGroup {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    @Column(name = "speciality")
+    private String speciality;
+
     @Column(name = "grade")
     private int grade;
 
-    @Column(name = "until")
-    private Date date;
+    @Column(name = "graduation")
+    private Date graduation;
 
     public UniversityGroup() {
     }
@@ -40,6 +45,14 @@ public class UniversityGroup {
         this.faculty = faculty;
     }
 
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
     public int getGrade() {
         return grade;
     }
@@ -48,12 +61,12 @@ public class UniversityGroup {
         this.grade = grade;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getGraduation() {
+        return graduation;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setGraduation(Date graduation) {
+        this.graduation = graduation;
     }
 
     @Override
@@ -64,30 +77,22 @@ public class UniversityGroup {
         return groupId == that.groupId &&
                 grade == that.grade &&
                 Objects.equals(faculty, that.faculty) &&
-                Objects.equals(date, that.date);
+                Objects.equals(speciality, that.speciality) &&
+                Objects.equals(graduation, that.graduation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, faculty, grade, date);
-    }
-
-    @Override
-    public String toString() {
-        return "UniversityGroup{" +
-                "groupId=" + groupId +
-                ", faculty=" + faculty +
-                ", grade=" + grade +
-                ", date=" + date +
-                '}';
+        return Objects.hash(groupId, faculty, speciality, grade, graduation);
     }
 
     static UniversityGroup cloneGroup(UniversityGroup group) {
-        UniversityGroup cloned = new UniversityGroup();
-        cloned.groupId = group.groupId;
-        cloned.grade = group.grade;
-        cloned.date = group.date;
-        cloned.faculty = group.faculty;
-        return cloned;
+        UniversityGroup clonedGroup = new UniversityGroup();
+        clonedGroup.groupId = group.groupId;
+        clonedGroup.faculty = group.faculty;
+        clonedGroup.speciality = group.speciality;
+        clonedGroup.grade = group.grade;
+        clonedGroup.graduation = group.graduation;
+        return clonedGroup;
     }
 }

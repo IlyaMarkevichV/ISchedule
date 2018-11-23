@@ -3,10 +3,11 @@ package com.netcracker.edu.backend.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_account", schema = "backend")
+@Table(name = "user_account", schema = "project")
 public class Account {
 
     @Id
@@ -17,24 +18,26 @@ public class Account {
     @Column(name = "login")
     private String login;
 
-    @Column(name = "password")
+    @Column(name = "account_password")
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    /**
-     * In order to save student in table with related group we save
-     * id number from table 'student_group'. It variable help
-     * avoid unnecessary calls to database
-     */
-    @Transient
-    private int studentGroupId;
-
-    @OneToOne(cascade = CascadeType.ALL)
+/*    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @JsonManagedReference
-    private StudentProfessor studentProfessor;
+    private StudentProfessor studentProfessor;*/
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "birthday")
+    private Date birthday;
 
     public Account() {
     }
@@ -63,28 +66,36 @@ public class Account {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public StudentProfessor getStudentProfessor() {
-        return studentProfessor;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStudentProfessor(StudentProfessor studentProfessor) {
-        this.studentProfessor = studentProfessor;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getStudentGroupId() {
-        return studentGroupId;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setStudentGroupId(int studentGroupId) {
-        this.studentGroupId = studentGroupId;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     @Override
@@ -96,23 +107,14 @@ public class Account {
                 Objects.equals(login, account.login) &&
                 Objects.equals(password, account.password) &&
                 Objects.equals(role, account.role) &&
-                Objects.equals(studentProfessor, account.studentProfessor);
+                Objects.equals(firstName, account.firstName) &&
+                Objects.equals(lastName, account.lastName) &&
+                Objects.equals(birthday, account.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, login, password, role, studentProfessor);
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountId=" + accountId +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", studentProfessor=" + studentProfessor +
-                '}';
+        return Objects.hash(accountId, login, password, role, firstName, lastName, birthday);
     }
 }
 

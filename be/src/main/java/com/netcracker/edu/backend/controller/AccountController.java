@@ -29,6 +29,6 @@ public class AccountController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<Account> getAccountByLogin(@RequestParam(name = "login") String login) {
         Optional<Account> account = accountService.getAccountByLogin(login);
-        return account.isPresent() ? ResponseEntity.ok(account.get()) : ResponseEntity.ok(new Account());
+        return account.isPresent() ? ResponseEntity.ok(account.get()) : ResponseEntity.notFound().build();
     }
 }

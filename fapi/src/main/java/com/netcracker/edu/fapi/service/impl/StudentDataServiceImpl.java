@@ -20,35 +20,20 @@ public class StudentDataServiceImpl implements StudentDataService {
     public List<StudentViewModel> getAll() {
         RestTemplate restTemplate = new RestTemplate();
         StudentViewModel[] studentViewModelResponse =
-                restTemplate.getForObject(backendServerUrl + "/api/student-entities/", StudentViewModel[].class);
+                restTemplate.getForObject(backendServerUrl + "/api/students/", StudentViewModel[].class);
         return studentViewModelResponse == null ? Collections.emptyList() : Arrays.asList(studentViewModelResponse);
     }
 
-    // TODO: write function StudentViewModel getStudentById(Integer id) implementation
-    @Override
-    public StudentViewModel getStudentById(Integer id) {
-        RestTemplate restTemplate = new RestTemplate();
-        StudentViewModel[] studentViewModelResponse =
-                restTemplate.getForObject(backendServerUrl + "/api/student-entities/", StudentViewModel[].class);
-        if (studentViewModelResponse != null) {
-            for (StudentViewModel student : studentViewModelResponse) {
-                if (student.getStudentId() == id) {
-                    return student;
-                }
-            }
-        }
-        return null;
-    }
 
     @Override
     public StudentViewModel saveStudent(StudentViewModel viewModel) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/student-entities", viewModel, StudentViewModel.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/students", viewModel, StudentViewModel.class).getBody();
     }
 
     @Override
     public void deleteStudent(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(backendServerUrl + "/api/student-entities/" + id);
+        restTemplate.delete(backendServerUrl + "/api/students/" + id);
     }
 }

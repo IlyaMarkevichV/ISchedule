@@ -21,7 +21,7 @@ public class FacultyDataServiceImpl implements FacultyDataService {
     public List<FacultyViewModel> getAllFaculties() {
         RestTemplate restTemplate = new RestTemplate();
         FacultyViewModel[] faculties = restTemplate.getForObject(
-                backendServerUrl + "/api/faculty-entities",
+                backendServerUrl + "/api/faculties",
                 FacultyViewModel[].class);
         return faculties == null ? Collections.emptyList() : Arrays.asList(faculties);
     }
@@ -30,7 +30,7 @@ public class FacultyDataServiceImpl implements FacultyDataService {
     public FacultyViewModel getFacultyById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
         FacultyViewModel[] faculties = restTemplate.getForObject(
-                backendServerUrl + "/api/faculty-entities",
+                backendServerUrl + "/api/faculties",
                 FacultyViewModel[].class);
 
         if (faculties != null) {
@@ -46,7 +46,7 @@ public class FacultyDataServiceImpl implements FacultyDataService {
     public FacultyViewModel saveFaculty(FacultyViewModel faculty) {
         if (faculty != null) {
             return new RestTemplate().postForEntity(
-                    backendServerUrl + "/api/faculty-entities",
+                    backendServerUrl + "/api/faculties",
                     faculty,
                     FacultyViewModel.class
             ).getBody();
@@ -56,6 +56,6 @@ public class FacultyDataServiceImpl implements FacultyDataService {
 
     @Override
     public void deleteFaculty(Integer id) {
-        new RestTemplate().delete(backendServerUrl + "/api/faculty-entities/" + id);
+        new RestTemplate().delete(backendServerUrl + "/api/faculties/" + id);
     }
 }

@@ -7,8 +7,6 @@ import java.util.List;
 public interface StudentDataService {
     List<StudentViewModel> getAll();
 
-    StudentViewModel getStudentById(Integer id);
-
     StudentViewModel saveStudent(StudentViewModel viewModel);
 
     void deleteStudent(Integer id);

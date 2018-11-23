@@ -6,12 +6,15 @@ import {AlertModule, BsDatepickerModule, BsDropdownModule, TabsModule} from 'ngx
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NavbarComponent } from './navbar/navbar.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TableModule} from "./table/table.module";
 import { AppRoutingModule } from './app-routing.module';
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import {CalendarModule, DateAdapter} from "angular-calendar";
 import { AuthorizationComponent } from './authorization/authorization.component';
+import {Interceptor} from "./service/interceptor.service";
+import {TokenStorage} from "./service/token-storage.service";
+
 
 @NgModule({
   declarations: [
@@ -36,7 +39,15 @@ import { AuthorizationComponent } from './authorization/authorization.component'
       useFactory: adapterFactory
     }),
   ],
-  providers: [],
+  providers: [
+    Interceptor,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    },
+    TokenStorage
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

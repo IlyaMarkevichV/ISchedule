@@ -26,10 +26,10 @@
                (loadGroups)="loadGroups()"
                (loadProfessors)="loadProfessors()"
                (loadStudents)="loadStudents()"
-               *ngIf="logginedUserAccount.role === 'administrator'"></administrator>
+               *ngIf="logginedUserAccount.role.roleName === 'administrator'"></administrator>
 
-<professor *ngIf="logginedUserAccount.role === 'professor'"></professor>
+<professor *ngIf="logginedUserAccount.role.roleName === 'professor'"></professor>
 
-<student *ngIf="logginedUserAccount.role === 'student'"></student>
+<student *ngIf="logginedUserAccount.role.roleName === 'student'"></student>
 
 <!--<professor></professor>-->

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ba-student")
+@RequestMapping("/api/ba-students")
 public class StudentDataController {
 
     @Autowired
@@ -18,11 +18,6 @@ public class StudentDataController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<List<StudentViewModel>> getAllStudentEntities() {
         return ResponseEntity.ok(studentDataService.getAll());
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<StudentViewModel> getStudentById(@PathVariable(name = "id") Integer id) {
-        return ResponseEntity.ok(studentDataService.getStudentById(id));
     }
 
     // TODO: server validation
