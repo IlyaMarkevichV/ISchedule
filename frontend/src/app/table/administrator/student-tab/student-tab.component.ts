@@ -68,16 +68,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.editableStudent = new StudentAccount();
     this.editableStudent.account = new UserAccount();
     this.editableStudent.group = new Group();
-
-    for (let role of this.tableModel.roles) {
-      if (role.roleName === 'student') {
-        this.studentRole = role;
-        break;
-      }
-    }
-
-    this.tempStudentForFilter.account.role = this.studentRole;
-    this.editableStudent.account.role = this.studentRole;
   }
 
   ngOnDestroy(): void {
@@ -111,6 +101,15 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.editableStudent = new StudentAccount();
     this.editableStudent.account = new UserAccount();
     this.editableStudent.group = new Group();
+
+    if (!this.studentRole) {
+      for (let role of this.tableModel.roles) {
+        if (role.roleName === 'student') {
+          this.studentRole = role;
+          break;
+        }
+      }
+    }
     this.editableStudent.account.role = this.studentRole;
   }
 

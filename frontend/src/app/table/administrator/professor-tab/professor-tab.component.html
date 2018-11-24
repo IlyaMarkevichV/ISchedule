@@ -154,7 +154,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
-            [disabled]="firstName.invalid || academicRank.invalid || research.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableProfessor.studentProfessor.birthday">
+            [disabled]="firstName.invalid || academicRank.invalid || research.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableProfessor.account.birthday">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

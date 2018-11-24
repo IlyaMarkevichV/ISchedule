@@ -64,16 +64,6 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
     this.editableProfessor = new ProfessorAccount();
     this.editableProfessor.account = new UserAccount();
-
-    for (let role of this.tableModel.roles) {
-      if (role.roleName === 'professor') {
-        this.professorRole = role;
-        break;
-      }
-    }
-
-    this.tempProfessorForFilter.account.role = this.professorRole;
-    this.editableProfessor.account.role = this.professorRole;
   }
 
   ngOnDestroy(): void {
@@ -109,6 +99,16 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   private refreshEditableProfessor(): void {
     this.editableProfessor = new ProfessorAccount();
     this.editableProfessor.account = new UserAccount();
+
+    if (!this.professorRole) {
+      for (let role of this.tableModel.roles) {
+        if (role.roleName === 'professor') {
+          this.professorRole = role;
+          break;
+        }
+      }
+    }
+
     this.editableProfessor.account.role = this.professorRole;
   }
 

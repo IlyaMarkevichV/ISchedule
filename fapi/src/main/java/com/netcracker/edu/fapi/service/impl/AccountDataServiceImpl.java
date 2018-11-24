@@ -35,7 +35,6 @@ public class AccountDataServiceImpl implements AccountDataService, UserDetailsSe
         ResponseEntity<AccountViewModel> acc = new RestTemplate().getForEntity(
                 backendUrlServer + "/api/accounts?login=" + login,
                 AccountViewModel.class);
-        System.out.println(acc);
         return acc.getBody();
     }
 

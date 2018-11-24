@@ -127,7 +127,7 @@
     </div>
 
     <div class="form-group">
-      <label>Faculty</label>
+      <label>Group</label>
       <select class="form-control" [(ngModel)]="tempGroupId">
         <option *ngFor="let group of tableModel.groups" [value]="group.groupId">{{group.groupId}}
         </option>
@@ -162,7 +162,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
-            [disabled]="firstName.invalid || address.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableStudent.studentProfessor.birthday">
+            [disabled]="firstName.invalid || address.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableStudent.account.birthday">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

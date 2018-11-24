@@ -8,7 +8,9 @@ import {TableModelService} from "../service/table-model.service";
 import {Constants} from "../share/constants";
 import {Token} from "../model/token";
 import {TokenStorage} from "../service/token-storage.service";
-
+import {AuthorizationService} from "../service/authorization.service";
+import {Role} from "../model/role";
+import {TableModel} from "../model/TableModel";
 
 
 @Component({
@@ -29,7 +31,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private router: Router,
               private tableModelService: TableModelService,
-              private tokeStorage: TokenStorage) {
+              private tokeStorage: TokenStorage,
+              private authService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -46,29 +49,47 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.attemptAuth(this.login, this.password).subscribe(authToken => {
       let token: Token = authToken as Token;
       this.tokeStorage.saveToken(token.token);
-      let decodedJwtJsonData = window.atob(token.token);
-      this.authorizationAccount = JSON.parse(decodedJwtJsonData);
-      console.log(this.authorizationAccount);
+      let jwtData = token.token.split('.')[1]
+      let decodedJwtJsonData = window.atob(jwtData)
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
-      if (!this.authorizationAccount) {
-        this.alertUserAboutError = false;
-      } else {
-        this.alertUserAboutError = true;
+      console.log(decodedJwtData);
 
-        switch (this.authorizationAccount.role.roleName) {
-          case "student":
-            this.router.navigate(['/student']);
-            break;
-          case "professor":
-            this.router.navigate(['/professor']);
-            break;
-          case "administrator":
-            this.router.navigate(['/administrator']);
-            break;
+      /*
+      *
+        exp: 1543095228
+        iat: 1543082268
+        scopes: "admin"
+        sub: "qwe@qwe.com"
+      * */
+
+      this.tableModelService.getUserByLogin(decodedJwtData.sub).subscribe(user => {
+        this.authorizationAccount = user as UserAccount;
+
+        console.log(this.authorizationAccount);
+
+        if (!this.authorizationAccount) {
+          this.alertUserAboutError = true;
+        } else {
+          this.alertUserAboutError = false;
+
+          this.authService.changeAuthorizedUser(this.authorizationAccount);
+
+          switch (this.authorizationAccount.role.roleName) {
+            case "student":
+              this.router.navigate(['student']);
+              break;
+            case "professor":
+              this.router.navigate(['professor']);
+              break;
+            case "admin":
+              this.router.navigate(['administrator']);
+              break;
+          }
         }
-      }
 
-      this.loadingService.hide();
+        this.loadingService.hide();
+      });
     }));
   }
 }

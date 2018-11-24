@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Role} from "../model/role";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
+import {AuthorizationService} from "../service/authorization.service";
 
 @Component({
   selector: 'table-component',
@@ -26,11 +27,16 @@ export class TableComponent implements OnInit, OnDestroy {
 
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
-    private tableModelService: TableModelService) {
+    private tableModelService: TableModelService,
+    private authService: AuthorizationService) {
   }
 
   ngOnInit() {
     //TODO: get logginedAcc
+    this.authService.currentAuthorizedUser.subscribe(user => {
+      this.logginedUserAccount = user as UserAccount;
+      console.log("Auth User in table component: " + this.logginedUserAccount);
+    });
 
     this.tableModel = new TableModel();
 
@@ -81,6 +87,8 @@ export class TableComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push((this.tableModelService.getRoles().subscribe(roles => {
       this.tableModel.roles = roles as Role[];
+      console.log("-------------------------------------------------------" + this.tableModel.roles);
+      this.loadingService.hide();
     })));
   }
 }

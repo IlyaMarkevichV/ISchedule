@@ -88,18 +88,6 @@
   </div>
   <div class="modal-body">
     <div class="form-group">
-      <label>Group Id</label>
-      <input class="form-control" name="groupId" [(ngModel)]="editableGroup.groupId" #groupId="ngModel" required
-             pattern="[0-9]{6,11}" placeholder="Group ID №"/>
-      <div [hidden]="groupId.valid || groupId.untouched" class="alert alert-danger">
-        Please set Group Id
-      </div>
-      <div [hidden]="isCorrect" class="alert alert-danger">
-        Group with the same id exists. Please set another
-      </div>
-    </div>
-
-    <div class="form-group">
       <label>Faculty</label>
       <select class="form-control" [(ngModel)]="tempFacultyId">
         <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.facultyId">{{faculty.facultyName}}
@@ -111,8 +99,8 @@
       <label>Speciality</label>
       <input class="form-control" name="speciality" [(ngModel)]="editableGroup.speciality" #speciality="ngModel"
              placeholder="Speciality" required/>
-      <div [hidden]="speciality.valid || speciality.untouched" class="alert alert-danger">
-        Please set valid Grade (1-4)
+      <div [hidden]="editableGroup.speciality" class="alert alert-danger">
+        Please set Speciality
       </div>
     </div>
 
@@ -121,7 +109,7 @@
       <input class="form-control" name="grade" [(ngModel)]="editableGroup.grade" #grade="ngModel"
              placeholder="Grade" required
              pattern="[0-9]{1}"/>
-      <div [hidden]="grade.valid || grade.untouched" class="alert alert-danger">
+      <div [hidden]="editableGroup.grade" class="alert alert-danger">
         Please set valid Grade (1-4)
       </div>
     </div>
@@ -141,7 +129,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addGroup()"
-            [disabled]="groupId.invalid || grade.invalid || bday.invalid || !editableGroup.date || speciality.invalid">
+            [disabled]="!editableGroup.grade || !editableGroup.graduation || !editableGroup.speciality">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
@@ -174,7 +162,7 @@
       {{editableGroup.faculty.facultyName}}
       <input class="form-control" name="facultyName" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
              required placeholder="Faculty Name"/>
-      <div [hidden]="facName.valid || facName.untouched" class="alert alert-danger">
+      <div [hidden]="facName.invalid || facName.untouched" class="alert alert-danger">
         Please set Faculty name
       </div>
     </div>

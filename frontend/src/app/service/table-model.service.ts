@@ -83,11 +83,11 @@ export class TableModelService {
   }
 
   getAccountById(id: number): Observable<UserAccount> {
-    return this.http.get<UserAccount>("/api/ba-account/" + id);
+    return this.http.get<UserAccount>("/api/ba-accounts/" + id);
   }
 
   getUserByLogin(login: string): Observable<UserAccount> {
-    return this.http.get<UserAccount>("/api/ba-account/auth?login=" + login);
+    return this.http.get<UserAccount>("/api/ba-accounts/auth?login=" + login);
   }
   /**/
 
