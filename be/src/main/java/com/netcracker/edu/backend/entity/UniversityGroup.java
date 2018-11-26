@@ -1,7 +1,10 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +28,10 @@ public class UniversityGroup {
 
     @Column(name = "graduation")
     private Date graduation;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groups")
+    private Collection<Lesson> lessons;
 
     public UniversityGroup() {
     }

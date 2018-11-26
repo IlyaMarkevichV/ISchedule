@@ -1,14 +1,11 @@
 package com.netcracker.edu.backend.controller;
 
-import com.netcracker.edu.backend.entity.Schedule;
-import com.netcracker.edu.backend.entity.Student;
 import com.netcracker.edu.backend.entity.Visit;
 import com.netcracker.edu.backend.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
 import java.util.Optional;
 
 @RestController

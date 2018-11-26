@@ -13,7 +13,7 @@ public class Visit {
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    private Lesson lesson;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
@@ -33,12 +33,12 @@ public class Visit {
         this.id = id;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 
     public Student getStudent() {
@@ -64,12 +64,12 @@ public class Visit {
         Visit that = (Visit) o;
         return id == that.id &&
                 isArrived == that.isArrived &&
-                Objects.equals(schedule, that.schedule) &&
+                Objects.equals(lesson, that.lesson) &&
                 Objects.equals(student, that.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, schedule, student, isArrived);
+        return Objects.hash(id, lesson, student, isArrived);
     }
 }
