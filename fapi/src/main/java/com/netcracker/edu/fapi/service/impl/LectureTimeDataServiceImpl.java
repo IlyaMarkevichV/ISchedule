@@ -1,12 +1,11 @@
 package com.netcracker.edu.fapi.service.impl;
 
-import com.netcracker.edu.fapi.models.LectureTimeViewModel;
+import com.netcracker.edu.fapi.models.LessonTimeViewModel;
 import com.netcracker.edu.fapi.service.LectureTimeDataService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,22 +17,22 @@ public class LectureTimeDataServiceImpl implements LectureTimeDataService {
     private String backendServerUrl;
 
     @Override
-    public List<LectureTimeViewModel> getAllLectureTimes() {
+    public List<LessonTimeViewModel> getAllLectureTimes() {
         RestTemplate restTemplate = new RestTemplate();
-        LectureTimeViewModel[] times = restTemplate.getForObject(
+        LessonTimeViewModel[] times = restTemplate.getForObject(
                 backendServerUrl + "/api/lecture-time",
-                    LectureTimeViewModel[].class);
+                    LessonTimeViewModel[].class);
         return times == null ? Collections.emptyList() : Arrays.asList(times);
     }
 
     @Override
-    public LectureTimeViewModel getLectureTimeById(Integer id) {
+    public LessonTimeViewModel getLectureTimeById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        LectureTimeViewModel[] times = restTemplate.getForObject(
+        LessonTimeViewModel[] times = restTemplate.getForObject(
                 backendServerUrl + "/api/lecture-time",
-                LectureTimeViewModel[].class);
+                LessonTimeViewModel[].class);
         if (times != null) {
-            for (LectureTimeViewModel time : times) {
+            for (LessonTimeViewModel time : times) {
                 if (time.getId() == id)
                     return time;
             }
@@ -42,11 +41,11 @@ public class LectureTimeDataServiceImpl implements LectureTimeDataService {
     }
 
     @Override
-    public LectureTimeViewModel saveLectureTime(LectureTimeViewModel lectureTime) {
+    public LessonTimeViewModel saveLectureTime(LessonTimeViewModel lectureTime) {
         return new RestTemplate().postForEntity(
                 backendServerUrl + "/api/lecture-time",
                 lectureTime,
-                LectureTimeViewModel.class).getBody();
+                LessonTimeViewModel.class).getBody();
     }
 
     @Override

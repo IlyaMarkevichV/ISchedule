@@ -1,7 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Time;
 import java.util.Objects;
 
 @Entity
@@ -13,10 +13,10 @@ public class LessonTime {
     private int id;
 
     @Column(name = "begin_time")
-    private Date begin;
+    private Time begin;
 
     @Column(name = "end_time")
-    private Date end;
+    private Time end;
 
     public LessonTime() {
     }
@@ -29,19 +29,19 @@ public class LessonTime {
         this.id = id;
     }
 
-    public Date getBegin() {
+    public Time getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(Time begin) {
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public Time getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Time end) {
         this.end = end;
     }
 

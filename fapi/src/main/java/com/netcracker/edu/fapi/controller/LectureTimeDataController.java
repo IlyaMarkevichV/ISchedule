@@ -1,6 +1,6 @@
 package com.netcracker.edu.fapi.controller;
 
-import com.netcracker.edu.fapi.models.LectureTimeViewModel;
+import com.netcracker.edu.fapi.models.LessonTimeViewModel;
 import com.netcracker.edu.fapi.service.LectureTimeDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +21,18 @@ public class LectureTimeDataController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<LectureTimeViewModel> getLectureTimeById(@RequestParam @PathVariable(name = "id") Integer id) {
+    ResponseEntity<LessonTimeViewModel> getLectureTimeById(@RequestParam @PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(lectureTimeDataService.getLectureTimeById(id));
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<List<LectureTimeViewModel>> getAllLectureTimes() {
+    public @ResponseBody ResponseEntity<List<LessonTimeViewModel>> getAllLectureTimes() {
         return ResponseEntity.ok(lectureTimeDataService.getAllLectureTimes());
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<LectureTimeViewModel> saveLectureTime(@RequestBody LectureTimeViewModel lectureTime) {
+    ResponseEntity<LessonTimeViewModel> saveLectureTime(@RequestBody LessonTimeViewModel lectureTime) {
         return ResponseEntity.ok(lectureTimeDataService.saveLectureTime(lectureTime));
     }
 

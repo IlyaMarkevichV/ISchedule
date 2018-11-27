@@ -5,20 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Time;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LectureTimeViewModel {
+public class LessonTimeViewModel {
     private int id;
-    private int number;
     private Time begin;
     private Time end;
 
-    public LectureTimeViewModel() {
-    }
-
-    public LectureTimeViewModel(int id, int number, Time begin, Time end) {
-        this.id = id;
-        this.number = number;
-        this.begin = begin;
-        this.end = end;
+    public LessonTimeViewModel() {
     }
 
     public int getId() {
@@ -27,14 +19,6 @@ public class LectureTimeViewModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public Time getBegin() {

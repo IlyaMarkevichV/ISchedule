@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VisitViewModel {
     private int id;
-    private ScheduleViewModel schedule;
+    private LessonViewModel schedule;
     private StudentViewModel student;
     private boolean isArrived;
 
     public VisitViewModel() {
     }
 
-    public VisitViewModel(int id, ScheduleViewModel schedule, StudentViewModel student, boolean isArrived) {
+    public VisitViewModel(int id, LessonViewModel schedule, StudentViewModel student, boolean isArrived) {
         this.id = id;
         this.schedule = schedule;
         this.student = student;
@@ -27,11 +27,11 @@ public class VisitViewModel {
         this.id = id;
     }
 
-    public ScheduleViewModel getSchedule() {
+    public LessonViewModel getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(ScheduleViewModel schedule) {
+    public void setSchedule(LessonViewModel schedule) {
         this.schedule = schedule;
     }
 

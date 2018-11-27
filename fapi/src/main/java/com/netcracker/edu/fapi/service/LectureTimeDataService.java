@@ -1,15 +1,15 @@
 package com.netcracker.edu.fapi.service;
 
-import com.netcracker.edu.fapi.models.LectureTimeViewModel;
+import com.netcracker.edu.fapi.models.LessonTimeViewModel;
 
 import java.util.List;
 
 public interface LectureTimeDataService {
-    List<LectureTimeViewModel> getAllLectureTimes();
+    List<LessonTimeViewModel> getAllLectureTimes();
 
-    LectureTimeViewModel getLectureTimeById(Integer id);
+    LessonTimeViewModel getLectureTimeById(Integer id);
 
-    LectureTimeViewModel saveLectureTime(LectureTimeViewModel lectureTime);
+    LessonTimeViewModel saveLectureTime(LessonTimeViewModel lectureTime);
 
     void deleteLectureTime(Integer id);
 }
