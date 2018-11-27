@@ -32,7 +32,7 @@ public class Lesson {
     private Day day;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "lesson",
+    @JoinTable(name = "schedule_group",
             joinColumns = {@JoinColumn(name = "lesson_id")},
             inverseJoinColumns = {@JoinColumn(name = "group_id")})
     private Collection<UniversityGroup> groups;

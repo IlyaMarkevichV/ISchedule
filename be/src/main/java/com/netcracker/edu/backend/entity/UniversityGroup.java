@@ -76,6 +76,14 @@ public class UniversityGroup {
         this.graduation = graduation;
     }
 
+    public Collection<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Collection<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

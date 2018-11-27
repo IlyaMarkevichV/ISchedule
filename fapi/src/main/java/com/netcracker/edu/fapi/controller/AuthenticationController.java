@@ -40,7 +40,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new AuthToken(token));
     }
 
-    @RequestMapping(value = "/expDate", method = RequestMethod.GET)
+    @RequestMapping(value = "/expDate/{token}", method = RequestMethod.GET)
     public ResponseEntity<?> GetExpDate(@PathVariable String token) {
         token = token.replace(Constants.TOKEN_PREFIX, "");
         return ResponseEntity.ok(jwtTokenUtil.getExpirationDateFromToken(token));
