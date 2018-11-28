@@ -21,7 +21,7 @@ export class Lesson {
     cloned.lessonTime = lesson.lessonTime;
     cloned.lessonRoom = lesson.lessonRoom;
     cloned.day = lesson.day;
-    cloned.groups = cloned.groups;
+    cloned.groups = lesson.groups;
     return cloned;
   }
 }

@@ -8,6 +8,10 @@ import {Token} from "../model/token";
 import {StudentAccount} from "../model/student-account";
 import {ProfessorAccount} from "../model/professor-account";
 import {Role} from "../model/role";
+import {Day} from "../model/day";
+import {LessonTime} from "../model/lessonTime";
+import {LessonInfo} from "../model/lessonInfo";
+import {Lesson} from "../model/lesson";
 
 @Injectable({
   providedIn: 'root'
@@ -126,5 +130,29 @@ export class TableModelService {
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>('/api/ba-roles');
+  }
+
+  getDays(): Observable<Day[]> {
+    return this.http.get<Day[]>('/api/ba-days');
+  }
+
+  getLessonTimes(): Observable<LessonTime[]> {
+    return this.http.get<LessonTime[]>('/api/ba-lesson-times');
+  }
+
+  getLessonInfos(): Observable<LessonInfo[]> {
+    return this.http.get<LessonInfo[]>('/api/ba-lesson-info');
+  }
+
+  getLessons(): Observable<Lesson[]> {
+    return this.http.get<Lesson[]>('/api/ba-lessons');
+  }
+
+  saveLesson(lesson: Lesson): Observable<Lesson> {
+    return this.http.post<Lesson>('/api/ba-lessons', lesson);
+  }
+
+  deleteLesson(lessonId: number): Observable<void> {
+    return this.http.delete<void>('/api/ba-lessons/' + lessonId);
   }
 }
