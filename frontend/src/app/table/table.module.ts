@@ -21,6 +21,7 @@ import { ProfessorGroupScheduleComponent } from './professor/professor-group-sch
 import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
 import {AppRoutingModule} from "../app-routing.module";
 import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.component';
+import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
 
 
 
@@ -54,7 +55,8 @@ import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.
     ProfessorSubjectComponent,
     ProfessorGroupScheduleComponent,
     ProfessorGroupInfoComponent,
-    ScheduleTabComponent
+    ScheduleTabComponent,
+    FilterLessonsByGroupPipe
   ],
   exports: [
     TableComponent,

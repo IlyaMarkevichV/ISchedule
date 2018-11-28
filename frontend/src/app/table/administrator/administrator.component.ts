@@ -35,6 +35,9 @@ export class AdministratorComponent {
   @Output()
   loadStudents: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  loadLessons: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {
   }
 }

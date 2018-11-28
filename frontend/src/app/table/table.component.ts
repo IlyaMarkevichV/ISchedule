@@ -6,7 +6,6 @@ import {Subscription} from "rxjs";
 import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
 import {UserAccount} from "../model/UserAccount";
-import {ActivatedRoute} from "@angular/router";
 import {Role} from "../model/role";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
@@ -36,7 +35,6 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //TODO: get logginedAcc
     this.authService.currentAuthorizedUser.subscribe(user => {
       this.logginedUserAccount = user as UserAccount;
       console.log("Auth User in table component: " + this.logginedUserAccount);

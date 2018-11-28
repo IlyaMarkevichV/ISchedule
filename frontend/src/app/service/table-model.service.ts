@@ -108,7 +108,7 @@ export class TableModelService {
   }
 
   getLessonInfos(): Observable<LessonInfo[]> {
-    return this.http.get<LessonInfo[]>('/api/ba-lesson-info');
+    return this.http.get<LessonInfo[]>('/api/ba-lesson-infos');
   }
 
   getLessons(): Observable<Lesson[]> {

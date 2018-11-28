@@ -18,7 +18,8 @@
   </tab>
 
   <tab heading="Schedule">
-    <schedule-tab [(tableModel)]="tableModel"></schedule-tab>
+    <schedule-tab [(tableModel)]="tableModel"
+                  (loadLessons)="loadLessons"></schedule-tab>
   </tab>
 
 </tabset>

@@ -2,13 +2,15 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LessonTimeViewModel {
     private int id;
-    private Time begin;
-    private Time end;
+    private Timestamp begin;
+    private Timestamp end;
 
     public LessonTimeViewModel() {
     }
@@ -21,19 +23,19 @@ public class LessonTimeViewModel {
         this.id = id;
     }
 
-    public Time getBegin() {
+    public Timestamp getBegin() {
         return begin;
     }
 
-    public void setBegin(Time begin) {
+    public void setBegin(Timestamp begin) {
         this.begin = begin;
     }
 
-    public Time getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(Time end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 }
