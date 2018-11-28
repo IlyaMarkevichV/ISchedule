@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {TableComponent} from './table.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
-import {AlertModule, BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
+import {AlertModule, BsDropdownModule, CollapseModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {FilterPipeModule} from "ngx-filter-pipe";
 import {AccordionModule} from 'ngx-bootstrap/accordion';
@@ -39,7 +39,8 @@ import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.
     BsDatepickerModule.forRoot(),
     AlertModule.forRoot(),
     NgxPaginationModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CollapseModule.forRoot()
   ],
   declarations: [
     TableComponent,

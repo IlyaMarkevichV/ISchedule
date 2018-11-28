@@ -21,39 +21,6 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
-/*
-  getStudentAccounts(): Observable<StudentAccount[]> {
-    return this.http.get<StudentAccount[]>( '/api/ba-user-group');
-  }
-
-  saveStudentAccount(studentAccount: StudentAccount): Observable<StudentAccount> {
-    return this.http.post<StudentAccount>('/api/ba-user-group', studentAccount);
-  }
-
-  deleteStudentAccount(studentAccountId: string): Observable<void> {
-    return this.http.delete<void>( '/api/ba-user-group/' + studentAccountId);
-  }
-
-  getProfessorAccountById(id: number): Observable<ProfessorAccount> {
-    return this.http.get<ProfessorAccount>('/api/ba-users/' + id);
-  }
-
-  getProfessorAccounts(): Observable<ProfessorAccount[]> {
-    return this.http.get<ProfessorAccount[]>('/api/ba-users?role=professor');
-  }
-
-  saveProfessorAccount(professorAccount: ProfessorAccount): Observable<ProfessorAccount> {
-    return this.http.post<ProfessorAccount>('/api/ba-users', professorAccount);
-  }
-
-  deleteProfessorAccount(professorAccountId: string): Observable<void> {
-    return this.http.delete<void>('/api/ba-users/' + professorAccountId);
-  }
-*/
-
-
-  /***************************************************************************************************/
-
   getProfessors(): Observable<ProfessorAccount[]> {
     return this.http.get<ProfessorAccount[]>('/api/ba-professors');
   }

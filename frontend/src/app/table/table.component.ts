@@ -11,6 +11,10 @@ import {Role} from "../model/role";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
 import {AuthorizationService} from "../service/authorization.service";
+import {Lesson} from "../model/lesson";
+import {LessonTime} from "../model/lessonTime";
+import {LessonInfo} from "../model/lessonInfo";
+import {Day} from "../model/day";
 
 @Component({
   selector: 'table-component',
@@ -45,6 +49,10 @@ export class TableComponent implements OnInit, OnDestroy {
     this.loadGroups();
     this.loadProfessors();
     this.loadStudents();
+    this.loadLessonInfos();
+    this.loadLessons();
+    this.loadLessonTimes();
+    this.loadStudyDays();
   }
 
   ngOnDestroy(): void {
@@ -87,8 +95,39 @@ export class TableComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push((this.tableModelService.getRoles().subscribe(roles => {
       this.tableModel.roles = roles as Role[];
-      console.log("-------------------------------------------------------" + this.tableModel.roles);
       this.loadingService.hide();
     })));
+  }
+
+  public loadLessons(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getLessons().subscribe(lessons => {
+      this.tableModel.lessons = lessons as Lesson[];
+      this.loadingService.hide();
+    }));
+  }
+
+  public loadLessonTimes(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getLessonTimes().subscribe(times => {
+      this.tableModel.lessonTimes = times as LessonTime[];
+      this.loadingService.hide();
+    }));
+  }
+
+  public loadLessonInfos(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getLessonInfos().subscribe(infos => {
+      this.tableModel.lessonInfos = infos as LessonInfo[];
+      this.loadingService.hide();
+    }));
+  }
+
+  public loadStudyDays(): void {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getDays().subscribe(days => {
+      this.tableModel.studyDays = days as Day[];
+      this.loadingService.hide();
+    }))
   }
 }
