@@ -53,6 +53,6 @@ public class LessonDataServiceImpl implements LessonDataService {
 
     @Override
     public void deleteLesson(Integer id) {
-        new RestTemplate().delete(backendServerUrl + "api/schedule-lectures");
+        new RestTemplate().delete(backendServerUrl + "api/lessons/" + id);
     }
 }
