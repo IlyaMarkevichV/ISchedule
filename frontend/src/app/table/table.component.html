@@ -21,15 +21,20 @@
 </tabset>
 -->
 
-<administrator [(tableModel)]="tableModel"
-               (loadFaculties)="loadFaculties()"
-               (loadGroups)="loadGroups()"
-               (loadProfessors)="loadProfessors()"
-               (loadStudents)="loadStudents()"
-               *ngIf="logginedUserAccount.role.roleName === 'admin'"></administrator>
+<ng-template [ngIf]="logginedUserAccount.role.roleName === 'admin'">
+  <administrator [(tableModel)]="tableModel"
+                 (loadFaculties)="loadFaculties()"
+                 (loadGroups)="loadGroups()"
+                 (loadProfessors)="loadProfessors()"
+                 (loadStudents)="loadStudents()"></administrator>
+</ng-template>
 
-<professor *ngIf="logginedUserAccount.role.roleName === 'professor'"></professor>
+<ng-template [ngIf]="logginedUserAccount.role.roleName === 'professor'">
+  <professor></professor>
+</ng-template>
 
-<student *ngIf="logginedUserAccount.role.roleName === 'student'"></student>
+<ng-template [ngIf]="logginedUserAccount.role.roleName === 'student'">
+  <student></student>
+</ng-template>
 
 <!--<professor></professor>-->

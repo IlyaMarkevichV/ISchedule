@@ -12,7 +12,7 @@ export class AuthorizationService {
 
   constructor() { }
 
-  changeAuthorizedUser(user: UserAccount) {
+  transmitAuthorizedUser(user: UserAccount) {
     this.messageSource.next(user);
   }
 }

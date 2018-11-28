@@ -11,9 +11,7 @@ const routes: Routes = [
     { path: 'heroes', component: HeroesComponent }*/
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: AuthorizationComponent},
-  {path: 'administrator', component: TableComponent},
-  {path: 'student', component: TableComponent},
-  {path: 'professor', component: TableComponent}
+  {path: 'table', component: TableComponent}
 ];
 
 @NgModule({

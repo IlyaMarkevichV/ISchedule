@@ -1,6 +1,4 @@
 import {Component, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {TableComponent} from "./table/table.component";
-import {UserAccount} from "./model/UserAccount";
 
 @Component({
   selector: 'app-root',

@@ -49,19 +49,11 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.attemptAuth(this.login, this.password).subscribe(authToken => {
       let token: Token = authToken as Token;
       this.tokeStorage.saveToken(token.token);
-      let jwtData = token.token.split('.')[1]
-      let decodedJwtJsonData = window.atob(jwtData)
+      let jwtData = token.token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
       let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
       console.log(decodedJwtData);
-
-      /*
-      *
-        exp: 1543095228
-        iat: 1543082268
-        scopes: "admin"
-        sub: "qwe@qwe.com"
-      * */
 
       this.tableModelService.getUserByLogin(decodedJwtData.sub).subscribe(user => {
         this.authorizationAccount = user as UserAccount;
@@ -73,19 +65,9 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
         } else {
           this.alertUserAboutError = false;
 
-          this.authService.changeAuthorizedUser(this.authorizationAccount);
+          this.authService.transmitAuthorizedUser(this.authorizationAccount);
 
-          switch (this.authorizationAccount.role.roleName) {
-            case "student":
-              this.router.navigate(['student']);
-              break;
-            case "professor":
-              this.router.navigate(['professor']);
-              break;
-            case "admin":
-              this.router.navigate(['administrator']);
-              break;
-          }
+          this.router.navigate(['table']);
         }
 
         this.loadingService.hide();

@@ -20,6 +20,7 @@ import { ProfessorSubjectComponent } from './professor/professor-subject/profess
 import { ProfessorGroupScheduleComponent } from './professor/professor-group-schedule/professor-group-schedule.component';
 import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
 import {AppRoutingModule} from "../app-routing.module";
+import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.component';
 
 
 
@@ -51,7 +52,8 @@ import {AppRoutingModule} from "../app-routing.module";
     ProfessorProfileComponent,
     ProfessorSubjectComponent,
     ProfessorGroupScheduleComponent,
-    ProfessorGroupInfoComponent
+    ProfessorGroupInfoComponent,
+    ScheduleTabComponent
   ],
   exports: [
     TableComponent,
