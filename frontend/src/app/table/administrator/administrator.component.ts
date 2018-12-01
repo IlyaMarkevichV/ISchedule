@@ -3,6 +3,7 @@ import {TableModel} from "../../model/TableModel";
 import {ProfessorTabComponent} from "./professor-tab/professor-tab.component";
 import {GroupTabComponent} from "./group-tab/group-tab.component";
 import {StudentTabComponent} from "./student-tab/student-tab.component";
+import {ScheduleTabComponent} from "./schedule-tab/schedule-tab.component";
 
 @Component({
   selector: 'administrator',
@@ -19,6 +20,9 @@ export class AdministratorComponent {
 
   @ViewChild(GroupTabComponent)
   protected groupComponent: GroupTabComponent;
+
+  @ViewChild(ScheduleTabComponent)
+  protected scheduleComponent: ScheduleTabComponent;
 
   @Input()
   public tableModel: TableModel;

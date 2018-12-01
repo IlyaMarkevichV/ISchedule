@@ -2,14 +2,13 @@ package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.config.JwtTokenUtil;
 import com.netcracker.edu.fapi.models.AuthToken;
-import com.netcracker.edu.fapi.models.LoginUser;
+import com.netcracker.edu.fapi.models.LoginPassword;
 import com.netcracker.edu.fapi.resource.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
@@ -29,11 +28,11 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity<?> register(@RequestBody LoginPassword loginPassword) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginUser.getLogin(),
-                        loginUser.getPassword()
+                        loginPassword.getLogin(),
+                        loginPassword.getPassword()
                 )
         );
         final String token = jwtTokenUtil.generateToken(authentication);

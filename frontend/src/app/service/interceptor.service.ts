@@ -23,14 +23,12 @@ export class Interceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("Interceptor works");
     let authReq = req;
     if (this.tokenStorage.getToken() != null) {
       authReq = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this.tokenStorage.getToken())});
     }
     return next.handle(authReq).pipe(tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          console.log("Interceptor log response", event);
         }
       }, (err: any) => {
         console.log('req url :: ' + req.url);

@@ -1,10 +1,10 @@
 package com.netcracker.edu.fapi.models;
 
-public class LoginUser {
+public class LoginPassword {
     private String login;
     private String password;
 
-    public LoginUser(String login, String password) {
+    public LoginPassword(String login, String password) {
         this.login = login;
         this.password = password;
     }

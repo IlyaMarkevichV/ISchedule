@@ -7,6 +7,10 @@ import {TableModelService} from "../../../service/table-model.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {DatePipe} from "@angular/common";
 import {ProfessorAccount} from "../../../model/professor-account";
+import {Group} from "../../../model/group";
+import {LessonInfo} from "../../../model/lessonInfo";
+import {LessonTime} from "../../../model/lessonTime";
+import {Day} from "../../../model/day";
 
 @Component({
   selector: 'schedule-tab',
@@ -21,37 +25,27 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
   @Output()
   public loadLessons: EventEmitter<any> = new EventEmitter<any>();
 
-  public isGroupsScheduleCollapsed: boolean = true;
-  public isProfessorsScheduleCollapsed: boolean = true;
+  public isGroupsScheduleCollapsed: boolean = false;
+  public isProfessorsScheduleCollapsed: boolean = false;
 
   private subscriptions: Subscription[] = [];
 
   public editMode: boolean = false;
-  public editableLesson: Lesson;
   private modalRef: BsModalRef;
 
-  public lessonInfoId: number;
-  public professorId: number;
-  public timeId: number;
-  public dayId: number;
-  public groups: number[]=[];
+  public editableLesson: Lesson;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
-              private modalService: BsModalService,
-              private datePipe: DatePipe) { }
+              private modalService: BsModalService) {
+  }
 
   ngOnInit() {
     this.editableLesson = new Lesson();
-   /* this.editableLesson.day =*/
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-  refreshEditableLesson(): void {
-    this.editableLesson = new Lesson();
   }
 
   updateLessons(): void {
@@ -59,9 +53,12 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     //TODO: pages
   }
 
-  deleteLesson(lesson: Lesson): void {
-    this.subscriptions.push(this.tableModelService.deleteLesson(lesson.lessonId).subscribe(() => {
+  deleteLesson(lesson: Lesson, group: Group): void {
+    this.loadingService.show();
+    lesson.groups = lesson.groups.filter(gr => gr.groupId != group.groupId);
+    this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
       this.updateLessons();
+      this.loadingService.hide();
     }));
   }
 
@@ -69,26 +66,25 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     if (lesson) {
       this.editableLesson = Lesson.cloneLesson(lesson);
       this.editMode = true;
-      this.lessonInfoId = this.editableLesson.lessonInfo.lessonInfoId;
-      this.professorId = this.editableLesson.professor.professorId;
-      this.timeId = this.editableLesson.lessonTime.id;
-      this.dayId = this.editableLesson.day.dayNumber;
-      for (let group of this.editableLesson.groups) {
-        this.groups.push(group.groupId);
-      }
-    } else {
-      this.refreshEditableLesson();
-      this.editMode = false;
-      this.lessonInfoId = this.tableModel.lessonInfos.length != 0 ? this.tableModel.lessonInfos[0].lessonInfoId : 1;
-      this.professorId = this.tableModel.professors.length != 0 ? this.tableModel.professors[0].professorId : 1;
-      this.timeId = this.tableModel.lessonTimes.length != 0 ? this.tableModel.lessonTimes[0].id : 0;
-      this.dayId = this.tableModel.studyDays.length != 0 ? this.tableModel.studyDays[0].dayNumber : 0;
-      this.groups = [];
     }
     this.modalRef = this.modalService.show(template);
   }
 
   closeModal(): void {
     this.modalRef.hide();
+  }
+
+  saveLesson(): void {
+    this.loadingService.show();
+    console.log(this.editableLesson);
+    this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
+      this.updateLessons();
+      this.closeModal();
+      this.loadingService.hide();
+    }));
+  }
+
+  compareFn(obj1: any, obj2: any): boolean {
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 }

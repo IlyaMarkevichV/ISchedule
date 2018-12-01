@@ -1,8 +1,13 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "professor", schema = "project")
@@ -62,9 +67,9 @@ public class Professor {
         if (o == null || getClass() != o.getClass()) return false;
         Professor professor = (Professor) o;
         return professorId == professor.professorId &&
-                Objects.equals(account, professor.account) &&
-                Objects.equals(academicRank, professor.academicRank) &&
-                Objects.equals(fieldOfResearch, professor.fieldOfResearch);
+                account.equals(professor.account) &&
+                academicRank.equals(professor.academicRank) &&
+                fieldOfResearch.equals(professor.fieldOfResearch);
     }
 
     @Override

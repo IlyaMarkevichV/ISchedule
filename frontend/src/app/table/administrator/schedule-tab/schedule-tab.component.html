@@ -38,7 +38,7 @@
           <td>{{ lesson.lessonRoom }}</td>
           <td>{{ lesson.day.dayName }}</td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
               Delete
             </button>
           </td>
@@ -56,7 +56,42 @@
 <br/>
 <br/>
 <div [collapse]="isProfessorsScheduleCollapsed" class="card card-block card-header">
-  <h1>Professors</h1>
+<!--  <accordion [closeOthers]="true" *ngFor="let professor of tableModel.professors">
+    <accordion-group heading="Professor: {{professor.account.firstName}} {{professor.account.lastName}}">
+      <table class="table table-hover" id="professorTable">
+        <thead>
+        <tr>
+          <th>Begin</th>
+          <th>End</th>
+          <th>Room</th>
+          <th>Day</th>
+        </tr>
+        </thead>
+
+        <tbody id="professorTableBody"
+               *ngFor="let lesson of tableModel.lessons | filterLessonsByGroup: group">
+        <tr>
+          <td>{{ lesson.lessonInfo.lessonName }}</td>
+          <td>{{ lesson.professor.account.firstName }} {{ lesson.professor.account.lastName }}</td>
+          <td>{{ lesson.lessonTime.begin | date:'HH:mm' }}</td>
+          <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
+          <td>{{ lesson.lessonRoom }}</td>
+          <td>{{ lesson.day.dayName }}</td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+              Delete
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      &lt;!&ndash;<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
+&ndash;&gt;
+    </accordion-group>
+  </accordion>-->
 </div>
 
 
@@ -72,24 +107,24 @@
   <div class="modal-body">
     <div class="form-group">
       <label>Lesson</label>
-      <select class="form-control" [(ngModel)]="lessonInfoId">
-        <option *ngFor="let lessonInfo of tableModel.lessonInfos" [value]="lessonInfo.lessonInfoId">{{lessonInfo.lessonName}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonInfo">
+        <option *ngFor="let lessonInfo of tableModel.lessonInfos" [ngValue]="lessonInfo">{{lessonInfo.lessonName}}
         </option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Professor</label>
-      <select class="form-control" [(ngModel)]="professorId">
-        <option *ngFor="let professor of tableModel.professors" [value]="professor.professorId">{{professor.account.lastName}} {{professor.account.firstName}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
+        <option *ngFor="let professor of tableModel.professors" [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
         </option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Time</label>
-      <select class="form-control" [(ngModel)]="timeId">
-        <option *ngFor="let time of tableModel.lessonTimes" [value]="time.id">{{time.begin | date:'HH:mm'}} - {{time.end | date:'HH:mm'}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonTime">
+        <option *ngFor="let time of tableModel.lessonTimes" [ngValue]="time">{{time.begin | date:'HH:mm'}} - {{time.end | date:'HH:mm'}}
         </option>
       </select>
     </div>
@@ -97,17 +132,16 @@
     <div class="form-group">
       <label>Room</label>
       <input class="form-control" name="grade" [(ngModel)]="editableLesson.lessonRoom" #room="ngModel"
-             placeholder="Room" required
-             pattern="[0-9]{1,}"/>
-      <div [hidden]="editableLesson.lessonRoom" class="alert alert-danger">
+             placeholder="Room" required/>
+      <div [hidden]="room.untouched || room.invalid" class="alert alert-danger">
         Please set valid Room
       </div>
     </div>
 
     <div class="form-group">
       <label>Day</label>
-      <select class="form-control" [(ngModel)]="dayId">
-        <option *ngFor="let day of tableModel.studyDays" [value]="day.dayNumber">{{day.dayName}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.day">
+        <option *ngFor="let day of tableModel.studyDays" [ngValue]="day">{{day.dayName}}
         </option>
       </select>
     </div>
@@ -115,7 +149,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default"
-            [disabled]="room.invalid">
+            [disabled]="room.invalid" (click)="saveLesson()">
       {{editMode ? "Save": "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
