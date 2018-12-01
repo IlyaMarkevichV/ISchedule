@@ -56,7 +56,7 @@
 <br/>
 <br/>
 <div [collapse]="isProfessorsScheduleCollapsed" class="card card-block card-header">
-<!--  <accordion [closeOthers]="true" *ngFor="let professor of tableModel.professors">
+  <accordion [closeOthers]="true" *ngFor="let professor of tableModel.professors">
     <accordion-group heading="Professor: {{professor.account.firstName}} {{professor.account.lastName}}">
       <table class="table table-hover" id="professorTable">
         <thead>
@@ -65,22 +65,22 @@
           <th>End</th>
           <th>Room</th>
           <th>Day</th>
+          <th>Groups</th>
         </tr>
         </thead>
 
         <tbody id="professorTableBody"
-               *ngFor="let lesson of tableModel.lessons | filterLessonsByGroup: group">
+               *ngFor="let lesson of tableModel.lessons | filterLessonsByProfessor: professor">
         <tr>
-          <td>{{ lesson.lessonInfo.lessonName }}</td>
-          <td>{{ lesson.professor.account.firstName }} {{ lesson.professor.account.lastName }}</td>
           <td>{{ lesson.lessonTime.begin | date:'HH:mm' }}</td>
           <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
           <td>{{ lesson.lessonRoom }}</td>
           <td>{{ lesson.day.dayName }}</td>
+          <td><div *ngFor="let gr of lesson.groups"> {{gr.id}}</div></td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+<!--            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, professor)">
               Delete
-            </button>
+            </button>-->
           </td>
           <td>
             <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
@@ -88,10 +88,10 @@
         </tr>
         </tbody>
       </table>
-      &lt;!&ndash;<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
-&ndash;&gt;
+      <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
+      -->
     </accordion-group>
-  </accordion>-->
+  </accordion>
 </div>
 
 

@@ -22,6 +22,8 @@ import { ProfessorGroupInfoComponent } from './professor/professor-group-info/pr
 import {AppRoutingModule} from "../app-routing.module";
 import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.component';
 import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
+import {FilterLessonsByProfessorPipe} from "../pipe/filterLectureByProfessor.pipe";
+import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.component';
 
 
 
@@ -56,7 +58,9 @@ import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
     ProfessorGroupScheduleComponent,
     ProfessorGroupInfoComponent,
     ScheduleTabComponent,
-    FilterLessonsByGroupPipe
+    FilterLessonsByGroupPipe,
+    FilterLessonsByProfessorPipe,
+    LessonTabComponent
   ],
   exports: [
     TableComponent,

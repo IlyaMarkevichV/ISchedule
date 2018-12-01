@@ -52,8 +52,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  public tempGroupId: number;
-
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -78,13 +76,16 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     if (studentAccount) {
       this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
       this.editMode = true;
-      this.tempGroupId = this.editableStudent.group.id;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;
-      this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].id : 0;
+      this.editableStudent.group = this.tableModel.groups.length != 0 ? this.tableModel.groups[0] : null;
     }
     this.modalRef = this.modalService.show(template);
+  }
+
+  compareFn(obj1: any, obj2: any): boolean {
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 
   public closeModal(): void {
@@ -119,14 +120,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     /*    if (this.editableStudent.studentProfessor.group !== null)*/
     this.editableStudent.account.birthday =
       this.datePipe.transform(this.editableStudent.account.birthday, 'yyyy-MM-dd');
-
-    /*add group to student-tab according to chosen id*/
-    for (let group of this.tableModel.groups) {
-      if (group.id == this.tempGroupId) {
-        this.editableStudent.group = group;
-        break;
-      }
-    }
 
     this.subscriptions.push(this.tableModelService.saveStudent(this.editableStudent).subscribe(() => {
       this.updateStudents();

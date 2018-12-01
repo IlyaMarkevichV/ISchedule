@@ -51,10 +51,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   private modalRef: BsModalRef;
 
-  public isCorrect: boolean = true;
-
-  public tempFacultyId: number;
-
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -69,6 +65,10 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
+  compareFn(obj1: any, obj2: any): boolean {
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  }
+
   public refreshEditableGroup() {
     this.editableGroup = new Group();
     this.editableGroup.faculty = new Faculty();
@@ -78,11 +78,10 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     if (group) {
       this.editableGroup = Group.cloneGroup(group);
       this.editMode = true;
-      this.tempFacultyId = this.editableGroup.faculty.id;
     } else {
       this.refreshEditableGroup();
       this.editMode = false;
-      this.tempFacultyId = this.tableModel.faculties.length != 0 ? this.tableModel.faculties[0].id : 0;
+      this.editableGroup.faculty = this.tableModel.faculties.length != 0 ? this.tableModel.faculties[0] : null;
     }
     this.modalRef = this.modalService.show(template);
   }
@@ -111,7 +110,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
   public deleteFaculty(): void {
     this.loadingService.show();
     console.log(this.editableGroup.faculty);
-    this.subscriptions.push(this.tableModelService.deleteFaculty(this.tempFacultyId).subscribe(() => {
+    this.subscriptions.push(this.tableModelService.deleteFaculty(this.editableGroup.faculty.id).subscribe(() => {
       this.closeModal();
       this.loadFaculties.emit();
       this.loadingService.hide();
@@ -126,14 +125,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.editableGroup.id = Number(this.editableGroup.id);
     this.editableGroup.grade = Number(this.editableGroup.grade);
     this.editableGroup.graduation = this.datePipe.transform(this.editableGroup.graduation, 'yyyy-MM-dd');
-
-    /*add faculty to editableGroup*/
-    for (let faculty of this.tableModel.faculties) {
-      if (this.tempFacultyId == faculty.id) {
-        this.editableGroup.faculty = faculty;
-        break;
-      }
-    }
 
     this.subscriptions.push(this.tableModelService.saveGroup(this.editableGroup).subscribe(() => {
       this.updateGroups();

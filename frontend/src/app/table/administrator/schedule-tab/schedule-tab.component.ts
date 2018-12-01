@@ -48,18 +48,22 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  updateLessons(): void {
+  updateSchedule(): void {
     this.loadLessons.emit();
     //TODO: pages
   }
 
-  deleteLesson(lesson: Lesson, group: Group): void {
+  deleteLesson(lesson: Lesson, group?: Group, professor?: ProfessorAccount): void {
     this.loadingService.show();
-    lesson.groups = lesson.groups.filter(gr => gr.id != group.id);
-    this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
-      this.updateLessons();
-      this.loadingService.hide();
-    }));
+    if (group && !professor) {
+      lesson.groups = lesson.groups.filter(gr => gr.id != group.id);
+      this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
+        this.updateSchedule();
+        this.loadingService.hide();
+      }));
+    } else if (professor && !group) {
+      lesson.professor = professor;
+    }
   }
 
   openModal(template: TemplateRef<any>, lesson?: Lesson): void {
@@ -78,7 +82,7 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     console.log(this.editableLesson);
     this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
-      this.updateLessons();
+      this.updateSchedule();
       this.closeModal();
       this.loadingService.hide();
     }));

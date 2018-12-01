@@ -128,8 +128,8 @@
 
     <div class="form-group">
       <label>Group</label>
-      <select class="form-control" [(ngModel)]="tempGroupId">
-        <option *ngFor="let group of tableModel.groups" [value]="group.id">{{group.id}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableStudent.group">
+        <option *ngFor="let group of tableModel.groups" [ngValue]="group">{{group.id}}
         </option>
       </select>
     </div>

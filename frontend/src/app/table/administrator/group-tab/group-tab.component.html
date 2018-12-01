@@ -89,8 +89,8 @@
   <div class="modal-body">
     <div class="form-group">
       <label>Faculty</label>
-      <select class="form-control" [(ngModel)]="tempFacultyId">
-        <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.id">{{faculty.facultyName}}
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
+        <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}
         </option>
       </select>
     </div>
@@ -170,8 +170,8 @@
 
   <div class="form-group" *ngIf="addFac==='true'">
     <label>Faculty</label>
-    <select class="form-control" [(ngModel)]="tempFacultyId">
-      <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.id">{{faculty.facultyName}}</option>
+    <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
+      <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}</option>
     </select>
   </div>
 
