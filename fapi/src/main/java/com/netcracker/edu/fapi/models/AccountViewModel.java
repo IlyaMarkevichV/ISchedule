@@ -7,7 +7,7 @@ import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountViewModel {
-    private int accountId;
+    private int id;
     private String login;
     private String password;
     private RoleViewModel role;
@@ -18,12 +18,12 @@ public class AccountViewModel {
     public AccountViewModel() {
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getId() {
+        return id;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLogin() {

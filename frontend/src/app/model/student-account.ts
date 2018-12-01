@@ -3,7 +3,7 @@ import {Group} from "./group";
 import {UserAccount} from "./UserAccount";
 
 export class StudentAccount {
-  studentId: number;
+  id: number;
   account: UserAccount;
   group: Group;
   address: string;
@@ -15,7 +15,7 @@ export class StudentAccount {
    */
   static cloneStudentAccount(acc: StudentAccount): StudentAccount {
     let clonedAcc: StudentAccount = new StudentAccount();
-    clonedAcc.studentId = acc.studentId;
+    clonedAcc.id = acc.id;
     clonedAcc.account = UserAccount.cloneAccount(acc.account);
     clonedAcc.group = Group.cloneGroup(acc.group);
     clonedAcc.address = acc.address;

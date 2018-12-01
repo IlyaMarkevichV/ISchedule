@@ -20,7 +20,7 @@
             </button>
             <ul *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-visbility">
-              <li role="menuitem"><a class="dropdown-item" (click)="groupField='groupId'; searchButtonName=' Group Id'">Id</a>
+              <li role="menuitem"><a class="dropdown-item" (click)="groupField='id'; searchButtonName=' Group Id'">Id</a>
               </li>
               <li role="menuitem"><a class="dropdown-item"
                                      (click)="groupField='grade'; searchButtonName='Grade'">Grade</a>
@@ -57,13 +57,13 @@
            *ngFor="let group of tableModel.groups | filterBy: tempGroupForFilter |
             paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'groups' }">
     <tr>
-      <td>{{ group.groupId }}</td>
+      <td>{{ group.id }}</td>
       <td>{{ group.faculty.facultyName }}</td>
       <td>{{ group.speciality }}</td>
       <td>{{ group.grade }}</td>
       <td>{{ group.graduation | date }}</td>
       <td>
-        <button type="button" class="btn btn-danger" (click)="deleteGroup(group.groupId)">
+        <button type="button" class="btn btn-danger" (click)="deleteGroup(group.id)">
           Delete
         </button>
       </td>
@@ -90,7 +90,7 @@
     <div class="form-group">
       <label>Faculty</label>
       <select class="form-control" [(ngModel)]="tempFacultyId">
-        <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.facultyId">{{faculty.facultyName}}
+        <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.id">{{faculty.facultyName}}
         </option>
       </select>
     </div>
@@ -171,7 +171,7 @@
   <div class="form-group" *ngIf="addFac==='true'">
     <label>Faculty</label>
     <select class="form-control" [(ngModel)]="tempFacultyId">
-      <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.facultyId">{{faculty.facultyName}}</option>
+      <option *ngFor="let faculty of tableModel.faculties" [value]="faculty.id">{{faculty.facultyName}}</option>
     </select>
   </div>
 

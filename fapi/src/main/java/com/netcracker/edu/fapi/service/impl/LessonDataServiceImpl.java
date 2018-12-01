@@ -20,7 +20,7 @@ public class LessonDataServiceImpl implements LessonDataService {
     public List<LessonViewModel> getAllLessons() {
         RestTemplate restTemplate = new RestTemplate();
         LessonViewModel[] lessonViewModels = restTemplate.getForObject(
-                backendServerUrl + "api/schedule-lectures",
+                backendServerUrl + "api/lessons",
                 LessonViewModel[].class
         );
         return lessonViewModels == null ? Collections.emptyList() : Arrays.asList(lessonViewModels);
@@ -30,13 +30,13 @@ public class LessonDataServiceImpl implements LessonDataService {
     public LessonViewModel getLessonById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
         LessonViewModel[] lessonViewModels = restTemplate.getForObject(
-                backendServerUrl + "api/schedule-lectures",
+                backendServerUrl + "api/lessons",
                 LessonViewModel[].class
         );
 
         if (lessonViewModels != null) {
             for (LessonViewModel lessonViewModel : lessonViewModels) {
-                if (lessonViewModel.getScheduleId() == id)
+                if (lessonViewModel.getId() == id)
                     return lessonViewModel;
             }
         }
@@ -46,7 +46,7 @@ public class LessonDataServiceImpl implements LessonDataService {
     @Override
     public LessonViewModel saveLesson(LessonViewModel schedule) {
         return new RestTemplate().postForEntity(
-                backendServerUrl + "api/schedule-lectures",
+                backendServerUrl + "api/lessons",
                 schedule,
                 LessonViewModel.class).getBody();
     }

@@ -1,7 +1,7 @@
 import {Faculty} from "./faculty";
 
 export class Group {
-  groupId: number;
+  id: number;
   faculty: Faculty;
   speciality: string;
   grade: number;
@@ -11,7 +11,7 @@ export class Group {
     if (!group)
       return null;
     let clonedAcc = new Group();
-    clonedAcc.groupId = group.groupId;
+    clonedAcc.id = group.id;
     clonedAcc.faculty = Faculty.cloneFaculty(group.faculty);
     clonedAcc.speciality = group.speciality;
     clonedAcc.grade = group.grade;

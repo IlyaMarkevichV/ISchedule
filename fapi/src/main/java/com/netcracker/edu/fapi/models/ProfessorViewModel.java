@@ -2,11 +2,9 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.sql.Date;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfessorViewModel {
-    private int professorId;
+    private int id;
     private AccountViewModel account;
     private String academicRank;
     private String fieldOfResearch;
@@ -14,12 +12,12 @@ public class ProfessorViewModel {
     public ProfessorViewModel() {
     }
 
-    public int getProfessorId() {
-        return professorId;
+    public int getId() {
+        return id;
     }
 
-    public void setProfessorId(int professorId) {
-        this.professorId = professorId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public AccountViewModel getAccount() {

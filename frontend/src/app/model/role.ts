@@ -1,10 +1,10 @@
 export class Role {
-  roleId: number;
+  id: number;
   roleName: string;
 
   static cloneRole(role: Role): Role {
     let clonedRole = new Role();
-    clonedRole.roleId = role.roleId;
+    clonedRole.id = role.id;
     clonedRole.roleName = role.roleName;
     return clonedRole;
   }

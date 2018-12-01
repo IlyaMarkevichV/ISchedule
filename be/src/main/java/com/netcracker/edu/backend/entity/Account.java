@@ -1,7 +1,5 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -13,7 +11,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
-    private int accountId;
+    private int id;
 
     @Column(name = "login")
     private String login;
@@ -42,12 +40,12 @@ public class Account {
     public Account() {
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getId() {
+        return id;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -103,7 +101,7 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return accountId == account.accountId &&
+        return id == account.id &&
                 Objects.equals(login, account.login) &&
                 Objects.equals(password, account.password) &&
                 Objects.equals(role, account.role) &&
@@ -114,7 +112,7 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, login, password, role, firstName, lastName, birthday);
+        return Objects.hash(id, login, password, role, firstName, lastName, birthday);
     }
 }
 

@@ -6,7 +6,7 @@ import java.sql.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupViewModel {
-    private int groupId;
+    private int id;
     private FacultyViewModel faculty;
     private String speciality;
     private int grade;
@@ -15,12 +15,12 @@ public class GroupViewModel {
     public GroupViewModel() {
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getId() {
+        return id;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public FacultyViewModel getFaculty() {

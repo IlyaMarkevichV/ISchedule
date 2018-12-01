@@ -33,7 +33,7 @@ public class GroupInfoDataServiceImpl implements GroupInfoDataService {
                 GroupInfoViewModel[].class);
         if (groupInfos != null) {
             for (GroupInfoViewModel groupInfo : groupInfos) {
-                if (groupInfo.getGroupInfoId() == id)
+                if (groupInfo.getId() == id)
                     return groupInfo;
             }
         }

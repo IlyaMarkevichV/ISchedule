@@ -1,7 +1,7 @@
 import {Role} from "./role";
 
 export class UserAccount {
-  accountId: number;
+  id: number;
   login: string;
   password: string;
   role: Role;
@@ -11,7 +11,7 @@ export class UserAccount {
 
   static cloneAccount(acc: UserAccount): UserAccount {
     let clonedAcc = new UserAccount();
-    clonedAcc.accountId = acc.accountId;
+    clonedAcc.id = acc.id;
     clonedAcc.login = acc.login;
     clonedAcc.password = acc.password;
     clonedAcc.role = Role.cloneRole(acc.role);

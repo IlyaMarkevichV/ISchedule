@@ -15,7 +15,7 @@ export class FilterLessonsByGroupPipe implements PipeTransform {
     // kept, false will be filtered out
     return lessons.filter(lesson => {
       for (let gr of lesson.groups){
-        if (gr.groupId == group.groupId) {
+        if (gr.id == group.id) {
           return true;
         }
       }

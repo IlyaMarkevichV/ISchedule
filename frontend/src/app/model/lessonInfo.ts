@@ -1,4 +1,4 @@
 export class LessonInfo {
-  lessonInfoId: number;
+  id: number;
   lessonName: string;
 }

@@ -1,9 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "faculty", schema = "project")
@@ -12,7 +10,7 @@ public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "faculty_id")
-    private int facultyId;
+    private int id;
 
     @Column(name = "faculty_name")
     private String facultyName;
@@ -20,12 +18,12 @@ public class Faculty {
     public Faculty() {
     }
 
-    public int getFacultyId() {
-        return facultyId;
+    public int getId() {
+        return id;
     }
 
-    public void setFacultyId(int facultyId) {
-        this.facultyId = facultyId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFacultyName() {
@@ -41,12 +39,12 @@ public class Faculty {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Faculty faculty = (Faculty) o;
-        return facultyId == faculty.facultyId &&
+        return id == faculty.id &&
                 Objects.equals(facultyName, faculty.facultyName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(facultyId, facultyName);
+        return Objects.hash(id, facultyName);
     }
 }

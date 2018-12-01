@@ -4,25 +4,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SubjectViewModel {
-    private int subjectId;
+    private int id;
     private String subjectName;
     private ProfessorViewModel professor;
 
     public SubjectViewModel() {
     }
 
-    public SubjectViewModel(int subjectId, String subjectName, ProfessorViewModel professor) {
-        this.subjectId = subjectId;
+    public SubjectViewModel(int id, String subjectName, ProfessorViewModel professor) {
+        this.id = id;
         this.subjectName = subjectName;
         this.professor = professor;
     }
 
-    public int getSubjectId() {
-        return subjectId;
+    public int getId() {
+        return id;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSubjectName() {

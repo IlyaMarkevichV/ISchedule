@@ -15,7 +15,7 @@
 <div [collapse]="isGroupsScheduleCollapsed" class="card card-block card-header">
 
   <accordion [closeOthers]="true" *ngFor="let group of tableModel.groups">
-    <accordion-group heading="Group Id: {{group.groupId}}">
+    <accordion-group heading="Group Id: {{group.id}}">
       <table class="table table-hover" id="table">
         <thead>
         <tr>

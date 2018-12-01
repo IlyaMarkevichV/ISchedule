@@ -55,7 +55,7 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
 
   deleteLesson(lesson: Lesson, group: Group): void {
     this.loadingService.show();
-    lesson.groups = lesson.groups.filter(gr => gr.groupId != group.groupId);
+    lesson.groups = lesson.groups.filter(gr => gr.id != group.id);
     this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
       this.updateLessons();
       this.loadingService.hide();

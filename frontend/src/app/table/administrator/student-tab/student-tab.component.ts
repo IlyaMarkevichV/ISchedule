@@ -78,11 +78,11 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     if (studentAccount) {
       this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
       this.editMode = true;
-      this.tempGroupId = this.editableStudent.group.groupId;
+      this.tempGroupId = this.editableStudent.group.id;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;
-      this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].groupId : 0;
+      this.tempGroupId = this.tableModel.groups.length != 0 ? this.tableModel.groups[0].id : 0;
     }
     this.modalRef = this.modalService.show(template);
   }
@@ -122,7 +122,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
     /*add group to student-tab according to chosen id*/
     for (let group of this.tableModel.groups) {
-      if (group.groupId == this.tempGroupId) {
+      if (group.id == this.tempGroupId) {
         this.editableStudent.group = group;
         break;
       }
@@ -162,7 +162,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
         break;
       case 'groupId':
         if (this.searchText !== '')
-          this.tempStudentForFilter.group.groupId = Number(this.searchText);
+          this.tempStudentForFilter.group.id = Number(this.searchText);
         break;
     }
   }

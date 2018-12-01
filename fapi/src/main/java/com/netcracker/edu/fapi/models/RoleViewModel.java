@@ -4,23 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleViewModel {
-    private int roleId;
+    private int id;
     private String roleName;
 
     public RoleViewModel() {
     }
 
-    public RoleViewModel(int roleId, String roleName) {
-        this.roleId = roleId;
+    public RoleViewModel(int id, String roleName) {
+        this.id = id;
         this.roleName = roleName;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getId() {
+        return id;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRoleName() {

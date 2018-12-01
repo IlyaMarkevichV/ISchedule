@@ -9,7 +9,7 @@ public class LessonInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "lesson_info_id")
-    private int lessonInfoId;
+    private int id;
 
     @Column(name = "lesson_name")
     private String lessonName;
@@ -17,12 +17,12 @@ public class LessonInfo {
     public LessonInfo() {
     }
 
-    public int getLessonInfoId() {
-        return lessonInfoId;
+    public int getId() {
+        return id;
     }
 
-    public void setLessonInfoId(int lessonInfoId) {
-        this.lessonInfoId = lessonInfoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLessonName() {
@@ -38,12 +38,12 @@ public class LessonInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LessonInfo lessonInfo = (LessonInfo) o;
-        return lessonInfoId == lessonInfo.lessonInfoId &&
+        return id == lessonInfo.id &&
                 lessonName.equals(lessonInfo.lessonName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lessonInfoId, lessonName);
+        return Objects.hash(id, lessonName);
     }
 }

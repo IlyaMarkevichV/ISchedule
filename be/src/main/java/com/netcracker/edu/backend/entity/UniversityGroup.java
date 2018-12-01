@@ -14,7 +14,7 @@ public class UniversityGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "group_id")
-    private int groupId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")
@@ -36,12 +36,12 @@ public class UniversityGroup {
     public UniversityGroup() {
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getId() {
+        return id;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Faculty getFaculty() {
@@ -89,7 +89,7 @@ public class UniversityGroup {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UniversityGroup that = (UniversityGroup) o;
-        return groupId == that.groupId &&
+        return id == that.id &&
                 grade == that.grade &&
                 Objects.equals(faculty, that.faculty) &&
                 Objects.equals(speciality, that.speciality) &&
@@ -98,12 +98,12 @@ public class UniversityGroup {
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, faculty, speciality, grade, graduation);
+        return Objects.hash(id, faculty, speciality, grade, graduation);
     }
 
     static UniversityGroup cloneGroup(UniversityGroup group) {
         UniversityGroup clonedGroup = new UniversityGroup();
-        clonedGroup.groupId = group.groupId;
+        clonedGroup.id = group.id;
         clonedGroup.faculty = group.faculty;
         clonedGroup.speciality = group.speciality;
         clonedGroup.grade = group.grade;

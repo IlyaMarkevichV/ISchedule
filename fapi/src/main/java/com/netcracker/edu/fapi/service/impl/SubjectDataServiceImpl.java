@@ -30,7 +30,7 @@ public class SubjectDataServiceImpl implements SubjectDataService {
 
         if (subjects != null) {
             for (SubjectViewModel subject : subjects) {
-                if (subject.getSubjectId() == id)
+                if (subject.getId() == id)
                     return subject;
             }
         }

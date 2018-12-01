@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LessonInfoViewModel {
-    private int lessonInfoId;
+    private int id;
     private String lessonName;
 
     public LessonInfoViewModel() {
     }
 
-    public int getLessonInfoId() {
-        return lessonInfoId;
+    public int getId() {
+        return id;
     }
 
-    public void setLessonInfoId(int lessonInfoId) {
-        this.lessonInfoId = lessonInfoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLessonName() {

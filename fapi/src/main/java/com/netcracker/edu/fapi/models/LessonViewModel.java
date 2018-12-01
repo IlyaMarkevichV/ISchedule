@@ -2,13 +2,11 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.sql.Date;
 import java.util.Collection;
-import java.util.Collections;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LessonViewModel {
-    private int lessonId;
+    private int id;
     private LessonInfoViewModel lessonInfo;
     private ProfessorViewModel professor;
     private LessonTimeViewModel lessonTime;
@@ -19,12 +17,12 @@ public class LessonViewModel {
     public LessonViewModel() {
     }
 
-    public int getLessonId() {
-        return lessonId;
+    public int getId() {
+        return id;
     }
 
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LessonInfoViewModel getLessonInfo() {

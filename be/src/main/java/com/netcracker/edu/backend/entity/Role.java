@@ -9,7 +9,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
-    private int roleId;
+    private int id;
 
     @Column(name = "role_name")
     private String roleName;
@@ -21,12 +21,12 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getId() {
+        return id;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRoleName() {
@@ -42,12 +42,12 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return roleId == role.roleId &&
+        return id == role.id &&
                 Objects.equals(roleName, role.roleName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, roleName);
+        return Objects.hash(id, roleName);
     }
 }

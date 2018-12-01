@@ -5,7 +5,7 @@ import {Day} from "./day";
 import {Group} from "./group";
 
 export class Lesson {
-  lessonId: number;
+  id: number;
   lessonInfo: LessonInfo;
   professor: ProfessorAccount;
   lessonTime: LessonTime;
@@ -15,7 +15,7 @@ export class Lesson {
 
   static cloneLesson(lesson: Lesson): Lesson {
     let cloned: Lesson = new Lesson();
-    cloned.lessonId = lesson.lessonId;
+    cloned.id = lesson.id;
     cloned.lessonInfo = lesson.lessonInfo;
     cloned.professor = lesson.professor;
     cloned.lessonTime = lesson.lessonTime;

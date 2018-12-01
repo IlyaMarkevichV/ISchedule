@@ -3,7 +3,6 @@ package com.netcracker.edu.fapi.service.impl;
 import com.netcracker.edu.fapi.models.GroupViewModel;
 import com.netcracker.edu.fapi.service.GroupDataService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,7 +30,7 @@ public class GroupDataServiceImpl implements GroupDataService {
 
         if (groupViewModels != null) {
             for (GroupViewModel groupViewModel : groupViewModels) {
-                if (groupViewModel.getGroupId() == id)
+                if (groupViewModel.getId() == id)
                     return groupViewModel;
             }
         }

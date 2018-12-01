@@ -1,10 +1,10 @@
 export class Faculty {
-  facultyId: number;
+  id: number;
   facultyName: string;
 
   static cloneFaculty(faculty: Faculty): Faculty {
     let prototype = new Faculty();
-    prototype.facultyId = faculty.facultyId;
+    prototype.id = faculty.id;
     prototype.facultyName = faculty.facultyName;
     return prototype;
   }

@@ -58,8 +58,8 @@
       *ngFor="let student of tableModel.students | filterBy: tempStudentForFilter |
             paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'students' }">
     <tr>
-      <td>{{ student.studentId }}</td>
-      <td>{{ student.group.groupId }}</td>
+      <td>{{ student.id }}</td>
+      <td>{{ student.group.id }}</td>
       <td>{{ student.account.firstName}}</td>
       <td>{{ student.account.lastName }}</td>
       <td>{{ student.account.birthday | date }}</td>
@@ -129,7 +129,7 @@
     <div class="form-group">
       <label>Group</label>
       <select class="form-control" [(ngModel)]="tempGroupId">
-        <option *ngFor="let group of tableModel.groups" [value]="group.groupId">{{group.groupId}}
+        <option *ngFor="let group of tableModel.groups" [value]="group.id">{{group.id}}
         </option>
       </select>
     </div>

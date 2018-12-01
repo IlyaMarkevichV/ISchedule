@@ -30,7 +30,7 @@ export class TableModelService {
   }
 
   deleteProfessor(professor: ProfessorAccount): Observable<void> {
-    return this.http.delete<void>('/api/ba-professors/' + professor.professorId);
+    return this.http.delete<void>('/api/ba-professors/' + professor.id);
   }
 
   /*****/
@@ -44,7 +44,7 @@ export class TableModelService {
   }
 
   deleteStudent(student: StudentAccount): Observable<void> {
-    return this.http.delete<void>('/api/ba-students/' + student.studentId);
+    return this.http.delete<void>('/api/ba-students/' + student.id);
   }
 
   /*security*/

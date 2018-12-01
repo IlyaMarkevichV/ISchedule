@@ -1,20 +1,14 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "professor", schema = "project")
 public class Professor {
     @Id
     @Column(name = "professor_id")
-    private int professorId;
+    private int id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
@@ -29,12 +23,12 @@ public class Professor {
     public Professor() {
     }
 
-    public int getProfessorId() {
-        return professorId;
+    public int getId() {
+        return id;
     }
 
-    public void setProfessorId(int professorId) {
-        this.professorId = professorId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Account getAccount() {
@@ -66,7 +60,7 @@ public class Professor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Professor professor = (Professor) o;
-        return professorId == professor.professorId &&
+        return id == professor.id &&
                 account.equals(professor.account) &&
                 academicRank.equals(professor.academicRank) &&
                 fieldOfResearch.equals(professor.fieldOfResearch);
@@ -74,6 +68,6 @@ public class Professor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(professorId, account, academicRank, fieldOfResearch);
+        return Objects.hash(id, account, academicRank, fieldOfResearch);
     }
 }

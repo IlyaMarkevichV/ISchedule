@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DayViewModel {
-    private int dayNumber;
+    private int id;
     private String dayName;
 
     public DayViewModel() {
     }
 
-    public int getDayNumber() {
-        return dayNumber;
+    public int getId() {
+        return id;
     }
 
-    public void setDayNumber(int dayNumber) {
-        this.dayNumber = dayNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDayName() {

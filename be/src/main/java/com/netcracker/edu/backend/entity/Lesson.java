@@ -1,9 +1,5 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,7 +10,7 @@ public class Lesson {
     @Id
     @GeneratedValue
     @Column(name = "lesson_id")
-    private int lessonId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "lesson_info_id")
@@ -44,12 +40,12 @@ public class Lesson {
     public Lesson() {
     }
 
-    public int getLessonId() {
-        return lessonId;
+    public int getId() {
+        return id;
     }
 
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LessonInfo getLessonInfo() {
@@ -105,7 +101,7 @@ public class Lesson {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lesson lesson = (Lesson) o;
-        return lessonId == lesson.lessonId &&
+        return id == lesson.id &&
                 lessonRoom == lesson.lessonRoom &&
                 lessonInfo.equals(lesson.lessonInfo) &&
                 professor.equals(lesson.professor) &&
@@ -116,6 +112,6 @@ public class Lesson {
 
     @Override
     public int hashCode() {
-        return Objects.hash(lessonId, lessonInfo, professor, lessonTime, lessonRoom, day, groups);
+        return Objects.hash(id, lessonInfo, professor, lessonTime, lessonRoom, day, groups);
     }
 }

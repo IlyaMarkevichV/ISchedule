@@ -1,6 +1,5 @@
 package com.netcracker.edu.fapi.service.impl;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.netcracker.edu.fapi.models.FacultyViewModel;
 import com.netcracker.edu.fapi.service.FacultyDataService;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +34,7 @@ public class FacultyDataServiceImpl implements FacultyDataService {
 
         if (faculties != null) {
             for (FacultyViewModel faculty : faculties) {
-                if (faculty.getFacultyId() == id)
+                if (faculty.getId() == id)
                     return faculty;
             }
         }

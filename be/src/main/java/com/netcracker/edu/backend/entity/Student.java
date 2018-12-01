@@ -1,9 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +10,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "student_id")
-    private int studentId;
+    private int id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
@@ -29,12 +26,12 @@ public class Student {
     public Student() {
     }
 
-    public int getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Account getAccount() {
@@ -66,7 +63,7 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return studentId == student.studentId &&
+        return id == student.id &&
                 Objects.equals(account, student.account) &&
                 Objects.equals(group, student.group) &&
                 Objects.equals(address, student.address);
@@ -74,6 +71,6 @@ public class Student {
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, account, group, address);
+        return Objects.hash(id, account, group, address);
     }
 }

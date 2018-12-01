@@ -10,7 +10,7 @@ public class GroupInfo {
     @Id
     @Column(name = "group_info_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int groupInfoId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
@@ -30,12 +30,12 @@ public class GroupInfo {
     public GroupInfo() {
     }
 
-    public int getGroupInfoId() {
-        return groupInfoId;
+    public int getId() {
+        return id;
     }
 
-    public void setGroupInfoId(int groupInfoId) {
-        this.groupInfoId = groupInfoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public UniversityGroup getGroup() {
@@ -75,7 +75,7 @@ public class GroupInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupInfo groupInfo = (GroupInfo) o;
-        return groupInfoId == groupInfo.groupInfoId &&
+        return id == groupInfo.id &&
                 Objects.equals(group, groupInfo.group) &&
                 Objects.equals(professor, groupInfo.professor) &&
                 Objects.equals(message, groupInfo.message) &&
@@ -84,6 +84,6 @@ public class GroupInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupInfoId, group, professor, message, message_date);
+        return Objects.hash(id, group, professor, message, message_date);
     }
 }
