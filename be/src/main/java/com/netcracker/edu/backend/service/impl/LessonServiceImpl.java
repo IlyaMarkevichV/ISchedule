@@ -52,7 +52,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lesson> getPage(Pageable pageable) {
-        return repository.findAll(pageable).getContent();
+    public Page<Lesson> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

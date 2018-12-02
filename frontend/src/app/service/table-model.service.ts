@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Faculty} from "../model/faculty";
@@ -60,6 +60,7 @@ export class TableModelService {
   getUserByLogin(login: string): Observable<UserAccount> {
     return this.http.get<UserAccount>("/api/ba-accounts/auth?login=" + login);
   }
+
   /**/
 
   /***************************************************************************************************/
@@ -121,5 +122,12 @@ export class TableModelService {
 
   deleteLesson(lessonId: number): Observable<void> {
     return this.http.delete<void>('/api/ba-lessons/' + lessonId);
+  }
+
+  getPage(entityName: string, page: number, size: number, sort?: string): Observable<any> {
+      return this.http.get<any>('/api/ba-'.concat(entityName).concat('/')
+        .concat('?page=' + page)
+        .concat('&size=' + size)
+        .concat(sort ? ('&sort=' + sort) : ''));
   }
 }

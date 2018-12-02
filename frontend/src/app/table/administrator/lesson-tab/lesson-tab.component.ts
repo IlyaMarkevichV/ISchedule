@@ -90,4 +90,8 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   compareFn(obj1: any, obj2: any): boolean {
     return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
+
+  getPage(page: number) {
+    
+  }
 }

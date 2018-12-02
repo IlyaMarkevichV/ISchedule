@@ -3,6 +3,10 @@ package com.netcracker.edu.fapi.service.impl;
 import com.netcracker.edu.fapi.models.LessonViewModel;
 import com.netcracker.edu.fapi.service.LessonDataService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,13 +55,13 @@ public class LessonDataServiceImpl implements LessonDataService {
     }
 
     @Override
-    public List<LessonViewModel> getPage(HttpServletRequest request) {
+    public RestPageImpl<LessonViewModel> getPage(HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
-        LessonViewModel[] lessonViewModels = restTemplate.getForObject(
+        return restTemplate.exchange(
                 backendServerUrl + "api/lessons/pages?" + request.getQueryString(),
-                LessonViewModel[].class
-        );
-
-        return lessonViewModels == null ? Collections.emptyList() : Arrays.asList(lessonViewModels);
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<RestPageImpl<LessonViewModel>>() {}
+        ).getBody();
     }
 }

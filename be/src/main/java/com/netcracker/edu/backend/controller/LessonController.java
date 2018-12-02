@@ -44,9 +44,8 @@ public class LessonController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/pages")
-    public List<Lesson> getPage(Pageable pageable) {
-        System.out.println(pageable);
+    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    public Page<Lesson> getPage(Pageable pageable) {
         return lessonService.getPage(pageable);
     }
 }

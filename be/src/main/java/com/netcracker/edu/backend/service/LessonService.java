@@ -16,5 +16,5 @@ public interface LessonService {
 
     void deleteLesson(Integer id);
 
-    List<Lesson> getPage(Pageable pageable);
+    Page<Lesson> getPage(Pageable pageable);
 }
