@@ -15,6 +15,10 @@ import {TableModel} from "../../../model/TableModel";
 import {Group} from "../../../model/group";
 import {TableModelService} from "../../../service/table-model.service";
 import {Faculty} from "../../../model/faculty";
+import {Lesson} from "../../../model/lesson";
+import {RequestHelper} from "../../../model/RequestHelper";
+import {Constants} from "../../../share/constants";
+import {Page} from "../../../model/page";
 
 
 @Component({
@@ -51,6 +55,11 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   private modalRef: BsModalRef;
 
+  public groupPage: Page<Group>;
+
+  public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+  public sortDirection: boolean = false;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -59,6 +68,8 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.editableGroup.faculty = new Faculty();
+    this.groupPage = new Page<Group>();
+    this.getPage(1);
   }
 
   ngOnDestroy(): void {
@@ -164,5 +175,21 @@ export class GroupTabComponent implements OnInit, OnDestroy {
         this.tempGroupForFilter.graduation = this.searchText;
         break;
     }
+  }
+
+  getPage(pageNumber: number) {
+    this.loadingService.show();
+    console.log(pageNumber);
+    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    this.subscriptions.push(this.tableModelService.getPageObservable<Group>(
+      RequestHelper.GROUP,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.groupPage = req as Page<Group>;
+        this.groupPage.number += 1;
+        this.loadingService.hide();
+      }));
   }
 }

@@ -1,12 +1,12 @@
 export class RequestHelper {
-  public static DAY: 'days';
-  public static FACULTY: 'faculties';
-  public static GROUP: 'groups';
-  public static LESSON: 'lessons';
-  public static LESSON_INFOS: 'lesson-infos';
-  public static LESSON_TIMES: 'lesson-times';
-  public static PROFESSOR: 'professors';
-  public static ROLE: 'roles';
-  public static STUDENT: 'students';
-  public static USER: 'users';
+  public static DAY: string = 'days';
+  public static FACULTY: string = 'faculties';
+  public static GROUP: string = 'groups';
+  public static LESSON: string = 'lessons';
+  public static LESSON_INFOS: string = 'lesson-infos';
+  public static LESSON_TIMES: string = 'lesson-times';
+  public static PROFESSOR: string = 'professors';
+  public static ROLE: string = 'roles';
+  public static STUDENT: string = 'students';
+  public static USER: string = 'users';
 }

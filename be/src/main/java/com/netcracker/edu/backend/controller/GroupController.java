@@ -3,6 +3,8 @@ package com.netcracker.edu.backend.controller;
 import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.service.UniversityGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +45,10 @@ public class GroupController {
     public ResponseEntity deleteGroup(@PathVariable(name = "id") Integer id) {
         service.deleteGroup(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    public Page<UniversityGroup> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
 }

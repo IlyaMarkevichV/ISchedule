@@ -2,10 +2,12 @@ package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.GroupViewModel;
 import com.netcracker.edu.fapi.service.GroupDataService;
+import com.netcracker.edu.fapi.service.impl.RestPageImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,6 @@ public class GroupDataController {
         return ResponseEntity.ok(groupService.getAll());
     }
 
-    // TODO: server validation
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<GroupViewModel> saveGroup(@RequestBody GroupViewModel groupViewModel) {
         if (groupViewModel != null) {
@@ -42,5 +43,10 @@ public class GroupDataController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteGroup(@PathVariable(name = "id")  Integer id) {
         groupService.deleteGroup(id);
+    }
+
+    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    public ResponseEntity<RestPageImpl<GroupViewModel>> getPage(HttpServletRequest request) {
+        return ResponseEntity.ok(groupService.getPage(request));
     }
 }

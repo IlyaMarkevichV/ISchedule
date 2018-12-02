@@ -1,10 +1,13 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {Subscription} from "rxjs";
 import {TableModel} from "../../../model/TableModel";
-import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {BsModalRef, BsModalService, PageChangedEvent} from "ngx-bootstrap";
 import {Lesson} from "../../../model/lesson";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {TableModelService} from "../../../service/table-model.service";
+import {RequestHelper} from "../../../model/RequestHelper";
+import {Constants} from "../../../share/constants";
+import {Page} from "../../../model/page";
 
 @Component({
   selector: 'lesson-tab',
@@ -25,13 +28,19 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   private modalRef: BsModalRef;
 
   public editableLesson: Lesson;
+  public lessonPage: Page<Lesson>;
+  public itemPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+  public sortDirection: boolean = true;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService) {
+  }
 
   ngOnInit() {
     this.editableLesson = new Lesson();
+    this.lessonPage = new Page<Lesson>();
+    this.getPage(1);
   }
 
   ngOnDestroy(): void {
@@ -91,7 +100,19 @@ export class LessonTabComponent implements OnInit, OnDestroy {
     return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 
-  getPage(page: number) {
-    
+  getPage(pageNumber: number) {
+    this.loadingService.show();
+    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+
+    this.subscriptions.push(this.tableModelService.getPageObservable<Lesson>(
+      RequestHelper.LESSON,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,'  + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.lessonPage = req as Page<Lesson>;
+        this.lessonPage.number += 1;
+        this.loadingService.hide();
+      }));
   }
 }

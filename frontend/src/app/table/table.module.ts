@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {TableComponent} from './table.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
-import {AlertModule, BsDropdownModule, CollapseModule, ModalModule, TabsModule} from 'ngx-bootstrap';
+import {AlertModule, BsDropdownModule, CollapseModule, ModalModule, PaginationModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {FilterPipeModule} from "ngx-filter-pipe";
 import {AccordionModule} from 'ngx-bootstrap/accordion';
@@ -24,6 +24,7 @@ import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.
 import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
 import {FilterLessonsByProfessorPipe} from "../pipe/filterLectureByProfessor.pipe";
 import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.component';
+import {UiSwitchModule} from "ngx-ui-switch";
 
 
 
@@ -43,7 +44,9 @@ import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.compon
     AlertModule.forRoot(),
     NgxPaginationModule,
     AppRoutingModule,
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    PaginationModule.forRoot(),
+    UiSwitchModule
   ],
   declarations: [
     TableComponent,

@@ -4,6 +4,8 @@ import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.repository.UniversityGroupRepository;
 import com.netcracker.edu.backend.service.UniversityGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,5 +38,10 @@ public class UniversityGroupServiceImpl implements UniversityGroupService {
     @Override
     public void deleteGroup(Integer id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Page<UniversityGroup> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

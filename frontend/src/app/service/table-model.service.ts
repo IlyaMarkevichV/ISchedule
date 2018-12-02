@@ -12,6 +12,7 @@ import {Day} from "../model/day";
 import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
 import {Lesson} from "../model/lesson";
+import {Page} from "../model/page";
 
 @Injectable({
   providedIn: 'root'
@@ -124,9 +125,9 @@ export class TableModelService {
     return this.http.delete<void>('/api/ba-lessons/' + lessonId);
   }
 
-  getPage(entityName: string, page: number, size: number, sort?: string): Observable<any> {
-      return this.http.get<any>('/api/ba-'.concat(entityName).concat('/')
-        .concat('?page=' + page)
+  getPageObservable<T>(entityName: string, page: number, size: number, sort?: string): Observable<Page<T>> {
+      return this.http.get<Page<T>>('/api/ba-'.concat(entityName).concat('/pages?')
+        .concat('page=' + page)
         .concat('&size=' + size)
         .concat(sort ? ('&sort=' + sort) : ''));
   }

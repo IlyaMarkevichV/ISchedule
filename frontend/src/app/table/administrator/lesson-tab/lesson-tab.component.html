@@ -23,7 +23,7 @@
   </thead>
 
   <tbody id="tableBody"
-         *ngFor="let lesson of tableModel.lessons">
+         *ngFor="let lesson of lessonPage.content">
   <tr>
     <td>{{ lesson.lessonInfo.lessonName }}</td>
     <td>{{ lesson.professor.account.firstName }} {{ lesson.professor.account.lastName }}</td>
@@ -42,13 +42,22 @@
   </tr>
   </tbody>
 </table>
-<pagination-controls id="lessons" (pageChange)="page = $event" align="center"></pagination-controls>
-
+<pager
+  [totalItems]="lessonPage.totalElements"
+  [(ngModel)]="lessonPage.number"
+  (pageChanged)="getPage($event.page)"
+  pageBtnClass="btn"
+  [itemsPerPage]="itemPerPage"
+  class="pull-left">
+</pager>
+<ui-switch uncheckedLabel="ASC"
+           checkedLabel="DESC" [(ngModel)]="sortDirection" (change)="getPage(lessonPage.number)"></ui-switch>
+{{lessonPage.number}}
 
 <!-- Modal -->
 <ng-template #lessonModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Professor UserAccount</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new Professor UserAccount</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -66,7 +75,8 @@
     <div class="form-group">
       <label>Professor</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
-        <option *ngFor="let professor of tableModel.professors" [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
+        <option *ngFor="let professor of tableModel.professors"
+                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
         </option>
       </select>
     </div>
@@ -74,7 +84,8 @@
     <div class="form-group">
       <label>Time</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonTime">
-        <option *ngFor="let time of tableModel.lessonTimes" [ngValue]="time">{{time.begin | date:'HH:mm'}} - {{time.end | date:'HH:mm'}}
+        <option *ngFor="let time of tableModel.lessonTimes" [ngValue]="time">{{time.begin | date:'HH:mm'}}
+          - {{time.end | date:'HH:mm'}}
         </option>
       </select>
     </div>
@@ -100,7 +111,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-default"
             [disabled]="room.invalid" (click)="saveLesson()">
-      {{editMode ? "Save": "Create"}}
+      {{editMode ? "Save" : "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
   </div>
