@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,10 @@ public class LessonDataController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteLesson(@PathVariable(name = "id") Integer id) {
         lessonDataService.deleteLesson(id);
+    }
+
+    @RequestMapping(value = "/pages")
+    public ResponseEntity<List<LessonViewModel>> getPage(HttpServletRequest request) {
+        return ResponseEntity.ok(lessonDataService.getPage(request));
     }
 }

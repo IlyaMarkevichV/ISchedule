@@ -3,9 +3,12 @@ package com.netcracker.edu.backend.controller;
 import com.netcracker.edu.backend.entity.Lesson;
 import com.netcracker.edu.backend.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,5 +42,11 @@ public class LessonController {
     public ResponseEntity deleteLesson(@PathVariable(name = "id") Integer id) {
         lessonService.deleteLesson(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/pages")
+    public List<Lesson> getPage(Pageable pageable) {
+        System.out.println(pageable);
+        return lessonService.getPage(pageable);
     }
 }

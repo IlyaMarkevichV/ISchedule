@@ -2,6 +2,7 @@ package com.netcracker.edu.fapi.service;
 
 import com.netcracker.edu.fapi.models.LessonViewModel;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface LessonDataService {
@@ -12,4 +13,6 @@ public interface LessonDataService {
     LessonViewModel saveLesson(LessonViewModel schedule);
 
     void deleteLesson(Integer id);
+
+    List<LessonViewModel> getPage(HttpServletRequest request);
 }

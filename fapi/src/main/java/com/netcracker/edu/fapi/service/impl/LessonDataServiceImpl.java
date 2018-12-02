@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,18 +30,11 @@ public class LessonDataServiceImpl implements LessonDataService {
     @Override
     public LessonViewModel getLessonById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        LessonViewModel[] lessonViewModels = restTemplate.getForObject(
-                backendServerUrl + "api/lessons",
-                LessonViewModel[].class
+        LessonViewModel lessonViewModel = restTemplate.getForObject(
+                backendServerUrl + "api/lessons/" + id,
+                LessonViewModel.class
         );
-
-        if (lessonViewModels != null) {
-            for (LessonViewModel lessonViewModel : lessonViewModels) {
-                if (lessonViewModel.getId() == id)
-                    return lessonViewModel;
-            }
-        }
-        return null;
+        return lessonViewModel;
     }
 
     @Override
@@ -54,5 +48,16 @@ public class LessonDataServiceImpl implements LessonDataService {
     @Override
     public void deleteLesson(Integer id) {
         new RestTemplate().delete(backendServerUrl + "api/lessons/" + id);
+    }
+
+    @Override
+    public List<LessonViewModel> getPage(HttpServletRequest request) {
+        RestTemplate restTemplate = new RestTemplate();
+        LessonViewModel[] lessonViewModels = restTemplate.getForObject(
+                backendServerUrl + "api/lessons/pages?" + request.getQueryString(),
+                LessonViewModel[].class
+        );
+
+        return lessonViewModels == null ? Collections.emptyList() : Arrays.asList(lessonViewModels);
     }
 }

@@ -5,8 +5,12 @@ import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.repository.LessonRepository;
 import com.netcracker.edu.backend.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,5 +49,10 @@ public class LessonServiceImpl implements LessonService {
 
         repository.save(lesson);
         repository.delete(lesson);
+    }
+
+    @Override
+    public List<Lesson> getPage(Pageable pageable) {
+        return repository.findAll(pageable).getContent();
     }
 }
