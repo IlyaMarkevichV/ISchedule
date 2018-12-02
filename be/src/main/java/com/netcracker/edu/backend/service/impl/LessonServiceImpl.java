@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.Lesson;
+import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.repository.LessonRepository;
 import com.netcracker.edu.backend.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,14 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void deleteLesson(Integer id) {
-        repository.deleteById(id);
+        Optional<Lesson> lessonOptional = repository.findById(id);
+        if (!lessonOptional.isPresent())
+            return;
+
+        Lesson lesson = lessonOptional.get();
+        lesson.getGroups().clear();
+
+        repository.save(lesson);
+        repository.delete(lesson);
     }
 }
