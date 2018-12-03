@@ -32,6 +32,14 @@ public class UniversityGroupServiceImpl implements UniversityGroupService {
 
     @Override
     public void deleteGroup(Integer id) {
+        Optional<UniversityGroup> groupOptional = repository.findById(id);
+        if (!groupOptional.isPresent())
+            return;
+
+        UniversityGroup group = groupOptional.get();
+        group.getLessons().clear();
+
+        repository.save(group);
         repository.deleteById(id);
     }
 
