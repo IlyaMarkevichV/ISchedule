@@ -62,7 +62,10 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
         this.loadingService.hide();
       }));
     } else if (professor && !group) {
-      lesson.professor = professor;
+      this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(() => {
+        this.updateSchedule();
+        this.loadingService.hide();
+      }));
     }
   }
 

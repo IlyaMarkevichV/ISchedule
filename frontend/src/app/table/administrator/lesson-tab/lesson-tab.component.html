@@ -19,6 +19,7 @@
     <th>End</th>
     <th>Room</th>
     <th>Day</th>
+    <th>Groups</th>
   </tr>
   </thead>
 
@@ -31,13 +32,14 @@
     <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
     <td>{{ lesson.lessonRoom }}</td>
     <td>{{ lesson.day.dayName }}</td>
+    <td><div *ngFor="let gr of lesson.groups"> {{gr.id}}</div></td>
     <td>
       <button type="button" class="btn btn-danger" (click)="deleteLesson()">
         Delete
       </button>
     </td>
     <td>
-      <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lessonModal)">Edit</button>
+      <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
     </td>
   </tr>
   </tbody>
@@ -104,6 +106,15 @@
       <label>Day</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.day">
         <option *ngFor="let day of tableModel.studyDays" [ngValue]="day">{{day.dayName}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Groups</label>
+      <select multiple class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.groups">
+        <option *ngFor="let group of tableModel.groups"
+                [ngValue]="group">Id: {{group.id}} Faculty: {{group.faculty.facultyName}}
         </option>
       </select>
     </div>

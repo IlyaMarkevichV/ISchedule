@@ -21,10 +21,6 @@
         <tr>
           <th>Lesson name</th>
           <th>Professor name</th>
-          <th>Begin</th>
-          <th>End</th>
-          <th>Room</th>
-          <th>Day</th>
         </tr>
         </thead>
 
@@ -33,17 +29,10 @@
         <tr>
           <td>{{ lesson.lessonInfo.lessonName }}</td>
           <td>{{ lesson.professor.account.firstName }} {{ lesson.professor.account.lastName }}</td>
-          <td>{{ lesson.lessonTime.begin | date:'HH:mm' }}</td>
-          <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
-          <td>{{ lesson.lessonRoom }}</td>
-          <td>{{ lesson.day.dayName }}</td>
           <td>
             <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
               Delete
             </button>
-          </td>
-          <td>
-            <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
           </td>
         </tr>
         </tbody>
@@ -61,10 +50,7 @@
       <table class="table table-hover" id="professorTable">
         <thead>
         <tr>
-          <th>Begin</th>
-          <th>End</th>
-          <th>Room</th>
-          <th>Day</th>
+          <th>Lesson name</th>
           <th>Groups</th>
         </tr>
         </thead>
@@ -72,10 +58,7 @@
         <tbody id="professorTableBody"
                *ngFor="let lesson of tableModel.lessons | filterLessonsByProfessor: professor">
         <tr>
-          <td>{{ lesson.lessonTime.begin | date:'HH:mm' }}</td>
-          <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
-          <td>{{ lesson.lessonRoom }}</td>
-          <td>{{ lesson.day.dayName }}</td>
+          <td>{{ lesson.lessonInfo.lessonName }}</td>
           <td><div *ngFor="let gr of lesson.groups"> {{gr.id}}</div></td>
           <td>
 <!--            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, professor)">
@@ -83,7 +66,9 @@
             </button>-->
           </td>
           <td>
-            <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, professor)">
+              Delete
+            </button>
           </td>
         </tr>
         </tbody>
