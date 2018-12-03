@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface LessonDataService {
-    List<LessonViewModel> getAllLessons();
 
     LessonViewModel getLessonById(Integer id);
 

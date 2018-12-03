@@ -28,8 +28,6 @@ public class AccountDataServiceImpl implements AccountDataService, UserDetailsSe
     @Value("${backend.server.url}")
     private String backendUrlServer;
 
-    final static Logger logger = Logger.getLogger(AccountDataServiceImpl.class);
-
     @Override
     public AccountViewModel getAccountByLogin(@NotNull String login) {
         ResponseEntity<AccountViewModel> acc = new RestTemplate().getForEntity(

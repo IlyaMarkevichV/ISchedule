@@ -2,10 +2,15 @@ package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.StudentViewModel;
 import com.netcracker.edu.fapi.service.StudentDataService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,17 +21,18 @@ public class StudentDataServiceImpl implements StudentDataService {
     @Value("${backend.server.url}")
     private String backendServerUrl;
 
-    @Override
-    public List<StudentViewModel> getAll() {
-        RestTemplate restTemplate = new RestTemplate();
-        StudentViewModel[] studentViewModelResponse =
-                restTemplate.getForObject(backendServerUrl + "/api/students/", StudentViewModel[].class);
-        return studentViewModelResponse == null ? Collections.emptyList() : Arrays.asList(studentViewModelResponse);
-    }
+    private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    public StudentDataServiceImpl(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Override
     public StudentViewModel saveStudent(StudentViewModel viewModel) {
+        String encodedPassword = encoder.encode(viewModel.getAccount().getPassword());
+        viewModel.getAccount().setPassword(encodedPassword);
+
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "/api/students", viewModel, StudentViewModel.class).getBody();
     }
@@ -35,5 +41,15 @@ public class StudentDataServiceImpl implements StudentDataService {
     public void deleteStudent(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "/api/students/" + id);
+    }
+
+    @Override
+    public RestPageImpl<StudentViewModel> getPage(HttpServletRequest request) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(
+                backendServerUrl + "/api/students?" + request.getQueryString(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<RestPageImpl<StudentViewModel>>() {}).getBody();
     }
 }

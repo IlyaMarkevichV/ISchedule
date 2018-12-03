@@ -50,9 +50,10 @@
   [itemsPerPage]="itemPerPage"
   class="pull-left">
 </pager>
-<ui-switch uncheckedLabel="ASC"
-           checkedLabel="DESC" [(ngModel)]="sortDirection" (change)="getPage(lessonPage.number)"></ui-switch>
-{{lessonPage.number}}
+<button type="button" class="btn btn-default"
+        (click)="sortDirection=!sortDirection;
+          getPage(lessonPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+</button>
 
 <!-- Modal -->
 <ng-template #lessonModal>

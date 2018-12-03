@@ -34,11 +34,6 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Iterable<Lesson> getAllLessons() {
-        return repository.findAll();
-    }
-
-    @Override
     public void deleteLesson(Integer id) {
         Optional<Lesson> lessonOptional = repository.findById(id);
         if (!lessonOptional.isPresent())

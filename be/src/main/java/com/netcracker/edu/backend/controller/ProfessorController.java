@@ -7,6 +7,8 @@ import com.netcracker.edu.backend.resource.Constants;
 import com.netcracker.edu.backend.service.AccountService;
 import com.netcracker.edu.backend.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +28,14 @@ public class ProfessorController {
         return service.saveProfessor(professor);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<Professor> getAllProfessors() {
-        return service.getAllProfessors();
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteProfessor(@PathVariable(name = "id") Integer id) {
         service.deleteProfessor(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public Page<Professor> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
 }

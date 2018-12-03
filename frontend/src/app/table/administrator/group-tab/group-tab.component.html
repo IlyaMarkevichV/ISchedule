@@ -32,7 +32,7 @@
             </ul>
           </div>
 
-          <input [(ngModel)]="searchText" [typeahead]="tableModel.groups" typeaheadOptionField="{{groupField}}"
+          <input [(ngModel)]="searchText" [typeahead]="groupPage.content" typeaheadOptionField="{{groupField}}"
                  [typeaheadScrollable]="true"
                  [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
         </div>
@@ -80,9 +80,10 @@
          [itemsPerPage]="itemsPerPage"
          class="pull-left">
   </pager>
-  <button type="button" class="btn btn-danger"
-          (click)="sortDirection=!sortDirection; getPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}</button>
-  {{groupPage.number}}
+  <button type="button" class="btn btn-default"
+          (click)="sortDirection=!sortDirection;
+          getPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+  </button>
 </div>
 
 <!-- Modal -->

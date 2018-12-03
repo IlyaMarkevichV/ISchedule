@@ -31,11 +31,6 @@ public class UniversityGroupServiceImpl implements UniversityGroupService {
     }
 
     @Override
-    public Iterable<UniversityGroup> getAllGroups() {
-        return repository.findAll();
-    }
-
-    @Override
     public void deleteGroup(Integer id) {
         repository.deleteById(id);
     }

@@ -1,7 +1,7 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset type="pills">
-  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudents()">
+  <tab heading="Students" class="mt-2" (select)="loadStudents.emit()">
     <br/>
     <br/>
     <br/>
@@ -9,7 +9,7 @@
                  (loadStudents)="loadStudents.emit()"></student-tab>
   </tab>
 
-  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessors()">
+  <tab heading="Professors" class="mt-2" (select)="loadProfessors.emit()">
     <br/>
     <br/>
     <br/>
@@ -17,7 +17,7 @@
                    (loadProfessors)="loadProfessors.emit()"></professor-tab>
   </tab>
 
-  <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">
+  <tab heading="Groups" class="mt-2" (select)="loadGroups.emit()">
     <br/>
     <br/>
     <br/>
@@ -26,7 +26,7 @@
                (loadGroups)="loadGroups.emit()"></group-tab>
   </tab>
 
-  <tab heading="Schedule">
+  <tab heading="Schedule" (select)="loadLessons.emit()">
     <br/>
     <br/>
     <br/>
@@ -34,7 +34,7 @@
                   (loadLessons)="loadLessons.emit()"></schedule-tab>
   </tab>
 
-  <tab heading="Lessons">
+  <tab heading="Lessons" (select)="loadLessons.emit()">
     <br/>
     <br/>
     <br/>

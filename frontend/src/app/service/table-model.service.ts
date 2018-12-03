@@ -22,8 +22,8 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
-  getProfessors(): Observable<ProfessorAccount[]> {
-    return this.http.get<ProfessorAccount[]>('/api/ba-professors');
+  getProfessors(): Observable<Page<ProfessorAccount>> {
+    return this.http.get<Page<ProfessorAccount>>('/api/ba-professors?page=0');
   }
 
   saveProfessor(professor: ProfessorAccount): Observable<ProfessorAccount> {
@@ -36,8 +36,8 @@ export class TableModelService {
 
   /*****/
 
-  getStudents(): Observable<StudentAccount[]> {
-    return this.http.get<StudentAccount[]>('/api/ba-students');
+  getStudents(): Observable<Page<StudentAccount>> {
+    return this.http.get<Page<StudentAccount>>('/api/ba-students?page=0');
   }
 
   saveStudent(student: StudentAccount): Observable<StudentAccount> {
@@ -85,8 +85,8 @@ export class TableModelService {
     return this.http.get<Group>('/api/ba-groups/' + id);
   }
 
-  getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>('/api/ba-groups/');
+  getGroups(): Observable<Page<Group>> {
+    return this.http.get<Page<Group>>('/api/ba-groups?page=0');
   }
 
   saveGroup(group: Group): Observable<Group> {
@@ -113,8 +113,8 @@ export class TableModelService {
     return this.http.get<LessonInfo[]>('/api/ba-lesson-infos');
   }
 
-  getLessons(): Observable<Lesson[]> {
-    return this.http.get<Lesson[]>('/api/ba-lessons');
+  getLessons(): Observable<Page<Lesson>> {
+    return this.http.get<Page<Lesson>>('/api/ba-lessons?page=0');
   }
 
   saveLesson(lesson: Lesson): Observable<Lesson> {
@@ -126,9 +126,9 @@ export class TableModelService {
   }
 
   getPageObservable<T>(entityName: string, page: number, size: number, sort?: string): Observable<Page<T>> {
-      return this.http.get<Page<T>>('/api/ba-'.concat(entityName).concat('/pages?')
+      return this.http.get<Page<T>>('/api/ba-'.concat(entityName).concat('?')
         .concat('page=' + page)
-        .concat('&size=' + size)
+        .concat(size != 0 ? ('&size=' + size) : '')
         .concat(sort ? ('&sort=' + sort) : ''));
   }
 }

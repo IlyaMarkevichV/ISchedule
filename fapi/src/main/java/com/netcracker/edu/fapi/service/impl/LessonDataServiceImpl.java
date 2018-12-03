@@ -22,23 +22,12 @@ public class LessonDataServiceImpl implements LessonDataService {
     private String backendServerUrl;
 
     @Override
-    public List<LessonViewModel> getAllLessons() {
-        RestTemplate restTemplate = new RestTemplate();
-        LessonViewModel[] lessonViewModels = restTemplate.getForObject(
-                backendServerUrl + "api/lessons",
-                LessonViewModel[].class
-        );
-        return lessonViewModels == null ? Collections.emptyList() : Arrays.asList(lessonViewModels);
-    }
-
-    @Override
     public LessonViewModel getLessonById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
-        LessonViewModel lessonViewModel = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 backendServerUrl + "api/lessons/" + id,
                 LessonViewModel.class
         );
-        return lessonViewModel;
     }
 
     @Override
@@ -58,7 +47,7 @@ public class LessonDataServiceImpl implements LessonDataService {
     public RestPageImpl<LessonViewModel> getPage(HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(
-                backendServerUrl + "api/lessons/pages?" + request.getQueryString(),
+                backendServerUrl + "api/lessons?" + request.getQueryString(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<RestPageImpl<LessonViewModel>>() {}

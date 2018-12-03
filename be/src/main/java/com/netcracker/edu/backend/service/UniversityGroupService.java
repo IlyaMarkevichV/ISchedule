@@ -11,8 +11,6 @@ public interface UniversityGroupService {
 
     Optional<UniversityGroup> getGroupById(Integer id);
 
-    Iterable<UniversityGroup> getAllGroups();
-
     void deleteGroup(Integer id);
 
     Page<UniversityGroup> getPage(Pageable pageable);

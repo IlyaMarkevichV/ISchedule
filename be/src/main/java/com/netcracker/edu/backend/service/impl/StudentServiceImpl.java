@@ -4,7 +4,10 @@ import com.netcracker.edu.backend.entity.Student;
 import com.netcracker.edu.backend.repository.StudentRepository;
 import com.netcracker.edu.backend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Optional;
 
@@ -29,12 +32,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Iterable<Student> getAllStudents() {
-        return repository.findAll();
+    public void deleteStudents(Integer id) {
+        repository.deleteById(id);
     }
 
     @Override
-    public void deleteStudents(Integer id) {
-        repository.deleteById(id);
+    public Page<Student> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

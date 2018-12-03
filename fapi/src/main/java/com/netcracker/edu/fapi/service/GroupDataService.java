@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface GroupDataService {
-    List<GroupViewModel> getAll();
 
     GroupViewModel getGroupById(Integer id);
 

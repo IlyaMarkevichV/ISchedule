@@ -27,11 +27,6 @@ public class LessonDataController {
         return ResponseEntity.ok(lessonDataService.getLessonById(id));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List<LessonViewModel>> getAllLessons() {
-        return ResponseEntity.ok(lessonDataService.getAllLessons());
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<LessonViewModel> saveLesson(@RequestBody LessonViewModel lessonViewModel) {
         return lessonViewModel != null ? ResponseEntity.ok(lessonDataService.saveLesson(lessonViewModel)) : null;
@@ -42,7 +37,7 @@ public class LessonDataController {
         lessonDataService.deleteLesson(id);
     }
 
-    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<RestPageImpl<LessonViewModel>> getPage(HttpServletRequest request) {
         return ResponseEntity.ok(lessonDataService.getPage(request));
     }

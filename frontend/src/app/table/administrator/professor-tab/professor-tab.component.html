@@ -29,7 +29,7 @@
             </ul>
           </div>
 
-          <input [(ngModel)]="searchText" [typeahead]="tableModel.professors" typeaheadOptionField="{{professorField}}"
+          <input [(ngModel)]="searchText" [typeahead]="professorPage.content" typeaheadOptionField="{{professorField}}"
                  [typeaheadScrollable]="true"
                  [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
         </div>
@@ -51,8 +51,7 @@
     </thead>
 
     <tbody id="tableBody"
-           *ngFor="let professor of tableModel.professors | filterBy: tempProfessorForFilter
-           | paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'professors' }">
+           *ngFor="let professor of professorPage.content">
     <tr>
       <td>{{ professor.account.firstName }}</td>
       <td>{{ professor.account.lastName }}</td>
@@ -70,7 +69,19 @@
     </tr>
     </tbody>
   </table>
-  <pagination-controls id="professors" (pageChange)="page = $event" *ngIf="!searchText" align="center"></pagination-controls>
+
+  <pager
+    [totalItems]="professorPage.totalElements"
+    [(ngModel)]="professorPage.number"
+    (pageChanged)="getPage($event.page)"
+    pageBtnClass="btn"
+    [itemsPerPage]="itemsPerPage"
+    class="pull-left">
+  </pager>
+  <button type="button" class="btn btn-default"
+          (click)="sortDirection=!sortDirection;
+          getPage(professorPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+  </button>
 </div>
 
 <!-- Modal -->

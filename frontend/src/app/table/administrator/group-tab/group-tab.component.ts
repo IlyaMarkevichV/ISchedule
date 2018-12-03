@@ -56,7 +56,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
   private modalRef: BsModalRef;
 
   public groupPage: Page<Group>;
-
   public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
   public sortDirection: boolean = false;
 

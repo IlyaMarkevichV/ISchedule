@@ -17,6 +17,9 @@ import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
 import {Role} from "../../../model/role";
 import {UserAccount} from "../../../model/UserAccount";
+import {Constants} from "../../../share/constants";
+import {Page} from "../../../model/page";
+import {RequestHelper} from "../../../model/RequestHelper";
 
 
 @Component({
@@ -52,6 +55,10 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public studentPage: Page<StudentAccount>;
+  public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+  public sortDirection: boolean = false;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -66,6 +73,9 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.editableStudent = new StudentAccount();
     this.editableStudent.account = new UserAccount();
     this.editableStudent.group = new Group();
+
+    this.studentPage = new Page<StudentAccount>();
+    this.getPage(1);
   }
 
   ngOnDestroy(): void {
@@ -158,6 +168,22 @@ export class StudentTabComponent implements OnInit, OnDestroy {
           this.tempStudentForFilter.group.id = Number(this.searchText);
         break;
     }
+  }
+
+  getPage(pageNumber: number) {
+    this.loadingService.show();
+    console.log(pageNumber);
+    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    this.subscriptions.push(this.tableModelService.getPageObservable<StudentAccount>(
+      RequestHelper.STUDENT,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.studentPage = req as Page<StudentAccount>;
+        this.studentPage.number += 1;
+        this.loadingService.hide();
+      }));
   }
 }
 

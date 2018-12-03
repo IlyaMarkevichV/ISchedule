@@ -14,9 +14,12 @@ import {TableModelService} from "../../../service/table-model.service";
 import {TableModel} from "../../../model/TableModel";
 import {UserAccount} from "../../../model/UserAccount";
 import {DatePipe} from "@angular/common";
-import {Group} from "../../../model/group";
 import {ProfessorAccount} from "../../../model/professor-account";
 import {Role} from "../../../model/role";
+import {Group} from "../../../model/group";
+import {RequestHelper} from "../../../model/RequestHelper";
+import {Constants} from "../../../share/constants";
+import {Page} from "../../../model/page";
 
 
 @Component({
@@ -51,6 +54,10 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public professorPage: Page<ProfessorAccount>;
+  public sortDirection: boolean = false;
+  public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+
   // Dependency injection
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -64,6 +71,9 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
     this.editableProfessor = new ProfessorAccount();
     this.editableProfessor.account = new UserAccount();
+
+    this.professorPage = new Page<ProfessorAccount>();
+    this.getPage(1);
   }
 
   ngOnDestroy(): void {
@@ -143,5 +153,21 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
         this.tempProfessorForFilter.account.birthday = this.searchText;
         break;
     }
+  }
+
+  getPage(pageNumber: number) {
+    this.loadingService.show();
+    console.log(pageNumber);
+    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
+      RequestHelper.PROFESSOR,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.professorPage = req as Page<ProfessorAccount>;
+        this.professorPage.number += 1;
+        this.loadingService.hide();
+      }));
   }
 }

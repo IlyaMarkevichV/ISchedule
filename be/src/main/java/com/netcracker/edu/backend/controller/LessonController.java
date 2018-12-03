@@ -28,11 +28,6 @@ public class LessonController {
         return schedule.isPresent() ? ResponseEntity.ok(schedule.get()) : null;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public Iterable<Lesson> getAllLessons() {
-        return lessonService.getAllLessons();
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Lesson saveLesson(@RequestBody Lesson lesson) {
         return lessonService.saveLesson(lesson);
@@ -44,7 +39,7 @@ public class LessonController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<Lesson> getPage(Pageable pageable) {
         return lessonService.getPage(pageable);
     }

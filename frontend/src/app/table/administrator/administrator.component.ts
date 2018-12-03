@@ -11,6 +11,7 @@ import {ScheduleTabComponent} from "./schedule-tab/schedule-tab.component";
   styleUrls: ['./administrator.component.css']
 })
 export class AdministratorComponent {
+/*
 
   @ViewChild(StudentTabComponent)
   protected studentComponent: StudentTabComponent;
@@ -23,6 +24,7 @@ export class AdministratorComponent {
 
   @ViewChild(ScheduleTabComponent)
   protected scheduleComponent: ScheduleTabComponent;
+*/
 
   @Input()
   public tableModel: TableModel;

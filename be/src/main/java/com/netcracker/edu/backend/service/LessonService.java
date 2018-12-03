@@ -12,8 +12,6 @@ public interface LessonService {
 
     Optional<Lesson> getLessonById(Integer id);
 
-    Iterable<Lesson> getAllLessons();
-
     void deleteLesson(Integer id);
 
     Page<Lesson> getPage(Pageable pageable);

@@ -31,11 +31,6 @@ public class GroupController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Iterable<UniversityGroup> getAllGroups() {
-        return service.getAllGroups();
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public UniversityGroup saveGroup(@RequestBody UniversityGroup entity) {
         return service.saveGroup(entity);
@@ -47,7 +42,7 @@ public class GroupController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<UniversityGroup> getPage(Pageable pageable) {
         return service.getPage(pageable);
     }

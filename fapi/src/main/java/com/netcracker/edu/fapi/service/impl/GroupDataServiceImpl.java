@@ -20,13 +20,6 @@ public class GroupDataServiceImpl implements GroupDataService {
     private String backendServerUrl;
 
     @Override
-    public List<GroupViewModel> getAll() {
-        RestTemplate restTemplate = new RestTemplate();
-        GroupViewModel[] groupViewModels = restTemplate.getForObject(backendServerUrl + "/api/groups", GroupViewModel[].class);
-        return groupViewModels == null ? Collections.emptyList() : Arrays.asList(groupViewModels);
-    }
-
-    @Override
     public GroupViewModel getGroupById(Integer id) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(
@@ -50,7 +43,7 @@ public class GroupDataServiceImpl implements GroupDataService {
     public RestPageImpl<GroupViewModel> getPage(HttpServletRequest request) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(
-                backendServerUrl + "/api/groups/pages?" + request.getQueryString(),
+                backendServerUrl + "/api/groups?" + request.getQueryString(),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<RestPageImpl<GroupViewModel>>() {}

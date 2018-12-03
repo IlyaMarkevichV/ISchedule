@@ -27,11 +27,6 @@ public class GroupDataController {
         return ResponseEntity.ok(groupService.getGroupById(id));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List<GroupViewModel>> getAllGroups() {
-        return ResponseEntity.ok(groupService.getAll());
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<GroupViewModel> saveGroup(@RequestBody GroupViewModel groupViewModel) {
         if (groupViewModel != null) {
@@ -45,7 +40,7 @@ public class GroupDataController {
         groupService.deleteGroup(id);
     }
 
-    @RequestMapping(value = "/pages", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<RestPageImpl<GroupViewModel>> getPage(HttpServletRequest request) {
         return ResponseEntity.ok(groupService.getPage(request));
     }

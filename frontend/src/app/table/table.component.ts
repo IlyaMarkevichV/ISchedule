@@ -14,6 +14,7 @@ import {Lesson} from "../model/lesson";
 import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
 import {Day} from "../model/day";
+import {Page} from "../model/page";
 
 @Component({
   selector: 'table-component',
@@ -68,7 +69,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadGroups(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
-      this.tableModel.groups = gr as Group[];
+      this.tableModel.groups = (gr as Page<Group>).content;
       this.loadingService.hide();
     }));
   }
@@ -76,7 +77,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadStudents(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getStudents().subscribe(accounts => {
-      this.tableModel.students = accounts as StudentAccount[];
+      this.tableModel.students = (accounts as Page<StudentAccount>).content;
       this.loadingService.hide();
     }));
   }
@@ -84,7 +85,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadProfessors(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getProfessors().subscribe(accounts => {
-      this.tableModel.professors = accounts as ProfessorAccount[];
+      this.tableModel.professors = (accounts as Page<ProfessorAccount>).content;
       this.loadingService.hide();
     }));
   }
@@ -100,7 +101,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public loadLessons(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getLessons().subscribe(lessons => {
-      this.tableModel.lessons = lessons as Lesson[];
+      this.tableModel.lessons = (lessons as Page<Lesson>).content;
       this.loadingService.hide();
     }));
   }
