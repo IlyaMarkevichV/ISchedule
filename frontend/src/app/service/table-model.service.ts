@@ -22,6 +22,13 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
+  getProfessorByAccountLogin(login: number): Observable<ProfessorAccount> {
+    let q = this.http.get<ProfessorAccount>('/api/ba-professors/search?login=' + login);
+    console.log('--------------------------------------',
+      q.subscribe(req => console.log("----", (req as ProfessorAccount) )));
+    return q;
+  }
+
   getProfessors(): Observable<Page<ProfessorAccount>> {
     return this.http.get<Page<ProfessorAccount>>('/api/ba-professors?page=0');
   }

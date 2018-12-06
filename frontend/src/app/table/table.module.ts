@@ -25,6 +25,7 @@ import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
 import {FilterLessonsByProfessorPipe} from "../pipe/filterLectureByProfessor.pipe";
 import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.component';
 import {UiSwitchModule} from "ngx-ui-switch";
+import {ToArray} from "../pipe/toArray";
 
 
 
@@ -63,7 +64,8 @@ import {UiSwitchModule} from "ngx-ui-switch";
     ScheduleTabComponent,
     FilterLessonsByGroupPipe,
     FilterLessonsByProfessorPipe,
-    LessonTabComponent
+    LessonTabComponent,
+    ToArray
   ],
   exports: [
     TableComponent,

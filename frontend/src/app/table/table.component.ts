@@ -15,6 +15,9 @@ import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
 import {Day} from "../model/day";
 import {Page} from "../model/page";
+import {Constants} from "../share/constants";
+import {TokenStorage} from "../service/token-storage.service";
+import {Token} from "../model/token";
 
 @Component({
   selector: 'table-component',
@@ -23,23 +26,30 @@ import {Page} from "../model/page";
 })
 export class TableComponent implements OnInit, OnDestroy {
 
-  public logginedUserAccount: UserAccount;
+  public userRole: string;
 
   private subscriptions: Subscription[] = [];
 
   public tableModel: TableModel;
 
+/*  public professor: ProfessorAccount;*/
+/*  public student: StudentAccount;*/
+
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
     private tableModelService: TableModelService,
-    private authService: AuthorizationService) {
+    private authService: AuthorizationService,
+    private tokenStorage: TokenStorage) {
   }
 
   ngOnInit() {
-    this.authService.currentAuthorizedUser.subscribe(user => {
-      this.logginedUserAccount = user as UserAccount;
-      console.log("Auth User in table component: " + this.logginedUserAccount);
-    });
+    this.loadingService.show();
+
+    let jwtData = this.tokenStorage.getToken().split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    this.userRole = decodedJwtData.scopes;
 
     this.tableModel = new TableModel();
 

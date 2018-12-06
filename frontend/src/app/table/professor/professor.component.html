@@ -1,6 +1,6 @@
 <tabset>
   <tab heading="Profile" class="mt-2">
-    <professor-profile ></professor-profile>
+    <professor-profile [professor]="professor"></professor-profile>
   </tab>
 
   <tab heading="Subjects" class="mt-2">
@@ -8,6 +8,7 @@
   </tab>
 
   <tab heading="Groups lesson" class="mt-2">
+    <professor-group-schedule></professor-group-schedule>
   </tab>
 
   <tab heading="Groups Information" class="mt-2">

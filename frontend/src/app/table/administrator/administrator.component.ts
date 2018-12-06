@@ -4,6 +4,7 @@ import {ProfessorTabComponent} from "./professor-tab/professor-tab.component";
 import {GroupTabComponent} from "./group-tab/group-tab.component";
 import {StudentTabComponent} from "./student-tab/student-tab.component";
 import {ScheduleTabComponent} from "./schedule-tab/schedule-tab.component";
+import {LessonTabComponent} from "./lesson-tab/lesson-tab.component";
 
 @Component({
   selector: 'administrator',
@@ -11,20 +12,23 @@ import {ScheduleTabComponent} from "./schedule-tab/schedule-tab.component";
   styleUrls: ['./administrator.component.css']
 })
 export class AdministratorComponent {
-/*
+  /*
 
-  @ViewChild(StudentTabComponent)
-  protected studentComponent: StudentTabComponent;
+    @ViewChild(StudentTabComponent)
+    protected studentComponent: StudentTabComponent;
 
-  @ViewChild(ProfessorTabComponent)
-  protected professorComponent: ProfessorTabComponent;
+    @ViewChild(ProfessorTabComponent)
+    protected professorComponent: ProfessorTabComponent;
 
-  @ViewChild(GroupTabComponent)
-  protected groupComponent: GroupTabComponent;
+    @ViewChild(GroupTabComponent)
+    protected groupComponent: GroupTabComponent;
 
-  @ViewChild(ScheduleTabComponent)
-  protected scheduleComponent: ScheduleTabComponent;
-*/
+    @ViewChild(ScheduleTabComponent)
+    protected scheduleComponent: ScheduleTabComponent;
+  */
+
+  @ViewChild(LessonTabComponent)
+  public lessonComponent: LessonTabComponent;
 
   @Input()
   public tableModel: TableModel;

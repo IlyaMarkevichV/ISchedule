@@ -59,22 +59,15 @@
                *ngFor="let lesson of tableModel.lessons | filterLessonsByProfessor: professor">
         <tr>
           <td>{{ lesson.lessonInfo.lessonName }}</td>
-          <td><div *ngFor="let gr of lesson.groups"> {{gr.id}}</div></td>
+          <td>{{ (lesson.groups | toArray: lesson.groups).join(', ') }}</td>
           <td>
-<!--            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, professor)">
-              Delete
-            </button>-->
-          </td>
-          <td>
-            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, professor)">
+            <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
               Delete
             </button>
           </td>
         </tr>
         </tbody>
       </table>
-      <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
-      -->
     </accordion-group>
   </accordion>
 </div>

@@ -55,8 +55,7 @@
     </thead>
 
     <tbody
-      *ngFor="let student of tableModel.students | filterBy: tempStudentForFilter |
-            paginate: { itemsPerPage: 5, currentPage: page, totalItems: totalNumberOfEntities, id: 'students' }">
+      *ngFor="let student of studentPage.content">
     <tr>
       <td>{{ student.id }}</td>
       <td>{{ student.group.id }}</td>

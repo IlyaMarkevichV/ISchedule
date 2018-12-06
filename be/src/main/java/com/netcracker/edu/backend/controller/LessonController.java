@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class LessonController {
         return schedule.isPresent() ? ResponseEntity.ok(schedule.get()) : null;
     }
 
+    @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Lesson saveLesson(@RequestBody Lesson lesson) {
         return lessonService.saveLesson(lesson);

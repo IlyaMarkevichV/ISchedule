@@ -32,7 +32,7 @@
     <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
     <td>{{ lesson.lessonRoom }}</td>
     <td>{{ lesson.day.dayName }}</td>
-    <td><div *ngFor="let gr of lesson.groups"> {{gr.id}}</div></td>
+    <td>{{ (lesson.groups | toArray: lesson.groups).join(', ') }}</td>
     <td>
       <button type="button" class="btn btn-danger" (click)="deleteLesson()">
         Delete

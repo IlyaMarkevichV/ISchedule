@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Pageable;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/ba-professors")
@@ -33,6 +31,15 @@ public class ProfessorDataController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteProfessorEntity(@PathVariable String id) {
         professorDataService.deleteProfessor(Integer.valueOf(id));
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<ProfessorViewModel> getProfessorByAccountId(@RequestParam(name = "login") String login) {
+        ProfessorViewModel p =  professorDataService.getProfessorByAccountId(login);
+        if (p != null)
+        return ResponseEntity.ok(p);
+        else
+            return null;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

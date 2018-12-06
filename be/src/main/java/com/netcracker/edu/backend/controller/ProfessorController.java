@@ -1,16 +1,14 @@
 package com.netcracker.edu.backend.controller;
 
-import com.netcracker.edu.backend.entity.Account;
 import com.netcracker.edu.backend.entity.Professor;
-import com.netcracker.edu.backend.entity.Role;
-import com.netcracker.edu.backend.resource.Constants;
-import com.netcracker.edu.backend.service.AccountService;
 import com.netcracker.edu.backend.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/professors")
@@ -32,6 +30,11 @@ public class ProfessorController {
     public ResponseEntity deleteProfessor(@PathVariable(name = "id") Integer id) {
         service.deleteProfessor(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Optional<Professor> getProfessorById(@RequestParam(name = "login") String login) {
+        return service.getProfessorByAccountId(login);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

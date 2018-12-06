@@ -31,7 +31,7 @@ public class Lesson {
     @JoinColumn(name = "study_day")
     private Day day;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "schedule_group",
             joinColumns = {@JoinColumn(name = "lesson_id")},
             inverseJoinColumns = {@JoinColumn(name = "group_id")})

@@ -1,5 +1,6 @@
 package com.netcracker.edu.backend.service.impl;
 
+import com.netcracker.edu.backend.entity.Account;
 import com.netcracker.edu.backend.entity.Professor;
 import com.netcracker.edu.backend.repository.ProfessorRepository;
 import com.netcracker.edu.backend.service.ProfessorService;
@@ -27,8 +28,8 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
-    public Optional<Professor> getProfessorById(Integer id) {
-        return repository.findById(id);
+    public Optional<Professor> getProfessorByAccountId(String login) {
+        return repository.findProfessorByAccount_Login(login);
     }
 
     @Override

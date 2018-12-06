@@ -11,6 +11,7 @@ import {TokenStorage} from "../service/token-storage.service";
 import {AuthorizationService} from "../service/authorization.service";
 import {Role} from "../model/role";
 import {TableModel} from "../model/TableModel";
+import {ProfessorAccount} from "../model/professor-account";
 
 
 @Component({
@@ -49,29 +50,11 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.attemptAuth(this.login, this.password).subscribe(authToken => {
       let token: Token = authToken as Token;
       this.tokeStorage.saveToken(token.token);
-      let jwtData = token.token.split('.')[1];
-      let decodedJwtJsonData = window.atob(jwtData);
-      let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
-      console.log(decodedJwtData);
+      //TODO: validation
 
-      this.tableModelService.getUserByLogin(decodedJwtData.sub).subscribe(user => {
-        this.authorizationAccount = user as UserAccount;
-
-        console.log(this.authorizationAccount);
-
-        if (!this.authorizationAccount) {
-          this.alertUserAboutError = true;
-        } else {
-          this.alertUserAboutError = false;
-
-          this.authService.transmitAuthorizedUser(this.authorizationAccount);
-
-          this.router.navigate(['table']);
-        }
-
-        this.loadingService.hide();
-      });
+      this.router.navigate(['table']);
+      this.loadingService.hide();
     }));
   }
 }

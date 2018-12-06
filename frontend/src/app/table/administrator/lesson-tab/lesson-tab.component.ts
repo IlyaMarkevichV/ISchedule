@@ -49,13 +49,14 @@ export class LessonTabComponent implements OnInit, OnDestroy {
 
   updateLessons(): void {
     this.loadLessons.emit();
-    //TODO: pages
+    this.getPage(1);
   }
 
   saveLesson(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
       this.updateLessons();
+      this.closeModal();
       this.loadingService.hide();
     }));
   }

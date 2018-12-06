@@ -1,17 +1,17 @@
 <div class="row">
 
+<ng-template [ngIf]="professor">
   <div class="col-sm-3">
-    <div class="card border-success">
-      <img class="card-img-top" src="" alt="Card image">
-      <div class="card-body">
-        <h4 class="card-title">Alexandr Rogovoy <span class="badge badge-pill badge-info">Professor</span></h4>
-        <p class="card-text"><code>Grade</code>: 2</p>
-        <p class="card-text"><code>Institution</code>: BSUIR</p>
-        <p class="card-text"><code>Date of birth</code>: 2000.06.30</p>
-        <p class="card-text"><code>Until</code>: 2021.06.30</p>
-      </div>
+  <div class="card border-success">
+    <div class="card-body">
+      <h4 class="card-title">{{professor.account.firstName}} {{professor.account.lastName}} <span class="badge badge-pill badge-info">Professor</span></h4>
+      <p class="card-text"><code>Date of birth</code>: {{professor.account.birthday | date}}</p>
+      <p class="card-text"><code>Academic rank</code>: {{professor.academicRank}}</p>
+      <p class="card-text"><code>Field of research</code>: {{professor.fieldOfResearch}}</p>
     </div>
   </div>
+</div>
+</ng-template>
 
   <div class="col-sm-9">
     <div class="jumbotron">
