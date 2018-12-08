@@ -16,4 +16,5 @@ public interface LessonRepository extends
 
     @Query(value = "SELECT lesson FROM Lesson lesson where lesson.professor.id=?1 AND lesson.day.id=?2")
     Iterable<Lesson> getLessonsByProfessorIdAndDayId(Integer professorId, Integer dayId);
+
 }

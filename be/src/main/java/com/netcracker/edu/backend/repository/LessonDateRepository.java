@@ -2,6 +2,7 @@ package com.netcracker.edu.backend.repository;
 
 import com.netcracker.edu.backend.entity.Lesson;
 import com.netcracker.edu.backend.entity.LessonDate;
+import com.netcracker.edu.backend.entity.UniversityGroup;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +20,11 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);
 
-    @Query("SELECT ld.lesson FROM LessonDate ld " +
-            "INNER JOIN ld.lesson " +
-            "WHERE ls.group")
+    @Query(value = "SELECT ld.lesson FROM LessonDate ld " +
+            "INNER JOIN ld.lesson.groups lessonGroups " +
+            "where :uniGroup in (lessonGroups) AND ld.date BETWEEN :dateFrom AND :dateTo")
+    Iterable<Lesson> getStudentLessonsBetween(
+            @Param("uniGroup") UniversityGroup group,
+            @Param("dateFrom") Date from,
+            @Param("dateTo") Date to);
 }
