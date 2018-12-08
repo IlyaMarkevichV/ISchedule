@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class LessonDataController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<LessonViewModel> getLessonById(@PathVariable(name = "id") Integer id){
+    public ResponseEntity<LessonViewModel> getLessonById(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(lessonDataService.getLessonById(id));
     }
 
@@ -41,4 +42,14 @@ public class LessonDataController {
     public ResponseEntity<RestPageImpl<LessonViewModel>> getPage(HttpServletRequest request) {
         return ResponseEntity.ok(lessonDataService.getPage(request));
     }
+
+    @RequestMapping(value = "/professor_schedule")
+    public ResponseEntity<List<LessonViewModel>> getLessonsByProfessorIdAndDayId(
+            @RequestParam(name = "professor_id") Integer professorId,
+            @RequestParam(name = "date") Date from) {
+        return ResponseEntity.ok(
+                lessonDataService.getProfessorLessonsBetween(professorId, from)
+        );
+    }
+
 }

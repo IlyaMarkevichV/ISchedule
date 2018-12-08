@@ -138,4 +138,11 @@ export class TableModelService {
         .concat(size != 0 ? ('&size=' + size) : '')
         .concat(sort ? ('&sort=' + sort) : ''));
   }
+
+  getProfessorLessons(professorId: number, date: Date): Observable<Lesson[]> {
+    let s: string = "";
+    s= "" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    return this.http.get<Lesson[]>(
+      '/api/ba-lessons/professor_schedule?professor_id=' + professorId + "&date=" + s);
+  }
 }

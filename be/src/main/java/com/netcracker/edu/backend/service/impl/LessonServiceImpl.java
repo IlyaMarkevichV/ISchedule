@@ -1,6 +1,8 @@
 package com.netcracker.edu.backend.service.impl;
 
+import com.netcracker.edu.backend.entity.Day;
 import com.netcracker.edu.backend.entity.Lesson;
+import com.netcracker.edu.backend.entity.Professor;
 import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.repository.LessonRepository;
 import com.netcracker.edu.backend.service.LessonService;
@@ -49,5 +51,10 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Page<Lesson> getPage(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public Iterable<Lesson> getLessonsByProfessorIdAndDayId(Integer professorId, Integer dayId) {
+        return repository.getLessonsByProfessorIdAndDayId(professorId, dayId);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,18 @@ public class LessonDataServiceImpl implements LessonDataService {
                 backendServerUrl + "api/lessons?" + request.getQueryString(),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<RestPageImpl<LessonViewModel>>() {}
+                new ParameterizedTypeReference<RestPageImpl<LessonViewModel>>() {
+                }
         ).getBody();
+    }
+
+    @Override
+    public List<LessonViewModel> getProfessorLessonsBetween(Integer professorId, Date from) {
+        RestTemplate restTemplate = new RestTemplate();
+        LessonViewModel[] lessons = restTemplate.getForObject(
+                String.format("%s/api/lessons/professor_schedule?professor_id=%d&from=%s",
+                        backendServerUrl, professorId, from),
+                LessonViewModel[].class);
+        return lessons == null ? Collections.emptyList() : Arrays.asList(lessons);
     }
 }

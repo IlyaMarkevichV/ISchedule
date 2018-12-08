@@ -3,6 +3,8 @@ import {BehaviorSubject} from "rxjs";
 import {UserAccount} from "../model/UserAccount";
 import {ProfessorAccount} from "../model/professor-account";
 import {Constants} from "../share/constants";
+import {DaysOfWeek} from "../model/DaysOfWeek";
+import {Lesson} from "../model/lesson";
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,11 @@ export class AuthorizationService {
 
   private userAccount = new BehaviorSubject(new UserAccount());
   private professor = new BehaviorSubject(new ProfessorAccount());
+  private days = new BehaviorSubject(new DaysOfWeek<Lesson>());
 
   public currentAuthorizedUser = this.userAccount.asObservable();
   public currentProfessor = this.professor.asObservable();
+  public currentDays = this.days.asObservable();
 
   constructor() { }
 
@@ -24,5 +28,10 @@ export class AuthorizationService {
   transmitProfessor(professorAccount: ProfessorAccount) {
     this.professor.next(professorAccount);
     console.log('qweqweqweqweqw');
+  }
+
+  transmitDays(days: DaysOfWeek<Lesson>) {
+    this.days.next(days);
+    console.log('=====----=========--------======------------========-----=');
   }
 }

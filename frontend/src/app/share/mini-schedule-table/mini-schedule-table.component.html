@@ -1,0 +1,18 @@
+<div class="jumbotron">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Time</th>
+      <th>Lesson</th>
+      <th>Room</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let lesson of lessons">
+    <tr>
+      <td>{{lesson.lessonTime.begin}}-{{lesson.lessonTime.begin}}</td>
+      <td>{{lesson.lessonInfo.lessonName}}</td>
+      <td>{{lesson.lessonRoom}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

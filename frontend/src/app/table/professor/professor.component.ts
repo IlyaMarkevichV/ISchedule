@@ -7,13 +7,15 @@ import {TableModelService} from "../../service/table-model.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Subscription} from "rxjs";
 import {TokenStorage} from "../../service/token-storage.service";
+import {DaysOfWeek} from "../../model/DaysOfWeek";
+import {Lesson} from "../../model/lesson";
 
 @Component({
   selector: 'professor',
   templateUrl: './professor.component.html',
   styleUrls: ['./professor.component.css']
 })
-export class ProfessorComponent implements OnInit, OnDestroy{
+export class ProfessorComponent implements OnInit, OnDestroy {
 
   @Input()
   public tableModel: TableModel;
@@ -30,6 +32,7 @@ export class ProfessorComponent implements OnInit, OnDestroy{
     private tableModelService: TableModelService,
     private tokenStorage: TokenStorage,
     private loadingService: Ng4LoadingSpinnerService,
+    private authService: AuthorizationService
   ) {
   }
 
@@ -40,9 +43,17 @@ export class ProfessorComponent implements OnInit, OnDestroy{
     let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
     this.subscriptions.push(
-      this.tableModelService.
-      getProfessorByAccountLogin(decodedJwtData.sub).subscribe(request => {
+      this.tableModelService.getProfessorByAccountLogin(decodedJwtData.sub).subscribe(request => {
         this.professor = request as ProfessorAccount;
+        this.authService.transmitProfessor(this.professor);
+
+        //get schedule
+        this.subscriptions.push(this.tableModelService.getProfessorLessons(
+          this.professor.id, new Date()).subscribe(request => {
+          let days: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonToDaysOfWeek(request as Lesson[]);
+          console.log(days);
+        }));
+
         this.loadingService.hide();
       }));
   }

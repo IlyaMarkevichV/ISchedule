@@ -122,3 +122,13 @@ create table schedule_group
   constraint schedule_group_group_id_group_id foreign key (group_id) references university_group (group_id) on delete cascade on update cascade,
   constraint schedule_group_lesson_id_lesson_id foreign key (lesson_id) references lesson (lesson_id) on delete cascade on update cascade
 );
+
+create table lesson_date
+(
+  id          bigint NOT NULL AUTO_INCREMENT,
+  lesson_id   bigint not null,
+  lesson_date DATE   not null,
+
+  primary key (id),
+  constraint lesson_date_lesson_id foreign key (lesson_id) references lesson (lesson_id) on delete cascade on update cascade
+);
