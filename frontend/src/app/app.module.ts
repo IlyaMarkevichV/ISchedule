@@ -14,7 +14,6 @@ import {CalendarModule, DateAdapter} from "angular-calendar";
 import { AuthorizationComponent } from './authorization/authorization.component';
 import {Interceptor} from "./service/interceptor.service";
 import {TokenStorage} from "./service/token-storage.service";
-import { MiniScheduleTableComponent } from './share/mini-schedule-table/mini-schedule-table.component';
 
 
 @NgModule({
@@ -22,7 +21,6 @@ import { MiniScheduleTableComponent } from './share/mini-schedule-table/mini-sch
     AppComponent,
     NavbarComponent,
     AuthorizationComponent,
-    MiniScheduleTableComponent
   ],
   imports: [
     FormsModule,

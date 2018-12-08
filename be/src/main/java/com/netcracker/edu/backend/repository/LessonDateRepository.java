@@ -18,4 +18,8 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
             @Param("professorId") Integer professorId,
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);
+
+    @Query("SELECT ld.lesson FROM LessonDate ld " +
+            "INNER JOIN ld.lesson " +
+            "WHERE ls.group")
 }

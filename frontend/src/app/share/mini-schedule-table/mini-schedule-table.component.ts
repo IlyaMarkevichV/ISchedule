@@ -9,7 +9,7 @@ import {Lesson} from "../../model/lesson";
 export class MiniScheduleTableComponent implements OnInit {
 
   @Input()
-  public lessons: Lesson[]=[];
+  public lessons: Lesson[];
 
   constructor() { }
 

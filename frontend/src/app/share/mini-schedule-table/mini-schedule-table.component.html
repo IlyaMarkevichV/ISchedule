@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron bg-white text-black">
   <table class="table table-hover">
     <thead>
     <tr>
@@ -9,7 +9,7 @@
     </thead>
     <tbody *ngFor="let lesson of lessons">
     <tr>
-      <td>{{lesson.lessonTime.begin}}-{{lesson.lessonTime.begin}}</td>
+      <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
       <td>{{lesson.lessonInfo.lessonName}}</td>
       <td>{{lesson.lessonRoom}}</td>
     </tr>

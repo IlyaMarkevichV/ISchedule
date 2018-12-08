@@ -26,6 +26,7 @@ import {FilterLessonsByProfessorPipe} from "../pipe/filterLectureByProfessor.pip
 import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.component';
 import {UiSwitchModule} from "ngx-ui-switch";
 import {ToArray} from "../pipe/toArray";
+import {MiniScheduleTableComponent} from "../share/mini-schedule-table/mini-schedule-table.component";
 
 
 
@@ -65,7 +66,8 @@ import {ToArray} from "../pipe/toArray";
     FilterLessonsByGroupPipe,
     FilterLessonsByProfessorPipe,
     LessonTabComponent,
-    ToArray
+    ToArray,
+    MiniScheduleTableComponent
   ],
   exports: [
     TableComponent,

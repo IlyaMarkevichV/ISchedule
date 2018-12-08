@@ -51,6 +51,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.tableModelService.getProfessorLessons(
           this.professor.id, new Date()).subscribe(request => {
           let days: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonToDaysOfWeek(request as Lesson[]);
+          this.authService.transmitDays(days);
           console.log(days);
         }));
 
