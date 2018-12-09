@@ -1,3 +1,20 @@
-<p>
-  professor-group-lesson works!
-</p>
+<accordion [closeOthers]="true" *ngFor="let group of tableModel.groups">
+  <accordion-group heading="Group Id: {{group.id}}" (click)="getGroupSchedule(group.id)">
+    <div class="jumbotron">
+      <div class="row">
+        <mini-schedule-table [lessons]="daysMap.get(group.id).monday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="daysMap.get(group.id).tuesday"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="daysMap.get(group.id).wednesday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="daysMap.get(group.id).thursday"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="daysMap.get(group.id).friday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="daysMap.get(group.id).saturday"></mini-schedule-table>
+      </div>
+    </div>
+    <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
+-->
+  </accordion-group>
+</accordion>

@@ -145,4 +145,11 @@ export class TableModelService {
     return this.http.get<Lesson[]>(
       '/api/ba-lessons/professor_schedule?professor_id=' + professorId + "&date=" + s);
   }
+
+  getGroupLessons(groupId: number, date: Date): Observable<Lesson[]> {
+    let s: string = "";
+    s= "" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    return this.http.get<Lesson[]>(
+      '/api/ba-lessons/group_schedule?group_id=' + groupId + "&date=" + s);
+  }
 }

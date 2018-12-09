@@ -23,7 +23,7 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
     @Query(value = "SELECT ld.lesson FROM LessonDate ld " +
             "INNER JOIN ld.lesson.groups lessonGroups " +
             "where :uniGroup in (lessonGroups) AND ld.date BETWEEN :dateFrom AND :dateTo")
-    Iterable<Lesson> getStudentLessonsBetween(
+    Iterable<Lesson> getGroupLessonsBetween(
             @Param("uniGroup") UniversityGroup group,
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);

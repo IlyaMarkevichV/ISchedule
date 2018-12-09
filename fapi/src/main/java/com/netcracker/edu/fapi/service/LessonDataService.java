@@ -18,4 +18,6 @@ public interface LessonDataService {
     RestPageImpl<LessonViewModel> getPage(HttpServletRequest request);
 
     List<LessonViewModel> getProfessorLessonsBetween(Integer professorId, Date from);
+
+    List<LessonViewModel> getGroupLessonsBetween(Integer groupId, Date from);
 }

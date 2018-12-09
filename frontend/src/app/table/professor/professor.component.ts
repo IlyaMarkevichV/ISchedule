@@ -32,8 +32,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
     private tableModelService: TableModelService,
     private tokenStorage: TokenStorage,
     private loadingService: Ng4LoadingSpinnerService,
-    private authService: AuthorizationService
-  ) {
+    private authService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -50,9 +49,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
         //get schedule
         this.subscriptions.push(this.tableModelService.getProfessorLessons(
           this.professor.id, new Date()).subscribe(request => {
-          let days: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonToDaysOfWeek(request as Lesson[]);
-          this.authService.transmitDays(days);
-          console.log(days);
+          this.authService.transmitDays(request as Lesson[]);
         }));
 
         this.loadingService.hide();

@@ -65,4 +65,14 @@ public class LessonDataServiceImpl implements LessonDataService {
                 LessonViewModel[].class);
         return lessons == null ? Collections.emptyList() : Arrays.asList(lessons);
     }
+
+    @Override
+    public List<LessonViewModel> getGroupLessonsBetween(Integer groupId, Date from) {
+        RestTemplate restTemplate = new RestTemplate();
+        LessonViewModel[] lessons = restTemplate.getForObject(
+                String.format("%s/api/lessons/group_schedule?group_id=%d&from=%s",
+                        backendServerUrl, groupId, from),
+                LessonViewModel[].class);
+        return lessons == null ? Collections.emptyList() : Arrays.asList(lessons);
+    }
 }

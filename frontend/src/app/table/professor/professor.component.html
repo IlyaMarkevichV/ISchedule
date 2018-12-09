@@ -7,8 +7,10 @@
     <professor-subject ></professor-subject>
   </tab>
 
-  <tab heading="Groups lesson" class="mt-2">
-    <professor-group-schedule></professor-group-schedule>
+  <tab heading="Groups lessons" class="mt-2">
+    <ng-template [ngIf]="tableModel.groups">
+      <professor-group-schedule [(tableModel)]="tableModel"></professor-group-schedule>
+    </ng-template>
   </tab>
 
   <tab heading="Groups Information" class="mt-2">

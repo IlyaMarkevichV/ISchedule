@@ -52,4 +52,12 @@ public class LessonDataController {
         );
     }
 
+    @RequestMapping(value = "/group_schedule")
+    public ResponseEntity<List<LessonViewModel>> getGroupLessonsBetween(
+            @RequestParam(name = "group_id") Integer groupId,
+            @RequestParam(name = "date") Date from) {
+        return ResponseEntity.ok(
+                lessonDataService.getGroupLessonsBetween(groupId, from)
+        );
+    }
 }

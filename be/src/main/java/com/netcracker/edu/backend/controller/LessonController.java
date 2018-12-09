@@ -1,8 +1,10 @@
 package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.entity.Lesson;
+import com.netcracker.edu.backend.entity.UniversityGroup;
 import com.netcracker.edu.backend.service.LessonDateService;
 import com.netcracker.edu.backend.service.LessonService;
+import com.netcracker.edu.backend.service.UniversityGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +21,14 @@ public class LessonController {
 
     private LessonService lessonService;
     private LessonDateService lessonDateService;
+    private UniversityGroupService groupService;
 
     @Autowired
-    public LessonController(LessonService lessonService, LessonDateService lessonDateService) {
+    public LessonController(LessonService lessonService, LessonDateService lessonDateService, UniversityGroupService groupService) {
         this.lessonService = lessonService;
         this.lessonDateService = lessonDateService;
+        this.groupService = groupService;
     }
-
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Lesson> getLessonById(@PathVariable(name = "id") Integer id) {
@@ -58,5 +61,14 @@ public class LessonController {
         return lessonDateService.getProfessorLessonsBetweenMondayAndSaturday(
                 professorId,
                 from);
+    }
+
+    @RequestMapping(value = "/group_schedule")
+    public Iterable<Lesson> getGroupLessonsBetween(
+            @RequestParam(name = "group_id") Integer groupId,
+            @RequestParam(name = "from") Date date) {
+
+        Optional<UniversityGroup> groupOptional = groupService.getGroupById(groupId);
+        return lessonDateService.getGroupLessonsBetween(groupOptional.get(), date);
     }
 }

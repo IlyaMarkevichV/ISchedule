@@ -13,7 +13,7 @@ export class AuthorizationService {
 
   private userAccount = new BehaviorSubject(new UserAccount());
   private professor = new BehaviorSubject(new ProfessorAccount());
-  private days = new BehaviorSubject(new DaysOfWeek<Lesson>());
+  private days = new BehaviorSubject(new Array<Lesson>());
 
   public currentAuthorizedUser = this.userAccount.asObservable();
   public currentProfessor = this.professor.asObservable();
@@ -27,11 +27,11 @@ export class AuthorizationService {
 
   transmitProfessor(professorAccount: ProfessorAccount) {
     this.professor.next(professorAccount);
-    console.log('qweqweqweqweqw');
   }
 
-  transmitDays(days: DaysOfWeek<Lesson>) {
-    this.days.next(days);
-    console.log('=====----=========--------======------------========-----=');
+  transmitDays(lessons: Lesson[]) {
+    let array: Array<Lesson> = new Array<Lesson>();
+    lessons.forEach(lesson => array.push(lesson));
+    this.days.next(array);
   }
 }

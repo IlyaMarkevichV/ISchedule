@@ -21,8 +21,8 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
 
   private currDay: Date;
   private subscriptions: Subscription[] = [];
-  public days: DaysOfWeek<Lesson> = new DaysOfWeek<Lesson>();
-  public monday: Lesson[] = [];
+  public days: DaysOfWeek<Lesson>;
+  public professorLessons: Array<string>;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -33,8 +33,17 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadingService.show();
+    this.days = new DaysOfWeek<Lesson>();
+    this.professorLessons = new Array<string>();
     this.currDay = new Date();
-    this.subscriptions.push(this.authService.currentDays.subscribe(req => this.days = req));
+
+    this.subscriptions.push(this.authService.currentDays.subscribe(req => {
+      let set: Set<string> = new Set<string>();
+      req.forEach(lesson => set.add(lesson.lessonInfo.lessonName));
+      this.professorLessons = Array.from(set);
+
+      this.days = DaysOfWeek.transformLessonToDaysOfWeek(req as Lesson[]);
+    }));
     this.loadingService.hide();
   }
 
