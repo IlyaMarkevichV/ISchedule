@@ -5,6 +5,8 @@ import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Subscription} from "rxjs";
 import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {Lesson} from "../../../model/lesson";
+import {AuthorizationService} from "../../../service/authorization.service";
+import {Group} from "../../../model/group";
 
 @Component({
   selector: 'professor-group-schedule',
@@ -17,16 +19,18 @@ export class ProfessorGroupScheduleComponent implements OnInit, OnDestroy {
   public tableModel: TableModel;
 
   private subscriptions: Subscription[] = [];
-  public daysMap: Map<number, DaysOfWeek<Lesson>>;
+  public professorMap: Map<number, DaysOfWeek<Lesson>>;
+  public isGroupsScheduleCollapsed: boolean = false;
+  public professorGroups: Group[] = [];
 
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
-    private tableModelService: TableModelService) { }
+    private tableModelService: TableModelService,
+    private authService: AuthorizationService) { }
 
   ngOnInit() {
-    this.daysMap = new Map<number, DaysOfWeek<Lesson>>();
-    this.tableModel.groups.forEach(group => this.daysMap.set(group.id, new DaysOfWeek<Lesson>()));
-    console.log('============================================', new DaysOfWeek<Lesson>().monday);
+    this.professorMap = new Map<number, DaysOfWeek<Lesson>>();
+    this.tableModel.groups.forEach(group => this.professorMap.set(group.id, new DaysOfWeek<Lesson>()));
   }
 
   ngOnDestroy(): void {
@@ -35,14 +39,16 @@ export class ProfessorGroupScheduleComponent implements OnInit, OnDestroy {
 
   getGroupSchedule(groupId: number) {
    this.loadingService.show();
-    if (!this.daysMap.has(groupId)) {
-      this.daysMap.set(groupId, new DaysOfWeek<Lesson>());
+    if (!this.professorMap.has(groupId)) {
+      this.professorMap.set(groupId, new DaysOfWeek<Lesson>());
     }
 
     this.subscriptions.push(
       this.tableModelService.getGroupLessons(groupId, new Date()).subscribe(req => {
-        let tempDays: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonToDaysOfWeek(req as Lesson[]);
-        this.daysMap.set(groupId, tempDays);
+        console.log(req as Lesson[]);
+        let tempDays: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonsToDaysOfWeek(req as Lesson[]);
+        console.log(tempDays);
+        this.professorMap.set(groupId, tempDays);
         this.loadingService.hide();
       }));
   }

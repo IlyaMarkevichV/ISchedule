@@ -22,11 +22,13 @@ export class TableModelService {
   constructor(private http: HttpClient) {
   }
 
-  getProfessorByAccountLogin(login: number): Observable<ProfessorAccount> {
-    let q = this.http.get<ProfessorAccount>('/api/ba-professors/search?login=' + login);
-    console.log('--------------------------------------',
-      q.subscribe(req => console.log("----", (req as ProfessorAccount) )));
-    return q;
+  //TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK ITTT
+  getProfessorByAccountLogin(login: string): Observable<ProfessorAccount> {
+    return this.http.get<ProfessorAccount>('/api/ba-professors/search?login=' + login);
+  }
+
+  getStudentByAccountLogin(login: string): Observable<StudentAccount> {
+    return this.http.get<StudentAccount>('/api/ba-students/search?login=' + login);
   }
 
   getProfessors(): Observable<Page<ProfessorAccount>> {

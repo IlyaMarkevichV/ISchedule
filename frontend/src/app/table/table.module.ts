@@ -16,7 +16,6 @@ import {StudentTabComponent} from "./administrator/student-tab/student-tab.compo
 import { StudentComponent } from './student/student.component';
 import { ProfessorComponent } from './professor/professor.component';
 import { ProfessorProfileComponent } from './professor/professor-profile/professor-profile.component';
-import { ProfessorSubjectComponent } from './professor/professor-subject/professor-subject.component';
 import { ProfessorGroupScheduleComponent } from './professor/professor-group-schedule/professor-group-schedule.component';
 import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
 import {AppRoutingModule} from "../app-routing.module";
@@ -27,8 +26,9 @@ import { LessonTabComponent } from './administrator/lesson-tab/lesson-tab.compon
 import {UiSwitchModule} from "ngx-ui-switch";
 import {ToArray} from "../pipe/toArray";
 import {MiniScheduleTableComponent} from "../share/mini-schedule-table/mini-schedule-table.component";
-
-
+import { StudentProfileComponent } from './student/student-profile/student-profile.component';
+import { StudentLessonsComponent } from './student/student-lessons/student-lessons.component';
+import { StudentProfessorsComponent } from './student/student-professors/student-professors.component';
 
 @NgModule({
   imports: [
@@ -59,7 +59,6 @@ import {MiniScheduleTableComponent} from "../share/mini-schedule-table/mini-sche
     StudentComponent,
     ProfessorComponent,
     ProfessorProfileComponent,
-    ProfessorSubjectComponent,
     ProfessorGroupScheduleComponent,
     ProfessorGroupInfoComponent,
     ScheduleTabComponent,
@@ -67,7 +66,10 @@ import {MiniScheduleTableComponent} from "../share/mini-schedule-table/mini-sche
     FilterLessonsByProfessorPipe,
     LessonTabComponent,
     ToArray,
-    MiniScheduleTableComponent
+    MiniScheduleTableComponent,
+    StudentProfileComponent,
+    StudentLessonsComponent,
+    StudentProfessorsComponent
   ],
   exports: [
     TableComponent,

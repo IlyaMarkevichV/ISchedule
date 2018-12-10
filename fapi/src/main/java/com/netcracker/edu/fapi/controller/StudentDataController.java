@@ -38,4 +38,9 @@ public class StudentDataController {
     public RestPageImpl<StudentViewModel> getPage(HttpServletRequest request) {
         return studentDataService.getPage(request);
     }
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<StudentViewModel> getProfessorByAccountId(@RequestParam(name = "login") String login) {
+        return ResponseEntity.ok(studentDataService.getStudentByLogin(login));
+
+    }
 }

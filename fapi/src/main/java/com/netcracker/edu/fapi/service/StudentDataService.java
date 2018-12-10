@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface StudentDataService {
 
+    StudentViewModel getStudentByLogin(String login);
+
     StudentViewModel saveStudent(StudentViewModel viewModel);
 
     void deleteStudent(Integer id);

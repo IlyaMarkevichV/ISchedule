@@ -35,11 +35,8 @@ public class ProfessorDataController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<ProfessorViewModel> getProfessorByAccountId(@RequestParam(name = "login") String login) {
-        ProfessorViewModel p =  professorDataService.getProfessorByAccountId(login);
-        if (p != null)
+        ProfessorViewModel p =  professorDataService.getProfessorByAccountLogin(login);
         return ResponseEntity.ok(p);
-        else
-            return null;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

@@ -17,16 +17,16 @@
   <div class="col-sm-9">
     <div class="jumbotron">
       <div class="row">
-        <mini-schedule-table [lessons]="days.monday"></mini-schedule-table>
-        <mini-schedule-table [lessons]="days.tuesday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.monday" [dayName]="'Monday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.tuesday" [dayName]="'Tuesday'"></mini-schedule-table>
       </div>
       <div class="row">
-        <mini-schedule-table [lessons]="days.wednesday"></mini-schedule-table>
-        <mini-schedule-table [lessons]="days.thursday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.wednesday" [dayName]="'Wednesday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.thursday" [dayName]="'Thursday'"></mini-schedule-table>
       </div>
       <div class="row">
-        <mini-schedule-table [lessons]="days.friday"></mini-schedule-table>
-        <mini-schedule-table [lessons]="days.saturday"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.friday" [dayName]="'Friday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.saturday" [dayName]="'Saturday'"></mini-schedule-table>
       </div>
     </div>
   </div>

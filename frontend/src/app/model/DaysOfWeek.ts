@@ -8,7 +8,7 @@ export class DaysOfWeek<T> {
   friday: T[] = [];
   saturday: T[] = [];
 
-  public static transformLessonToDaysOfWeek(lessons: Lesson[]): DaysOfWeek<Lesson> {
+  public static transformLessonsToDaysOfWeek(lessons: Lesson[]): DaysOfWeek<Lesson> {
     let days: DaysOfWeek<Lesson> = new DaysOfWeek<Lesson>();
     for (let lesson of lessons) {
       switch (lesson.day.dayName) {

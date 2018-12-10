@@ -1,11 +1,10 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from "@angular/core";
+import {Component,  OnDestroy, OnInit} from "@angular/core";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {TableModel} from "../model/TableModel";
 import {TableModelService} from "../service/table-model.service";
 import {Subscription} from "rxjs";
 import {Faculty} from "../model/faculty";
 import {Group} from "../model/group";
-import {UserAccount} from "../model/UserAccount";
 import {Role} from "../model/role";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
@@ -15,9 +14,7 @@ import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
 import {Day} from "../model/day";
 import {Page} from "../model/page";
-import {Constants} from "../share/constants";
 import {TokenStorage} from "../service/token-storage.service";
-import {Token} from "../model/token";
 
 @Component({
   selector: 'table-component',
@@ -53,11 +50,11 @@ export class TableComponent implements OnInit, OnDestroy {
 
     this.tableModel = new TableModel();
 
+    this.loadStudents();
+    this.loadGroups();
     this.loadRoles();
     this.loadFaculties();
-    this.loadGroups();
     this.loadProfessors();
-    this.loadStudents();
     this.loadLessonInfos();
     this.loadLessons();
     this.loadLessonTimes();

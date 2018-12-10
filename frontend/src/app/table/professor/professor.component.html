@@ -1,14 +1,12 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+
 <tabset>
   <tab heading="Profile" class="mt-2">
     <professor-profile [professor]="professor"></professor-profile>
   </tab>
 
-  <tab heading="Subjects" class="mt-2">
-    <professor-subject ></professor-subject>
-  </tab>
-
   <tab heading="Groups lessons" class="mt-2">
-    <ng-template [ngIf]="tableModel.groups">
+    <ng-template [ngIf]="tableModel.groups && tableModel.students">
       <professor-group-schedule [(tableModel)]="tableModel"></professor-group-schedule>
     </ng-template>
   </tab>

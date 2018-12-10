@@ -11,6 +11,9 @@ export class MiniScheduleTableComponent implements OnInit {
   @Input()
   public lessons: Lesson[];
 
+  @Input()
+  public dayName: string;
+
   constructor() { }
 
   ngOnInit() {

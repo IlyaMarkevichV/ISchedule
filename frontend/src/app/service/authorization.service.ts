@@ -5,6 +5,8 @@ import {ProfessorAccount} from "../model/professor-account";
 import {Constants} from "../share/constants";
 import {DaysOfWeek} from "../model/DaysOfWeek";
 import {Lesson} from "../model/lesson";
+import {StudentAccount} from "../model/student-account";
+import {st} from "@angular/core/src/render3";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,15 @@ export class AuthorizationService {
 
   private userAccount = new BehaviorSubject(new UserAccount());
   private professor = new BehaviorSubject(new ProfessorAccount());
-  private days = new BehaviorSubject(new Array<Lesson>());
+  private student = new BehaviorSubject(new StudentAccount());
+  private daysProfessor = new BehaviorSubject(new Array<Lesson>());
+  private daysStudent = new BehaviorSubject(new Array<Lesson>());
 
   public currentAuthorizedUser = this.userAccount.asObservable();
   public currentProfessor = this.professor.asObservable();
-  public currentDays = this.days.asObservable();
+  public currentStudent = this.student.asObservable();
+  public currentProfessorLessons = this.daysProfessor.asObservable();
+  public currentStudentLessons = this.daysStudent.asObservable();
 
   constructor() { }
 
@@ -29,9 +35,19 @@ export class AuthorizationService {
     this.professor.next(professorAccount);
   }
 
-  transmitDays(lessons: Lesson[]) {
+  transmitProfessorLessons(lessons: Lesson[]) {
     let array: Array<Lesson> = new Array<Lesson>();
     lessons.forEach(lesson => array.push(lesson));
-    this.days.next(array);
+    this.daysProfessor.next(array);
+  }
+
+  transmitStudentLessons(lessons: Lesson[]) {
+    let array: Array<Lesson> = new Array<Lesson>();
+    lessons.forEach(lesson => array.push(lesson));
+    this.daysStudent.next(array);
+  }
+
+  transmitStudent(student: StudentAccount) {
+    this.student.next(student);
   }
 }

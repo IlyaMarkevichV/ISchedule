@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 /**/
 @RestController
 @RequestMapping("/api/students")
@@ -18,6 +20,12 @@ public class StudentController {
     @Autowired
     public StudentController(StudentService service) {
         this.service = service;
+    }
+
+    @RequestMapping(value = "/search")
+    public ResponseEntity<Student> getStudentByLogin(@RequestParam(name = "login") String login) {
+        Optional<Student> studentOptional = service.getStudentByLogin(login);
+        return studentOptional.isPresent() ? ResponseEntity.ok(studentOptional.get()) : ResponseEntity.notFound().build();
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

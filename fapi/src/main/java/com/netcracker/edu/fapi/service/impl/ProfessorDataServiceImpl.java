@@ -40,7 +40,7 @@ public class ProfessorDataServiceImpl implements ProfessorDataService {
     }
 
     @Override
-    public ProfessorViewModel getProfessorByAccountId(String login) {
+    public ProfessorViewModel getProfessorByAccountLogin(String login) {
         return new RestTemplate().getForObject(
                 backendServerUrl + "/api/professors/search?login=" + login,
                 ProfessorViewModel.class);

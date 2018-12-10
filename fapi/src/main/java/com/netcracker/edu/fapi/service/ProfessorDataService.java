@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProfessorDataService {
     ProfessorViewModel saveProfessor(ProfessorViewModel entityViewModel);
 
-    ProfessorViewModel getProfessorByAccountId(String login);
+    ProfessorViewModel getProfessorByAccountLogin(String login);
 
     void deleteProfessor(Integer id);
 

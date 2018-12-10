@@ -52,4 +52,11 @@ public class StudentDataServiceImpl implements StudentDataService {
                 null,
                 new ParameterizedTypeReference<RestPageImpl<StudentViewModel>>() {}).getBody();
     }
+
+    @Override
+    public StudentViewModel getStudentByLogin(String login) {
+        return new RestTemplate().getForObject(
+                backendServerUrl + "/api/students/search?login=" + login,
+                StudentViewModel.class);
+    }
 }

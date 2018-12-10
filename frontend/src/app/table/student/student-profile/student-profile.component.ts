@@ -1,27 +1,29 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
+import {TableModel} from "../../../model/TableModel";
+import {ProfessorAccount} from "../../../model/professor-account";
+import {StudentAccount} from "../../../model/student-account";
+import {Subscription} from "rxjs";
 import {TableModelService} from "../../../service/table-model.service";
+import {TokenStorage} from "../../../service/token-storage.service";
+import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
+import {AuthorizationService} from "../../../service/authorization.service";
+import {Lesson} from "../../../model/lesson";
+import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {BsModalService} from "ngx-bootstrap";
 import {DatePipe} from "@angular/common";
-import {ProfessorAccount} from "../../../model/professor-account";
-import {DaysOfWeek} from "../../../model/DaysOfWeek";
-import {Lesson} from "../../../model/lesson";
-import {Subscription} from "rxjs";
-import {AuthorizationService} from "../../../service/authorization.service";
 
 @Component({
-  selector: 'professor-profile',
-  templateUrl: './professor-profile.component.html',
-  styleUrls: ['./professor-profile.component.css']
+  selector: 'student-profile',
+  templateUrl: './student-profile.component.html',
+  styleUrls: ['./student-profile.component.css']
 })
-export class ProfessorProfileComponent implements OnInit, OnDestroy {
+export class StudentProfileComponent implements OnInit, OnDestroy {
 
   @Input()
-  public professor: ProfessorAccount;
+  public student: StudentAccount;
 
   private subscriptions: Subscription[] = [];
   public days: DaysOfWeek<Lesson>;
-  public professorLessons: Array<string>;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -33,13 +35,8 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingService.show();
     this.days = new DaysOfWeek<Lesson>();
-    this.professorLessons = new Array<string>();
 
-    this.subscriptions.push(this.authService.currentProfessorLessons.subscribe(req => {
-      let set: Set<string> = new Set<string>();
-      req.forEach(lesson => set.add(lesson.lessonInfo.lessonName));
-      this.professorLessons = Array.from(set);
-
+    this.subscriptions.push(this.authService.currentStudentLessons.subscribe(req => {
       this.days = DaysOfWeek.transformLessonsToDaysOfWeek(req);
       this.loadingService.hide();
     }));
@@ -48,5 +45,4 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 }

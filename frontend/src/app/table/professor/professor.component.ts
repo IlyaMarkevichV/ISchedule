@@ -21,9 +21,6 @@ export class ProfessorComponent implements OnInit, OnDestroy {
   public tableModel: TableModel;
 
   @Input()
-  public logginedUserAccount: UserAccount;
-
-  @Input()
   public professor: ProfessorAccount;
 
   private subscriptions: Subscription[] = [];
@@ -49,7 +46,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
         //get schedule
         this.subscriptions.push(this.tableModelService.getProfessorLessons(
           this.professor.id, new Date()).subscribe(request => {
-          this.authService.transmitDays(request as Lesson[]);
+          this.authService.transmitProfessorLessons(request as Lesson[]);
         }));
 
         this.loadingService.hide();

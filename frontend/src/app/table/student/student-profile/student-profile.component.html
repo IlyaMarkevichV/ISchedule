@@ -1,0 +1,38 @@
+<div class="row">
+
+  <ng-template [ngIf]="student">
+    <div class="col-sm-3">
+      <div class="card border-success">
+        <div class="card-body">
+          <h4 class="card-title">{{student.account.firstName}} {{student.account.lastName}} <span class="badge badge-pill badge-info">Professor</span></h4>
+          <p class="card-text"><code>Date of birth</code>: {{student.account.birthday | date}}</p>
+          <p class="card-text"><code>Group</code>: {{student.group.id}}</p>
+          <p class="card-text"><code>Faculty</code>: {{student.group.faculty.facultyName}}</p>
+          <p class="card-text"><code>Grade</code>: {{student.group.grade}}</p>
+          <p class="card-text"><code>Speciality</code>: {{student.group.speciality}}</p>
+          <p class="card-text"><code>Graduation</code>: {{student.group.graduation | date}}</p>
+          <p class="card-text"><code>Address</code>: {{student.address}}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="col-sm-9">
+    <div class="jumbotron">
+      <div class="row">
+        <mini-schedule-table [lessons]="days.monday" [dayName]="'Monday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.tuesday" [dayName]="'Tuesday'"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="days.wednesday" [dayName]="'Wednesday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.thursday" [dayName]="'Thursday'"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="days.friday" [dayName]="'Friday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="days.saturday" [dayName]="'Saturday'"></mini-schedule-table>
+      </div>
+    </div>
+  </div>
+
+</div>
+

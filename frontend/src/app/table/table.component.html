@@ -31,13 +31,11 @@
 </ng-template>
 
 <ng-template [ngIf]="userRole === 'professor'">
-  <professor [(tableModel)]="tableModel"
-             >
-  </professor>
+  <professor [(tableModel)]="tableModel"></professor>
 </ng-template>
 
 <ng-template [ngIf]="userRole === 'student'">
-  <student></student>
+  <student [(tableModel)]="tableModel"></student>
 </ng-template>
 
 <!--<professor></professor>-->
