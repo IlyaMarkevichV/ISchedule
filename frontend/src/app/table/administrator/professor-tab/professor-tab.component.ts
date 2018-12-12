@@ -158,7 +158,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   getPage(pageNumber: number) {
     this.loadingService.show();
     console.log(pageNumber);
-    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
     this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
       RequestHelper.PROFESSOR,
       pageNumber - 1,

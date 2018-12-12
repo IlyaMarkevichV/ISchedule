@@ -1,6 +1,9 @@
-create database project;
+create
+database
+project;
 
-use project;
+use
+project;
 
 create table user_role
 (
@@ -131,4 +134,17 @@ create table lesson_date
 
   primary key (id),
   constraint lesson_date_lesson_id foreign key (lesson_id) references lesson (lesson_id) on delete cascade on update cascade
+);
+
+create table attendance
+(
+  id          bigint not null auto_increment,
+  student_id  int    not null,
+  lesson_id   bigint not null,
+  lesson_date date   not null,
+
+
+  primary key (id),
+  constraint attendance_student_id foreign key (student_id) references student (student_id) on delete cascade on update cascade,
+  constraint attendance_lesson_id foreign key (lesson_id) references lesson (lesson_id) on delete cascade on update cascade
 );

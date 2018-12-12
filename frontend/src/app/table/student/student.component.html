@@ -16,4 +16,13 @@
       <student-lessons></student-lessons>
     </ng-template>
   </tab>
+
+  <tab heading="Professor schedule" class="mt-2">
+    <br/>
+    <br/>
+    <br/>
+    <ng-template [ngIf]="student">
+      <student-professors [(tableModel)]="tableModel"></student-professors>
+    </ng-template>
+  </tab>
 </tabset>

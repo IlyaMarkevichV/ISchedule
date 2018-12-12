@@ -12,7 +12,7 @@
 <br/>
 
 <ng-template [ngIf]="!isGroupsScheduleCollapsed">
-  <accordion [closeOthers]="true" *ngFor="let group of tableModel.groups">
+  <accordion [closeOthers]="true" *ngFor="let group of groupPage.content">
     <accordion-group heading="Group Id: {{group.id}}" (click)="getGroupSchedule(group.id)">
       <div class="jumbotron">
         <div class="row">
@@ -28,14 +28,25 @@
           <mini-schedule-table [lessons]="professorMap.get(group.id).saturday" [dayName]="'Saturday'"></mini-schedule-table>
         </div>
       </div>
-      <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
-  -->
     </accordion-group>
   </accordion>
+
+  <pager
+    [totalItems]="groupPage.totalElements"
+    [(ngModel)]="groupPage.number"
+    (pageChanged)="getGroupPage($event.page)"
+    pageBtnClass="btn"
+    [itemsPerPage]="itemsPerPage"
+    class="pull-left">
+  </pager>
+  <button type="button" class="btn btn-default"
+          (click)="sortDirection=!sortDirection;
+          getGroupPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+  </button>
 </ng-template>
 
 <ng-template [ngIf]="isGroupsScheduleCollapsed">
-  <accordion [closeOthers]="true" *ngFor="let student of tableModel.students">
+  <accordion [closeOthers]="true" *ngFor="let student of studentPage.content">
     <accordion-group heading="Student: {{student.account.firstName}} {{student.account.lastName}}" (click)="getGroupSchedule(student.group.id)">
       <div class="jumbotron">
         <div class="row">
@@ -55,4 +66,17 @@
   -->
     </accordion-group>
   </accordion>
+
+  <pager
+    [totalItems]="studentPage.totalElements"
+    [(ngModel)]="studentPage.number"
+    (pageChanged)="getStudentPage($event.page)"
+    pageBtnClass="btn"
+    [itemsPerPage]="itemsPerPage"
+    class="pull-left">
+  </pager>
+  <button type="button" class="btn btn-default"
+          (click)="sortDirection=!sortDirection;
+          getStudentPage(studentPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+  </button>
 </ng-template>

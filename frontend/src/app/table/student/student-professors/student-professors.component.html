@@ -1,3 +1,39 @@
-<p>
-  student-professors works!
-</p>
+<accordion [closeOthers]="true" *ngFor="let professor of professorPage.content">
+  <accordion-group heading="{{professor.account.firstName}} {{professor.account.lastName}}"
+                   (click)="getProfessorSchedule(professor.id)">
+    <div class="jumbotron">
+      <div class="row">
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).monday" [dayName]="'Monday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).tuesday"
+                             [dayName]="'Tuesday'"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).wednesday"
+                             [dayName]="'Wednesday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).thursday"
+                             [dayName]="'Thursday'"></mini-schedule-table>
+      </div>
+      <div class="row">
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).friday" [dayName]="'Friday'"></mini-schedule-table>
+        <mini-schedule-table [lessons]="studentMap.get(professor.id).saturday"
+                             [dayName]="'Saturday'"></mini-schedule-table>
+      </div>
+    </div>
+    <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
+-->
+  </accordion-group>
+</accordion>
+
+<pager
+  [totalItems]="professorPage.totalElements"
+  [(ngModel)]="professorPage.number"
+  (pageChanged)="getPage($event.page)"
+  pageBtnClass="btn"
+  [itemsPerPage]="itemsPerPage"
+  class="pull-left">
+</pager>
+<button type="button" class="btn btn-default"
+        (click)="sortDirection=!sortDirection;
+          getPage(professorPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+</button>
+

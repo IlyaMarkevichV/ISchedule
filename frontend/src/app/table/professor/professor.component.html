@@ -5,7 +5,7 @@
     <professor-profile [professor]="professor"></professor-profile>
   </tab>
 
-  <tab heading="Groups lessons" class="mt-2">
+  <tab heading="Group/Student lessons" class="mt-2">
     <ng-template [ngIf]="tableModel.groups && tableModel.students">
       <professor-group-schedule [(tableModel)]="tableModel"></professor-group-schedule>
     </ng-template>
