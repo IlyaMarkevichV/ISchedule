@@ -33,4 +33,21 @@ export class DaysOfWeek<T> {
     }
     return days;
   }
+
+  public static getLessonsAccordingToWeekDay(days: DaysOfWeek<Lesson>): Lesson[] {
+    switch (new Date(). getDay()) {
+      case 0:
+        return days.monday;
+      case 1:
+        return days.tuesday;
+      case 3:
+        return days.wednesday;
+      case 4:
+        return days.thursday;
+      case 5:
+        return days.friday;
+      case 6:
+        return days.saturday;
+    }
+  }
 }

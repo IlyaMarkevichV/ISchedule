@@ -13,6 +13,7 @@ import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
 import {Lesson} from "../model/lesson";
 import {Page} from "../model/page";
+import {Attendance} from "../model/Attendance";
 
 @Injectable({
   providedIn: 'root'
@@ -135,23 +136,43 @@ export class TableModelService {
   }
 
   getPageObservable<T>(entityName: string, page: number, size: number, sort?: string): Observable<Page<T>> {
-      return this.http.get<Page<T>>('/api/ba-'.concat(entityName).concat('?')
-        .concat('page=' + page)
-        .concat(size != 0 ? ('&size=' + size) : '')
-        .concat(sort ? ('&sort=' + sort) : ''));
+    return this.http.get<Page<T>>('/api/ba-'.concat(entityName).concat('?')
+      .concat('page=' + page)
+      .concat(size != 0 ? ('&size=' + size) : '')
+      .concat(sort ? ('&sort=' + sort) : ''));
   }
 
   getProfessorLessons(professorId: number, date: Date): Observable<Lesson[]> {
     let s: string = "";
-    s= "" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    s = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
     return this.http.get<Lesson[]>(
       '/api/ba-lessons/professor_schedule?professor_id=' + professorId + "&date=" + s);
   }
 
   getGroupLessons(groupId: number, date: Date): Observable<Lesson[]> {
     let s: string = "";
-    s= "" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    s = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
     return this.http.get<Lesson[]>(
       '/api/ba-lessons/group_schedule?group_id=' + groupId + "&date=" + s);
+  }
+
+  getStudentAttendance(status: number, studentId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
+    let from: string = fromDate.getFullYear() + "-" + fromDate.getMonth() + "-" + fromDate.getDate();
+    let to: string = toDate.getFullYear() + "-" + toDate.getMonth() + "-" + toDate.getDate();
+    let requestParams: string = "status=" + status + "&student_id=" + studentId
+      + "&from=" + from + "&to=" + to;
+
+    return this.http.get<Attendance[]>(
+      '/api/ba-attendance/student?' + requestParams);
+  }
+
+  getGroupAttendance(status: number, groupId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
+    let from: string = fromDate.getFullYear() + "-" + fromDate.getMonth() + "-" + fromDate.getDate();
+    let to: string = toDate.getFullYear() + "-" + toDate.getMonth() + "-" + toDate.getDate();
+    let requestParams: string = "status=" + status + "&group_id=" + groupId
+      + "&from=" + from + "&to=" + to;
+
+    return this.http.get<Attendance[]>(
+      '/api/ba-attendance/group?' + requestParams);
   }
 }

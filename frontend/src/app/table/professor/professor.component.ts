@@ -25,6 +25,7 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+
   constructor(
     private tableModelService: TableModelService,
     private tokenStorage: TokenStorage,

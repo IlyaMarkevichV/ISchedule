@@ -29,6 +29,7 @@ import {MiniScheduleTableComponent} from "../share/mini-schedule-table/mini-sche
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { StudentLessonsComponent } from './student/student-lessons/student-lessons.component';
 import { StudentProfessorsComponent } from './student/student-professors/student-professors.component';
+import { ProfessorAttendanceComponent } from './professor/professor-attendance/professor-attendance.component';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { StudentProfessorsComponent } from './student/student-professors/student
     MiniScheduleTableComponent,
     StudentProfileComponent,
     StudentLessonsComponent,
-    StudentProfessorsComponent
+    StudentProfessorsComponent,
+    ProfessorAttendanceComponent
   ],
   exports: [
     TableComponent,

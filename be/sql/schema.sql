@@ -138,11 +138,11 @@ create table lesson_date
 
 create table attendance
 (
-  id          bigint not null auto_increment,
-  student_id  int    not null,
-  lesson_id   bigint not null,
-  lesson_date date   not null,
-
+  id          bigint   not null auto_increment,
+  student_id  int      not null,
+  lesson_id   bigint   not null,
+  lesson_date date     not null,
+  attendance_status      tinyint not null,
 
   primary key (id),
   constraint attendance_student_id foreign key (student_id) references student (student_id) on delete cascade on update cascade,
