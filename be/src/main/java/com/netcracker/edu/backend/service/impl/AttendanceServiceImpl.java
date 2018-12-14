@@ -38,7 +38,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public Iterable<Attendance> getAttendancesByStatusAndStudentIdAndDateBetween(byte status, int studentId, Date from, Date to) {
         return repository.getAttendancesByStatusAndStudent_IdAndDateBetween(
-                status, studentId, from, DateHelper.addOneDay(to));
+                status, studentId, from, DateHelper.addNDays(to, 1));
     }
 
     @Override

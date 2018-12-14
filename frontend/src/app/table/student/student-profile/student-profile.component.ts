@@ -38,6 +38,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.authService.currentStudentLessons.subscribe(req => {
       this.days = DaysOfWeek.transformLessonsToDaysOfWeek(req);
+      console.log(this.days);
       this.loadingService.hide();
     }));
   }

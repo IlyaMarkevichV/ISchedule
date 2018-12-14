@@ -33,12 +33,22 @@ export class StudentProfessorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loadingService.show();
+    this.professorPage = new Page<ProfessorAccount>();
     this.studentMap = new Map<number, DaysOfWeek<Lesson>>();
 
-    this.professorPage = new Page<ProfessorAccount>();
-    this.getPage(1);
-    this.professorPage.content.forEach(professor =>
-      this.studentMap.set(professor.id, new DaysOfWeek<Lesson>()))
+    this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
+      RequestHelper.PROFESSOR,
+      0,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.professorPage = req as Page<ProfessorAccount>;
+        this.professorPage.number += 1;
+        this.professorPage.content.forEach(professor =>
+          this.studentMap.set(professor.id, new DaysOfWeek<Lesson>()));
+        this.loadingService.hide();
+      }));
   }
 
   ngOnDestroy(): void {

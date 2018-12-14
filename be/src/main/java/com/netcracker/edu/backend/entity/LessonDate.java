@@ -12,7 +12,7 @@ public class LessonDate {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
@@ -20,6 +20,11 @@ public class LessonDate {
     private Date date;
 
     public LessonDate() {
+    }
+
+    public LessonDate(Lesson lesson, Date date) {
+        this.lesson = lesson;
+        this.date = date;
     }
 
     public int getId() {

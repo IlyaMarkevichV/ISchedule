@@ -1,15 +1,15 @@
 package com.netcracker.edu.backend.resource;
 
+import com.netcracker.edu.backend.entity.Day;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.MonthDay;
 import java.time.YearMonth;
-import java.util.Calendar;
 
 public final class DateHelper {
+
     public static Date[] getBeginAndEndOfWeek(@NotNull Date date) {
         YearMonth month = YearMonth.now();
         LocalDate currentDate = month.atDay(date.toLocalDate().getDayOfMonth());
@@ -22,7 +22,9 @@ public final class DateHelper {
         return dates;
     }
 
-    public static Date addOneDay(@NotNull Date date) {
-        return Date.valueOf(date.toLocalDate().plusDays(1));
+    public static Date addNDays(@NotNull Date date, int n) {
+        if (n == 0)
+            return date;
+        return Date.valueOf(date.toLocalDate().plusDays(n));
     }
 }

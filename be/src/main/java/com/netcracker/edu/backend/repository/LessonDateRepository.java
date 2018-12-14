@@ -11,7 +11,7 @@ import java.sql.Date;
 
 public interface LessonDateRepository extends CrudRepository<LessonDate, Integer> {
 
-    @Query("SELECT ld.lesson FROM LessonDate ld " +
+    @Query("SELECT DISTINCT ld.lesson FROM LessonDate ld " +
             "INNER JOIN ld.lesson ls " +
             "WHERE ls.professor.id = :professorId AND ld.date BETWEEN :dateFrom AND :dateTo " +
             "ORDER BY ld.lesson.lessonTime.begin ASC, ld.date ASC")
@@ -20,7 +20,7 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);
 
-    @Query(value = "SELECT ld.lesson FROM LessonDate ld " +
+    @Query(value = "SELECT DISTINCT ld.lesson FROM LessonDate ld " +
             "INNER JOIN ld.lesson.groups lessonGroups " +
             "where :uniGroup in (lessonGroups) AND ld.date BETWEEN :dateFrom AND :dateTo " +
             "ORDER BY ld.lesson.lessonTime.begin ASC, ld.date ASC")

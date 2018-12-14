@@ -30,6 +30,7 @@ import { StudentProfileComponent } from './student/student-profile/student-profi
 import { StudentLessonsComponent } from './student/student-lessons/student-lessons.component';
 import { StudentProfessorsComponent } from './student/student-professors/student-professors.component';
 import { ProfessorAttendanceComponent } from './professor/professor-attendance/professor-attendance.component';
+import { StudentAttendanceComponent } from './student/student-attendance/student-attendance.component';
 
 @NgModule({
   imports: [
@@ -71,7 +72,8 @@ import { ProfessorAttendanceComponent } from './professor/professor-attendance/p
     StudentProfileComponent,
     StudentLessonsComponent,
     StudentProfessorsComponent,
-    ProfessorAttendanceComponent
+    ProfessorAttendanceComponent,
+    StudentAttendanceComponent
   ],
   exports: [
     TableComponent,
