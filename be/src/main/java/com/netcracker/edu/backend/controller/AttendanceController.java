@@ -2,6 +2,8 @@ package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.entity.Attendance;
 import com.netcracker.edu.backend.service.AttendanceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/attendance")
 public class AttendanceController {
+
+    public static final Logger log = LoggerFactory.getLogger(AttendanceController.class);
 
     private AttendanceService service;
 

@@ -46,6 +46,6 @@ public class AttendanceDataController {
             @RequestParam(name = "from") Date from,
             @RequestParam(name = "to") Date to) {
 
-        return service.getAttendancesByStatusAndStudentIdAndDateBetween(status, groupId, from, to);
+        return service.getAttendancesByStatusAndGroupIdAndDateBetween(status, groupId, from, to);
     }
 }

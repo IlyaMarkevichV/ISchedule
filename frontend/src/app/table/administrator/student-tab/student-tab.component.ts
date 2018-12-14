@@ -104,8 +104,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
   public updateStudents(): void {
     this.loadStudents.emit();
-    this.page = 1;
-    this.totalNumberOfEntities = this.tableModel.students.length;
+    this.getPage(1);
   }
 
   public refreshEditableStudent() {

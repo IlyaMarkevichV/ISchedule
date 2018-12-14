@@ -9,23 +9,17 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-<!--  &lt;!&ndash; User &ndash;&gt;
-  <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
-    <h1 *ngIf="seeTables"><span class="badge badge-info" *ngIf="seeTables">User</span>: {{ user.role }}</h1>
-   <div *ngIf="!seeTables"><h1><span class="badge badge-info">Login session</span></h1></div>
-  </div>
-
-  &lt;!&ndash; Log out button &ndash;&gt;
-  <div class="justify-content-end" *ngIf="seeTables">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="btn btn-primary" (click)="logoutEvent()">Logout</a>
-      </li>
-    </ul>
-  </div>-->
-
   <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
     <span class="badge badge-info"><h4>Schedule implementation</h4></span>
   </div>
+
+  <ng-template [ngIf]="router.url !== '/login'">
+    <div class="collapse navbar-collapse justify-content-end">
+      <button type="button" class="btn btn-default"
+              (click)="logout()">
+        Log out
+      </button>
+    </div>
+  </ng-template>
 
 </nav>

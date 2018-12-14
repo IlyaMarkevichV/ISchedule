@@ -90,4 +90,15 @@ public class Attendance {
     public int hashCode() {
         return Objects.hash(id, student, lesson, date, status);
     }
+
+    @Override
+    public String toString() {
+        return "Attendance{" +
+                "id=" + id +
+                ", student=" + student.getId() +
+                ", lesson=" + lesson.getLessonInfo().getLessonName() +
+                ", date=" + date +
+                ", status=" + status +
+                '}';
+    }
 }

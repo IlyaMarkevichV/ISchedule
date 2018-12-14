@@ -102,8 +102,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   updateProfessors(): void {
     this.loadProfessors.emit();
-    this.page = 1;
-    this.totalNumberOfEntities = this.tableModel.professors.length;
+    this.getPage(1);
   }
 
   private refreshEditableProfessor(): void {

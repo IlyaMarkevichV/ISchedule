@@ -144,21 +144,21 @@ export class TableModelService {
 
   getProfessorLessons(professorId: number, date: Date): Observable<Lesson[]> {
     let s: string = "";
-    s = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    s = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     return this.http.get<Lesson[]>(
       '/api/ba-lessons/professor_schedule?professor_id=' + professorId + "&date=" + s);
   }
 
   getGroupLessons(groupId: number, date: Date): Observable<Lesson[]> {
     let s: string = "";
-    s = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+    s = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     return this.http.get<Lesson[]>(
       '/api/ba-lessons/group_schedule?group_id=' + groupId + "&date=" + s);
   }
 
   getStudentAttendance(status: number, studentId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
-    let from: string = fromDate.getFullYear() + "-" + fromDate.getMonth() + "-" + fromDate.getDate();
-    let to: string = toDate.getFullYear() + "-" + toDate.getMonth() + "-" + toDate.getDate();
+    let from: string = fromDate.getFullYear() + "-" + (fromDate.getMonth() + 1) + "-" + fromDate.getDate();
+    let to: string = toDate.getFullYear() + "-" + (toDate.getMonth() + 1)  + "-" + toDate.getDate();
     let requestParams: string = "status=" + status + "&student_id=" + studentId
       + "&from=" + from + "&to=" + to;
 
@@ -167,12 +167,18 @@ export class TableModelService {
   }
 
   getGroupAttendance(status: number, groupId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
-    let from: string = fromDate.getFullYear() + "-" + fromDate.getMonth() + "-" + fromDate.getDate();
-    let to: string = toDate.getFullYear() + "-" + toDate.getMonth() + "-" + toDate.getDate();
+    let from: string = fromDate.getFullYear() + "-" + (fromDate.getMonth() + 1) + "-" + fromDate.getDate();
+    let to: string = toDate.getFullYear() + "-" + (toDate.getMonth() + 1) + "-" + toDate.getDate();
     let requestParams: string = "status=" + status + "&group_id=" + groupId
       + "&from=" + from + "&to=" + to;
 
+    console.log('/api/ba-attendance/group?' + requestParams);
+
     return this.http.get<Attendance[]>(
       '/api/ba-attendance/group?' + requestParams);
+  }
+
+  saveAttendance(attendances: Attendance[]): Observable<Attendance[]> {
+    return this.http.post<Attendance[]>('/api/ba-attendance/list', attendances);
   }
 }

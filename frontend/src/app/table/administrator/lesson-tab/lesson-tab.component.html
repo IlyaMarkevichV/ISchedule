@@ -79,7 +79,7 @@
       <label>Professor</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
         <option *ngFor="let professor of tableModel.professors"
-                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
+                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}} - {{professor.fieldOfResearch}}
         </option>
       </select>
     </div>

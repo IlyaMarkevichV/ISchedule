@@ -27,13 +27,11 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   public password: string;
 
   private subscriptions: Subscription[] = [];
-  private authorizationAccount: UserAccount;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private router: Router,
               private tableModelService: TableModelService,
-              private tokeStorage: TokenStorage,
-              private authService: AuthorizationService) {
+              private tokeStorage: TokenStorage) {
   }
 
   ngOnInit() {

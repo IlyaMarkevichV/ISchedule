@@ -17,8 +17,9 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public days: DaysOfWeek<Lesson>;
-  public attendances: Attendance[] = [];
+  public attendances: Map<number, Attendance[]>;
   public currentLessons: Lesson[];
+  public alerts: Map<number, boolean>;
 
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
@@ -28,10 +29,22 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadingService.show();
+    this.alerts = new Map<number, boolean>();
+    this.attendances = new Map<number, Attendance[]>();
     this.days = new DaysOfWeek<Lesson>();
     this.subscriptions.push(this.authService.currentProfessorLessons.subscribe(req => {
       this.days = DaysOfWeek.transformLessonsToDaysOfWeek(req);
       this.currentLessons = DaysOfWeek.getLessonsAccordingToWeekDay(this.days);
+
+      //add in map all non-repeat groups and create alerts for them
+      for (let lesson of this.currentLessons) {
+        for (let group of lesson.groups) {
+          if (!this.attendances.has(group.id)) {
+            this.attendances.set(group.id, []);
+            this.alerts.set(group.id, false);
+          }
+        }
+      }
       this.loadingService.hide();
     }))
   }
@@ -42,10 +55,33 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
 
   getAttendanceByGroupId(groupId: number): void {
     this.loadingService.show();
-    this.attendances = [];
     let currentDate: Date = new Date();
     this.subscriptions.push(this.tableModelService.getGroupAttendance(3, groupId, currentDate, currentDate).subscribe(req => {
-      this.attendances = req as Attendance[];
+      this.attendances.set(groupId, req as Attendance[]);
+      console.log('Req: ', req);
+      console.log('Att:', this.attendances);
+      console.log('Alerts:', this.alerts);
+      this.loadingService.hide();
+    }));
+  }
+
+  saveAttendances(groupId: number): void {
+    this.loadingService.show();
+    let temp: Attendance[] = this.attendances.get(groupId);
+    let counter: number = 0;
+
+    for (let attendance of temp) {
+      if (attendance.status != 3)
+        counter++;
+    }
+    if (counter < temp.length) {
+      this.alerts.set(groupId, true);
+      this.loadingService.hide();
+      return;
+    }
+
+    this.subscriptions.push(this.tableModelService.saveAttendance(this.attendances.get(groupId)).subscribe(req => {
+      this.getAttendanceByGroupId(groupId);
       this.loadingService.hide();
     }));
   }

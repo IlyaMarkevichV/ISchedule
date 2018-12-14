@@ -37,10 +37,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
   @Output()
   loadGroups: EventEmitter<any> = new EventEmitter<any>();
 
-  /*info for pagination*/
-  page: number = 1;
-  totalNumberOfEntities: number;
-
   public tempGroupForFilter: Group = new Group();
 
   public searchButtonName: string = 'Search by';
@@ -102,8 +98,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
 
   public updateGroups(): void {
     this.loadGroups.emit();
-    this.page = 1;
-    this.totalNumberOfEntities = this.tableModel.groups.length;
+    this.getPage(1);
   }
 
   public addFaculty(): void {

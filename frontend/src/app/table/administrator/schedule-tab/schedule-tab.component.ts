@@ -50,7 +50,6 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
 
   updateSchedule(): void {
     this.loadLessons.emit();
-    //TODO: pages
   }
 
   deleteLesson(lesson: Lesson, group?: Group): void {
