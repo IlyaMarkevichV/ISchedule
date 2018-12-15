@@ -1,8 +1,14 @@
-<div class="col-xs-12 col-12 col-sm-5 col-md-6 col-lg-4 form-group">
-  <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker">
+<div class="justify-content-center">
+  <h2>Choose date range</h2>
 </div>
-<div class="col-xs-12 col-12 col-sm-4 col-md-12 col-lg-4 form-group">
-  <input type="button"
-         class="btn btn-success"
-         value="Date Range Picker" (click)="dpr.show()"/>
+<div class="row">
+  <input placeholder="Date range" type="text" [(ngModel)]="q"
+         class="form-control" bsDaterangepicker #dpr="bsDaterangepicker">
+</div>
+<div>
+  <h3>{{q}}</h3>
+</div>
+
+<div>
+  <button (click)="qw()"></button>
 </div>

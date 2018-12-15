@@ -4,7 +4,7 @@
     <div class="jumbotron">
       <accordion [closeOthers]="true" id="second" *ngFor="let group of lesson.groups">
         <accordion-group id="second-group" heading="Group: {{group.id}}"
-                         (isOpenChange)="getAttendanceByGroupId(group.id)">
+                         (isOpenChange)="getAttendanceByGroupId(group.id, lesson.id)">
           <ng-template [ngIf]="attendances.get(group.id) && attendances.get(group.id).length != 0">
             <table class="table table-hover" id="table">
               <thead>
@@ -42,7 +42,7 @@
                 <strong>Warning!</strong> Not all students checked and marked.
               </alert>
             </div>
-            <button type="button" class="btn btn-info justify-content-center" (click)="saveAttendances(group.id)">Save
+            <button type="button" class="btn btn-info justify-content-center" (click)="saveAttendances(group.id, lesson.id)">Save
             </button>
           </ng-template>
           <div *ngIf="attendances.get(group.id) && attendances.get(group.id).length == 0">

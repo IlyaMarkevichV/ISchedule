@@ -6,6 +6,7 @@ import com.netcracker.edu.backend.entity.UniversityGroup;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Date;
 
@@ -28,4 +29,11 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
             @Param("uniGroup") UniversityGroup group,
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);
+
+    //@Query(value = "SELECT ld.lesson FROM LessonDate ld WHERE ld.")
+    @Query(value = "SELECT * " +
+            "FROM schedule_group sg", nativeQuery = true)
+    Iterable<Lesson> getLessonsByGroupIdAndDayOfWeek(
+            @Param("dayName") Integer day,
+            @Param("groupId") Integer groupId);
 }

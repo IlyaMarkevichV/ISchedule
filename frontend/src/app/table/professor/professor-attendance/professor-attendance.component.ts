@@ -53,10 +53,10 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  getAttendanceByGroupId(groupId: number): void {
+  getAttendanceByGroupId(groupId: number, lessonId: number): void {
     this.loadingService.show();
     let currentDate: Date = new Date();
-    this.subscriptions.push(this.tableModelService.getGroupAttendance(3, groupId, currentDate, currentDate).subscribe(req => {
+    this.subscriptions.push(this.tableModelService.getGroupAttendance(3, groupId, lessonId, currentDate, currentDate).subscribe(req => {
       this.attendances.set(groupId, req as Attendance[]);
       console.log('Req: ', req);
       console.log('Att:', this.attendances);
@@ -65,7 +65,7 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
     }));
   }
 
-  saveAttendances(groupId: number): void {
+  saveAttendances(groupId: number, lessonId: number): void {
     this.loadingService.show();
     let temp: Attendance[] = this.attendances.get(groupId);
     let counter: number = 0;
@@ -81,7 +81,7 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(this.tableModelService.saveAttendance(this.attendances.get(groupId)).subscribe(req => {
-      this.getAttendanceByGroupId(groupId);
+      this.getAttendanceByGroupId(groupId, lessonId);
       this.loadingService.hide();
     }));
   }

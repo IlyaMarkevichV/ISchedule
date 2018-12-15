@@ -34,6 +34,13 @@ public class Attendance {
     public Attendance() {
     }
 
+    public Attendance(Student student, Lesson lesson, Date date, @Min(1) @Max(3) byte status) {
+        this.student = student;
+        this.lesson = lesson;
+        this.date = date;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

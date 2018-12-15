@@ -7,9 +7,9 @@ import java.sql.Date;
 
 public interface AttendanceRepository extends CrudRepository<Attendance, Integer> {
 
-    Iterable<Attendance> getAttendancesByStatusAndStudent_IdAndDateBetween(
-            byte status, int studentId, Date from, Date to);
+    Iterable<Attendance> getAttendancesByStatusAndStudent_IdAndLesson_IdAndDateBetween(
+            byte status, int studentId, int lessonId, Date from, Date to);
 
-    Iterable<Attendance> getAttendancesByStatusAndStudent_Group_IdAndDateBetween(
-            byte status, int studentId, Date from, Date to);
+    Iterable<Attendance> getAttendancesByStatusAndStudent_Group_IdAndLesson_IdAndDateBetween(
+            byte status, int studentId, int lessonId, Date from, Date to);
 }

@@ -13,12 +13,13 @@ export class StudentAttendanceComponent implements OnInit {
 
   @Input()
   public student: StudentAccount;
+  public q: Date[];
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService) {
   }
 
   ngOnInit() {
-  }
 
+  }
 }

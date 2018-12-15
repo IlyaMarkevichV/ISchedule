@@ -40,22 +40,24 @@ public class AttendanceController {
     }
 
     @RequestMapping(value = "/student", method = RequestMethod.GET)
-    public Iterable<Attendance> getAttendancesByStatusAndStudentIdAndDateBetween(
+    public Iterable<Attendance> getAttendancesByStatusAndStudentIdAndLessonIdDateBetween(
             @RequestParam(name = "status") byte status,
             @RequestParam(name = "student_id") int studentId,
+            @RequestParam(name = "lesson_id") int lessonId,
             @RequestParam(name = "from") Date from,
             @RequestParam(name = "to") Date to) {
 
-        return service.getAttendancesByStatusAndStudentIdAndDateBetween(status, studentId, from, to);
+        return service.getAttendancesByStatusAndStudentIdAndLessonIdDateBetween(status, studentId, lessonId, from, to);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
-    public Iterable<Attendance> getAttendancesByStatusAndGroupIdAndDateBetween(
+    public Iterable<Attendance> getAttendancesByStatusAndGroupIdAndLessonIdDateBetween(
             @RequestParam(name = "status") byte status,
             @RequestParam(name = "group_id") int groupId,
+            @RequestParam(name = "lesson_id") int lessonId,
             @RequestParam(name = "from") Date from,
             @RequestParam(name = "to") Date to) {
 
-        return service.getAttendancesByStatusAndGroupIdAndDateBetween(status, groupId, from, to);
+        return service.getAttendancesByStatusAndGroupIdAndLessonIdDateBetween(status, groupId, lessonId, from, to);
     }
 }
