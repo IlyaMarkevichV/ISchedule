@@ -45,11 +45,11 @@ public class AttendanceDataServiceImpl implements AttendanceDataService {
     }
 
     @Override
-    public List<AttendanceViewModel> getAttendancesByStatusAndStudentIdAndLessonIdAndDateBetween(byte status, int studentId, int lessonId, Date from, Date to) {
+    public List<AttendanceViewModel> getAttendancesByStatusAndStudentIdAndDateBetween(byte status, int studentId, Date from, Date to) {
         return new RestTemplate().exchange(
                 backendServerUrl +
-                        String.format("/api/attendance/student?status=%d&student_id=%d&lesson_id=%d&from=%s&to=%s",
-                                status, studentId, lessonId, from, to),
+                        String.format("/api/attendance/student?status=%d&student_id=%d&from=%s&to=%s",
+                                status, studentId, from, to),
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<AttendanceViewModel>>() {

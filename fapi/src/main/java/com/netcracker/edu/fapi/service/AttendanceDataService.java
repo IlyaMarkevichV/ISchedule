@@ -11,7 +11,7 @@ public interface AttendanceDataService {
 
     List<AttendanceViewModel> saveAll(List<AttendanceViewModel> attendances);
 
-    List<AttendanceViewModel> getAttendancesByStatusAndStudentIdAndLessonIdAndDateBetween(byte status, int studentId, int lessonId, Date from, Date to);
+    List<AttendanceViewModel> getAttendancesByStatusAndStudentIdAndDateBetween(byte status, int studentId, Date from, Date to);
 
     List<AttendanceViewModel> getAttendancesByStatusAndGroupIdAndLessonIdAndDateBetween(byte status, int groupId, int lessonId, Date from, Date to);
 }

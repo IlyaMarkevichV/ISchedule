@@ -33,11 +33,10 @@ public class AttendanceDataController {
     public Iterable<AttendanceViewModel> getAttendancesByStatusAndStudentIdAndDateBetween(
             @RequestParam(name = "status") byte status,
             @RequestParam(name = "student_id") int studentId,
-            @RequestParam(name = "lesson_id") int lessonId,
             @RequestParam(name = "from") Date from,
             @RequestParam(name = "to") Date to) {
 
-        return service.getAttendancesByStatusAndStudentIdAndLessonIdAndDateBetween(status, studentId, lessonId, from, to);
+        return service.getAttendancesByStatusAndStudentIdAndDateBetween(status, studentId, from, to);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)

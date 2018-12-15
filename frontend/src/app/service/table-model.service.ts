@@ -156,11 +156,11 @@ export class TableModelService {
       '/api/ba-lessons/group_schedule?group_id=' + groupId + "&date=" + s);
   }
 
-  getStudentAttendance(status: number, studentId: number, lessonId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
+  getStudentAttendance(status: number, studentId: number, fromDate: Date, toDate: Date): Observable<Attendance[]> {
     let from: string = fromDate.getFullYear() + "-" + (fromDate.getMonth() + 1) + "-" + fromDate.getDate();
     let to: string = toDate.getFullYear() + "-" + (toDate.getMonth() + 1)  + "-" + toDate.getDate();
     let requestParams: string = "status=" + status + "&student_id=" + studentId
-      + "&lesson_id=" + lessonId + "&from=" + from + "&to=" + to;
+      + "&from=" + from + "&to=" + to;
 
     return this.http.get<Attendance[]>(
       '/api/ba-attendance/student?' + requestParams);

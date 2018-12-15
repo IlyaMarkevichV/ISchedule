@@ -2,13 +2,47 @@
   <h2>Choose date range</h2>
 </div>
 <div class="row">
-  <input placeholder="Date range" type="text" [(ngModel)]="q"
-         class="form-control" bsDaterangepicker #dpr="bsDaterangepicker">
-</div>
-<div>
-  <h3>{{q}}</h3>
+  <input type="text" class="form-control" placeholder="Daterangepicker"
+         bsDaterangepicker [(ngModel)]="dates" />
+  <button class="btn btn-info" (click)="getStudentAttendance()">Get Result</button>
 </div>
 
-<div>
-  <button (click)="qw()"></button>
+<div *ngIf="attendances && attendances.length == 0">
+  <p>
+
+  </p>
+  <alert type="success">
+    <strong>List is empty!</strong> {{student.account.firstName}} {{student.account.lastName}}, my congratulations.
+  </alert>
 </div>
+
+<ng-template [ngIf]="dates && attendances && attendances.length !=0">
+  <p>
+
+  </p>
+  <h2 class="justify-content-center">{{student.account.firstName}} {{student.account.lastName}} <strong>Absent</strong>
+    List</h2>
+  <p></p>
+  <table class="table table-hover" id="table">
+    <thead>
+    <tr>
+      <th>Lesson</th>
+      <th>Professor</th>
+      <th>Time</th>
+      <th>Day of week</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+
+    <tbody id="tableBody"
+           *ngFor="let attendance of attendances">
+    <tr>
+      <td>{{attendance.lesson.lessonInfo.lessonName}}</td>
+      <td>{{attendance.lesson.professor.account.firstName}} {{attendance.lesson.professor.account.lastName}}</td>
+      <td>{{attendance.lesson.lessonTime.begin | date:'HH:mm'}} - {{attendance.lesson.lessonTime.end | date:'HH:mm'}}</td>
+      <td>{{attendance.lesson.day.dayName}}</td>
+      <td>{{attendance.date | date}}</td>
+    </tr>
+    </tbody>
+  </table>
+</ng-template>

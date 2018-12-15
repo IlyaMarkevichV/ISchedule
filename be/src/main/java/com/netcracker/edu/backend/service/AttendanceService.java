@@ -10,8 +10,8 @@ public interface AttendanceService {
     Iterable<Attendance> getAttendancesByStatusAndGroupIdAndLessonIdDateBetween(
             byte status, int groupId, int lessonId, Date from, Date to);
 
-    Iterable<Attendance> getAttendancesByStatusAndStudentIdAndLessonIdDateBetween(
-            byte status, int studentId, int lessonId, Date from, Date to);
+    Iterable<Attendance> getAttendancesByStatusAndStudentIdAndDateBetween(
+            byte status, int studentId, Date from, Date to);
 
     Optional<Attendance> findById(Integer id);
 
