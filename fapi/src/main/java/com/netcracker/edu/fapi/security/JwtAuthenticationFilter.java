@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.config;
+package com.netcracker.edu.fapi.security;
 
 import com.netcracker.edu.fapi.resource.Constants;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,6 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        if (request.getRequestURI().contains("/token/") || request.getRequestURI().endsWith("/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader(Constants.HEADER_STRING);
 
         String login = null;
@@ -57,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new
                         UsernamePasswordAuthenticationToken(userDetails, null,
-                        Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                        userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request));
                 logger.info("authenticated user" + login + ",setting security context");

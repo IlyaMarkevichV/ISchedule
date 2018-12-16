@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.config;
+package com.netcracker.edu.fapi.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

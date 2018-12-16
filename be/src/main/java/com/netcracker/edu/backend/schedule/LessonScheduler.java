@@ -23,7 +23,7 @@ public class LessonScheduler {
 
     private static final Logger log = LoggerFactory.getLogger(LessonScheduler.class);
 
-    private static final String[] DAYS = {"Monday", "Tuesday", "Wednesday",
+    public static final String[] DAYS = {"Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday"};
 
     private ScheduleRepository scheduleRepository;
@@ -51,7 +51,7 @@ public class LessonScheduler {
         Date monday = Date.valueOf(LocalDate.now().with(DayOfWeek.MONDAY));
 
         for (byte dayNumber = 0; dayNumber < 6; dayNumber++) {
-            log.info("Cycle - {}", (dayNumber + 1));
+            log.info("Day - {}", (dayNumber + 1));
             log.info("Extract current day lessons from from database.");
             Iterable<Lesson> currentDayLessons =
                     scheduleRepository.getLessonsByDay_DayName(DAYS[dayNumber]);

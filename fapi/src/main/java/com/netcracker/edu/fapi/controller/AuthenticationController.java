@@ -1,6 +1,6 @@
 package com.netcracker.edu.fapi.controller;
 
-import com.netcracker.edu.fapi.config.JwtTokenUtil;
+import com.netcracker.edu.fapi.security.JwtTokenUtil;
 import com.netcracker.edu.fapi.models.AuthToken;
 import com.netcracker.edu.fapi.models.LoginPassword;
 import com.netcracker.edu.fapi.resource.Constants;

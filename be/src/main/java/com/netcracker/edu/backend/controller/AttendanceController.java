@@ -46,13 +46,7 @@ public class AttendanceController {
             @RequestParam(name = "from") Date from,
             @RequestParam(name = "to") Date to) {
 
-        Iterable<Attendance> q = service.getAttendancesByStatusAndStudentIdAndDateBetween(status, studentId, from, to);
-        int w = 0;
-        for (Attendance a : q) {
-            w++;
-        }
-        log.warn("Length of array = {}", w);
-        return q;
+        return service.getAttendancesByStatusAndStudentIdAndDateBetween(status, studentId, from, to);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)

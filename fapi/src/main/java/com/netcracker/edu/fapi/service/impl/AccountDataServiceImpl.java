@@ -1,12 +1,7 @@
 package com.netcracker.edu.fapi.service.impl;
 
-import com.netcracker.edu.fapi.FapiApplication;
 import com.netcracker.edu.fapi.models.AccountViewModel;
-import com.netcracker.edu.fapi.models.RoleViewModel;
-import com.netcracker.edu.fapi.models.StudentGroupViewModel;
-import com.netcracker.edu.fapi.resource.Constants;
 import com.netcracker.edu.fapi.service.AccountDataService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.constraints.NotNull;
@@ -55,9 +49,7 @@ public class AccountDataServiceImpl implements AccountDataService, UserDetailsSe
                 getAuthority(account));
     }
 
-    private Set<GrantedAuthority> getAuthority(AccountViewModel account) {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(account.getRole().getRoleName()));
-        return authorities;
+    private List<GrantedAuthority> getAuthority(AccountViewModel account) {
+        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority(account.getRole().getRoleName()));
     }
 }

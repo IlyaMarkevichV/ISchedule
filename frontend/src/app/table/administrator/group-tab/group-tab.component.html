@@ -20,15 +20,18 @@
             </button>
             <ul *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-visbility">
-              <li role="menuitem"><a class="dropdown-item" (click)="groupField='id'; searchButtonName=' Group Id'">Id</a>
+              <li role="menuitem"><a class="dropdown-item"
+                                     (click)="groupField='id'; searchButtonName=' Group Id'">Id</a>
               </li>
               <li role="menuitem"><a class="dropdown-item"
                                      (click)="groupField='grade'; searchButtonName='Grade'">Grade</a>
               </li>
               <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='facultyName'; searchButtonName='Faculty Name'">Faculty Name</a></li>
+                                     (click)="groupField='facultyName'; searchButtonName='Faculty Name'">Faculty
+                Name</a></li>
               <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='graduation'; searchButtonName='Graduation'">Graduation</a></li>
+                                     (click)="groupField='graduation'; searchButtonName='Graduation'">Graduation</a>
+              </li>
             </ul>
           </div>
 
@@ -73,12 +76,12 @@
     </tbody>
   </table>
   <pager
-         [totalItems]="groupPage.totalElements"
-         [(ngModel)]="groupPage.number"
-         (pageChanged)="getPage($event.page)"
-         pageBtnClass="btn"
-         [itemsPerPage]="itemsPerPage"
-         class="pull-left">
+    [totalItems]="groupPage.totalElements"
+    [(ngModel)]="groupPage.number"
+    (pageChanged)="getPage($event.page)"
+    pageBtnClass="btn"
+    [itemsPerPage]="itemsPerPage"
+    class="pull-left">
   </pager>
   <button type="button" class="btn btn-default"
           (click)="sortDirection=!sortDirection;
@@ -89,7 +92,7 @@
 <!-- Modal -->
 <ng-template #groupModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Group</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new Group</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -108,7 +111,7 @@
       <label>Speciality</label>
       <input class="form-control" name="speciality" [(ngModel)]="editableGroup.speciality" #speciality="ngModel"
              placeholder="Speciality" required/>
-      <div [hidden]="editableGroup.speciality" class="alert alert-danger">
+      <div [hidden]="speciality.valid || speciality.untouched" class="alert alert-danger">
         Please set Speciality
       </div>
     </div>
@@ -118,8 +121,8 @@
       <input class="form-control" name="grade" [(ngModel)]="editableGroup.grade" #grade="ngModel"
              placeholder="Grade" required
              pattern="[0-9]{1}"/>
-      <div [hidden]="editableGroup.grade" class="alert alert-danger">
-        Please set valid Grade (1-4)
+      <div [hidden]="grade.valid || grade.untouched" class="alert alert-danger">
+        Please set valid Grade
       </div>
     </div>
 
@@ -139,7 +142,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="addGroup()"
             [disabled]="!editableGroup.grade || !editableGroup.graduation || !editableGroup.speciality">
-      {{editMode ? "Save": "Create"}}
+      {{editMode ? "Save" : "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
   </div>
@@ -150,11 +153,13 @@
   <div class="modal-header">
     <form>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="customRadio" name="example" value="false" [(ngModel)]="addFac">
+        <input type="radio" class="custom-control-input" id="customRadio" name="example" value="false"
+               [(ngModel)]="addFac">
         <label class="custom-control-label" for="customRadio">Create</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="customRadio2" name="example" [(ngModel)]="addFac" value="true">
+        <input type="radio" class="custom-control-input" id="customRadio2" name="example" [(ngModel)]="addFac"
+               value="true">
         <label class="custom-control-label" for="customRadio2">Delete</label>
       </div>
     </form>
@@ -168,20 +173,21 @@
   <div class="modal-body" *ngIf="addFac==='false'">
     <div class="form-group">
       <label>Faculty name</label>
-      {{editableGroup.faculty.facultyName}}
       <input class="form-control" name="facultyName" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
              required placeholder="Faculty Name"/>
-      <div [hidden]="facName.invalid || facName.untouched" class="alert alert-danger">
-        Please set Faculty name
+      <div [hidden]="facName.valid || facName.untouched" class="alert alert-danger">
+        Please set correct Faculty name
       </div>
     </div>
   </div>
 
   <div class="form-group" *ngIf="addFac==='true'">
-    <label>Faculty</label>
-    <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
-      <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}</option>
-    </select>
+    <div class="form-group">
+      <label>Faculty</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
+        <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}</option>
+      </select>
+    </div>
   </div>
 
   <!-- TODO: check 'addFac' for valid swap from string to boolean -->

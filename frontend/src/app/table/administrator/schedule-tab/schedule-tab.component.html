@@ -15,7 +15,7 @@
 <div [collapse]="isGroupsScheduleCollapsed" class="card card-block card-header">
 
   <accordion [closeOthers]="true" *ngFor="let group of tableModel.groups">
-    <accordion-group heading="Group Id: {{group.id}}">
+    <accordion-group heading="Group: {{group.id}}">
       <table class="table table-hover" id="table">
         <thead>
         <tr>
@@ -71,65 +71,3 @@
     </accordion-group>
   </accordion>
 </div>
-
-
-<!-- Modal -->
-<ng-template #lessonModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Professor UserAccount</h4>
-    <button type="button" class="close pull-right"
-            aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label>Lesson</label>
-      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonInfo">
-        <option *ngFor="let lessonInfo of tableModel.lessonInfos" [ngValue]="lessonInfo">{{lessonInfo.lessonName}}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Professor</label>
-      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
-        <option *ngFor="let professor of tableModel.professors" [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Time</label>
-      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonTime">
-        <option *ngFor="let time of tableModel.lessonTimes" [ngValue]="time">{{time.begin | date:'HH:mm'}} - {{time.end | date:'HH:mm'}}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Room</label>
-      <input class="form-control" name="grade" [(ngModel)]="editableLesson.lessonRoom" #room="ngModel"
-             placeholder="Room" required/>
-      <div [hidden]="room.untouched || room.invalid" class="alert alert-danger">
-        Please set valid Room
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Day</label>
-      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.day">
-        <option *ngFor="let day of tableModel.studyDays" [ngValue]="day">{{day.dayName}}
-        </option>
-      </select>
-    </div>
-
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default"
-            [disabled]="room.invalid" (click)="saveLesson()">
-      {{editMode ? "Save": "Create"}}
-    </button>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-  </div>
-</ng-template>

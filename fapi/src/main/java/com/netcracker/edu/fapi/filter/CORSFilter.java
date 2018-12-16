@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.config;
+package com.netcracker.edu.fapi.filter;
 
 
 import org.springframework.stereotype.Component;
@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ *  allows JavaScript on a web page to make AJAX requests to another domain,
+ *  different from the domain from where it originated
+ */
 @Component
 public class CORSFilter implements Filter {
 

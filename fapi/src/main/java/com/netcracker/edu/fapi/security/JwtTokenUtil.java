@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.config;
+package com.netcracker.edu.fapi.security;
 
 import com.netcracker.edu.fapi.resource.Constants;
 import io.jsonwebtoken.*;
@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    public String getUsernameFromToken(String token) {
-
+    String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -31,7 +30,7 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
@@ -63,25 +62,8 @@ public class JwtTokenUtil implements Serializable {
 
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    Boolean validateToken(String token, UserDetails userDetails) {
         final String login = getUsernameFromToken(token);
-        return( login.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (login.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
-    public UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
-
-        final JwtParser jwtParser = Jwts.parser().setSigningKey(Constants.SIGNING_KEY);
-
-        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-
-        final Claims claims = claimsJws.getBody();
-
-        final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(Constants.AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
-    }
-
 }
