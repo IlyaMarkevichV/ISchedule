@@ -34,7 +34,7 @@
     <td>{{ lesson.day.dayName }}</td>
     <td>{{ (lesson.groups | toArray: lesson.groups).join(', ') }}</td>
     <td>
-      <button type="button" class="btn btn-danger" (click)="deleteLesson()">
+      <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
         Delete
       </button>
     </td>
@@ -121,6 +121,9 @@
 
   </div>
   <div class="modal-footer">
+    <alert type="warning" *ngIf="warning">
+      <strong>Warning!</strong> Lesson with the same data already contains in schedule.
+    </alert>
     <button type="button" class="btn btn-default"
             [disabled]="room.invalid" (click)="saveLesson()">
       {{editMode ? "Save" : "Create"}}

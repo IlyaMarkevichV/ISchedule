@@ -32,6 +32,8 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   public itemPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
   public sortDirection: boolean = true;
 
+  public warning: boolean = false;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService) {
@@ -55,15 +57,20 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   saveLesson(): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
-      this.updateLessons();
-      this.closeModal();
+      if (req.id == -1) {
+        this.warning = true;
+      } else {
+        this.warning = false;
+        this.updateLessons();
+        this.closeModal();
+      }
       this.loadingService.hide();
     }));
   }
 
-  deleteLesson(): void {
+  deleteLesson(lesson:Lesson): void {
     this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.deleteLesson(this.editableLesson.id).subscribe(req => {
+    this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(req => {
       this.updateLessons();
       this.loadingService.hide();
     }));
@@ -103,13 +110,13 @@ export class LessonTabComponent implements OnInit, OnDestroy {
 
   getPage(pageNumber: number) {
     this.loadingService.show();
-    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
 
     this.subscriptions.push(this.tableModelService.getPageObservable<Lesson>(
       RequestHelper.LESSON,
       pageNumber - 1,
       Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
-      'id,'  + (this.sortDirection ? 'desc' : 'asc'))
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.lessonPage = req as Page<Lesson>;
         this.lessonPage.number += 1;

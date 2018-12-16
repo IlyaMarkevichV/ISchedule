@@ -36,12 +36,18 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Lesson saveLesson(Lesson lesson) {
         if (lesson.getId() == 0) {
+
+            long count = repository.countOfSimilarLessons(lesson.getLessonInfo(), lesson.getProfessor(),
+                    lesson.getLessonTime(), lesson.getDay());
+            if (count == 1) {
+                lesson.setId(-1);
+                return lesson;
+            }
             lesson = repository.save(lesson);
 
             LocalDate localDate = LocalDate
                     .now()
                     .with(DayOfWeek.values()[lesson.getDay().getId()-1]);
-
             lessonDateRepository.save(new LessonDate(lesson, Date.valueOf(localDate)));
             return lesson;
         } else {
