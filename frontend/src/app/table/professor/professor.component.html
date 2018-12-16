@@ -12,16 +12,7 @@
     <br/>
     <br/>
     <br/>
-    <ng-template [ngIf]="tableModel.groups && tableModel.students">
-      <professor-group-schedule [(tableModel)]="tableModel"></professor-group-schedule>
-    </ng-template>
-  </tab>
-
-  <tab heading="Groups Information" class="mt-2">
-    <br/>
-    <br/>
-    <br/>
-    <professor-group-info></professor-group-info>
+      <professor-group-schedule></professor-group-schedule>
   </tab>
 
   <tab heading="Attendance" class="mt-2">

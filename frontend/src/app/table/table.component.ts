@@ -50,7 +50,6 @@ export class TableComponent implements OnInit, OnDestroy {
 
     this.tableModel = new TableModel();
 
-    this.loadStudents();
     this.loadGroups();
     this.loadRoles();
     this.loadFaculties();
@@ -77,14 +76,6 @@ export class TableComponent implements OnInit, OnDestroy {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.getGroups().subscribe(gr => {
       this.tableModel.groups = (gr as Page<Group>).content;
-      this.loadingService.hide();
-    }));
-  }
-
-  public loadStudents(): void {
-    this.loadingService.show();
-    this.subscriptions.push(this.tableModelService.getStudents().subscribe(accounts => {
-      this.tableModel.students = (accounts as Page<StudentAccount>).content;
       this.loadingService.hide();
     }));
   }

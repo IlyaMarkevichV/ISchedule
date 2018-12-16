@@ -35,15 +35,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   @Output()
   loadProfessors: EventEmitter<any> = new EventEmitter<any>();
 
-  /*info for pagination*/
-  page: number = 1;
-  totalNumberOfEntities: number;
-
   private professorRole: Role;
-
-  public searchButtonName: string = "Search by";
-  public searchText: string;
-  public professorField: string;
 
   private modalRef: BsModalRef;
 
@@ -111,7 +103,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
     if (!this.professorRole) {
       for (let role of this.tableModel.roles) {
-        if (role.roleName === 'professor') {
+        if (role.roleName === 'PROFESSOR') {
           this.professorRole = role;
           break;
         }
@@ -134,24 +126,6 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
   closeModal(): void {
     this.modalRef.hide();
-  }
-
-  public searchTrigger(): void {
-    if (this.searchButtonName === 'Search by')
-      return;
-
-    this.tempProfessorForFilter = new ProfessorAccount();
-    switch (this.professorField) {
-      case 'firstName':
-        this.tempProfessorForFilter.account.firstName = this.searchText;
-        break;
-      case 'lastName':
-        this.tempProfessorForFilter.account.lastName = this.searchText;
-        break;
-      case 'birthday':
-        this.tempProfessorForFilter.account.birthday = this.searchText;
-        break;
-    }
   }
 
   getPage(pageNumber: number) {

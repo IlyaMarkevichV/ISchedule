@@ -17,7 +17,6 @@ import { StudentComponent } from './student/student.component';
 import { ProfessorComponent } from './professor/professor.component';
 import { ProfessorProfileComponent } from './professor/professor-profile/professor-profile.component';
 import { ProfessorGroupScheduleComponent } from './professor/professor-group-schedule/professor-group-schedule.component';
-import { ProfessorGroupInfoComponent } from './professor/professor-group-info/professor-group-info.component';
 import {AppRoutingModule} from "../app-routing.module";
 import { ScheduleTabComponent } from './administrator/schedule-tab/schedule-tab.component';
 import {FilterLessonsByGroupPipe} from "../pipe/filterLectureByGroup.pipe";
@@ -62,7 +61,7 @@ import { StudentAttendanceComponent } from './student/student-attendance/student
     ProfessorComponent,
     ProfessorProfileComponent,
     ProfessorGroupScheduleComponent,
-    ProfessorGroupInfoComponent,
+
     ScheduleTabComponent,
     FilterLessonsByGroupPipe,
     FilterLessonsByProfessorPipe,

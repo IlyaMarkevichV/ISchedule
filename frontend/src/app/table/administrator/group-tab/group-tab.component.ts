@@ -37,12 +37,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
   @Output()
   loadGroups: EventEmitter<any> = new EventEmitter<any>();
 
-  public tempGroupForFilter: Group = new Group();
-
-  public searchButtonName: string = 'Search by';
-  public groupField: string;
-  public searchText: string;
-
   private subscriptions: Subscription[] = [];
   public editMode: boolean = false;
   public addFac: string = 'true';
@@ -145,30 +139,6 @@ export class GroupTabComponent implements OnInit, OnDestroy {
       this.updateGroups();
       this.loadingService.hide();
     }));
-  }
-
-  searchTrigger(): void {
-    if (this.searchButtonName === 'Search by')
-      return;
-
-    this.tempGroupForFilter = new Group();
-    this.tempGroupForFilter.faculty = new Faculty();
-    switch (this.groupField) {
-      case 'groupId':
-        if (this.searchText !== '')
-          this.tempGroupForFilter.id = Number(this.searchText);
-        break;
-      case 'grade':
-        if (this.searchText !== '')
-          this.tempGroupForFilter.grade = Number(this.searchText);
-        break;
-      case 'facultyName':
-        this.tempGroupForFilter.faculty.facultyName = this.searchText;
-        break;
-      case 'graduation':
-        this.tempGroupForFilter.graduation = this.searchText;
-        break;
-    }
   }
 
   getPage(pageNumber: number) {

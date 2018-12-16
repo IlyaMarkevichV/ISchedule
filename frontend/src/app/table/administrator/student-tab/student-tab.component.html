@@ -7,37 +7,6 @@
         <button type="button" class="btn btn-success" (click)="updateStudents()">Update</button>
       </div>
     </div>
-
-    <div class="col">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="btn-group" dropdown>
-
-            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                    aria-controls="dropdown-visbility">
-              {{ searchButtonName }} <span class="caret"></span>
-            </button>
-
-            <ul *dropdownMenu class="dropdown-menu"
-                role="menu" aria-labelledby="button-visbility">
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='firstName'; searchButtonName='First Name'">First Name</a>
-              </li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='lastName'; searchButtonName='Last Name'">Last Name</a></li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='groupId'; searchButtonName='Group Id'">Group Id</a></li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="studentField='birthday'; searchButtonName='Birthday'">Birthday</a></li>
-            </ul>
-          </div>
-
-          <input [(ngModel)]="searchText" [typeahead]="studentPage.content" typeaheadOptionField="{{studentField}}"
-                 [typeaheadScrollable]="true"
-                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
-        </div>
-      </div>
-    </div>
   </div>
 
   <br/>

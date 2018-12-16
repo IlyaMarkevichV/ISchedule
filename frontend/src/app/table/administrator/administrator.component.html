@@ -1,15 +1,14 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <tabset type="pills">
-  <tab heading="Students" class="mt-2" (select)="loadStudents.emit()">
+  <tab heading="Students" class="mt-2" (select)="studentComponent.getPage(1)">
     <br/>
     <br/>
     <br/>
-    <student-tab [(tableModel)]="tableModel"
-                 (loadStudents)="loadStudents.emit()"></student-tab>
+    <student-tab [(tableModel)]="tableModel"></student-tab>
   </tab>
 
-  <tab heading="Professors" class="mt-2" (select)="loadProfessors.emit()">
+  <tab heading="Professors" class="mt-2" (select)="professorComponent.getPage(1)">
     <br/>
     <br/>
     <br/>
@@ -17,7 +16,7 @@
                    (loadProfessors)="loadProfessors.emit()"></professor-tab>
   </tab>
 
-  <tab heading="Groups" class="mt-2" (select)="loadGroups.emit()">
+  <tab heading="Groups" class="mt-2" (select)="groupComponent.getPage(1)">
     <br/>
     <br/>
     <br/>
@@ -26,20 +25,18 @@
                (loadGroups)="loadGroups.emit()"></group-tab>
   </tab>
 
-  <tab heading="Schedule" (select)="loadLessons.emit()">
+  <tab heading="Schedule">
     <br/>
     <br/>
     <br/>
-    <schedule-tab [(tableModel)]="tableModel"
-                  (loadLessons)="loadLessons.emit()"></schedule-tab>
+      <schedule-tab></schedule-tab>
   </tab>
 
   <tab heading="Lessons" (select)="lessonComponent.getPage(1)">
     <br/>
     <br/>
     <br/>
-    <lesson-tab [(tableModel)]="tableModel"
-                  (loadLessons)="loadLessons.emit()"></lesson-tab>
+    <lesson-tab [(tableModel)]="tableModel"></lesson-tab>
   </tab>
 
 </tabset>

@@ -32,20 +32,8 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   @Input()
   public tableModel: TableModel;
 
-  @Output()
-  loadStudents: EventEmitter<any> = new EventEmitter<any>();
-
-  /*info for pagination*/
-  page: number = 1;
-  totalNumberOfEntities: number;
-
-  public searchButtonName: string = 'Search by';
-  public searchText: string;
-
   private studentRole: Role;
 
-  /* needed for filterBy*/
-  public studentField: string;
   public tempStudentForFilter: StudentAccount;
 
   private modalRef: BsModalRef;
@@ -103,7 +91,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   }
 
   public updateStudents(): void {
-    this.loadStudents.emit();
     this.getPage(1);
   }
 
@@ -114,7 +101,7 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
     if (!this.studentRole) {
       for (let role of this.tableModel.roles) {
-        if (role.roleName === 'student') {
+        if (role.roleName === 'STUDENT') {
           this.studentRole = role;
           break;
         }
@@ -143,30 +130,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.deleteStudent(student).subscribe(() => {
       this.updateStudents();
     }));
-  }
-
-  public searchTrigger(): void {
-    if (this.searchButtonName === 'Search by')
-      return;
-
-    this.tempStudentForFilter = new StudentAccount();
-    this.tempStudentForFilter.account = new UserAccount();
-    this.tempStudentForFilter.group = new Group();
-    switch (this.studentField) {
-      case 'firstName':
-        this.tempStudentForFilter.account.firstName = this.searchText;
-        break;
-      case 'lastName':
-        this.tempStudentForFilter.account.lastName = this.searchText;
-        break;
-      case 'birthday':
-        this.tempStudentForFilter.account.birthday = this.searchText;
-        break;
-      case 'groupId':
-        if (this.searchText !== '')
-          this.tempStudentForFilter.group.id = Number(this.searchText);
-        break;
-    }
   }
 
   getPage(pageNumber: number) {

@@ -8,39 +8,6 @@
         <button type="button" class="btn btn-success" (click)="openModal(facultyModal)">Add/Delete faculty</button>
       </div>
     </div>
-
-    <div class="col">
-
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="btn-group" dropdown>
-            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                    aria-controls="dropdown-visbility">
-              {{ searchButtonName }} <span class="caret"></span>
-            </button>
-            <ul *dropdownMenu class="dropdown-menu"
-                role="menu" aria-labelledby="button-visbility">
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='id'; searchButtonName=' Group Id'">Id</a>
-              </li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='grade'; searchButtonName='Grade'">Grade</a>
-              </li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='facultyName'; searchButtonName='Faculty Name'">Faculty
-                Name</a></li>
-              <li role="menuitem"><a class="dropdown-item"
-                                     (click)="groupField='graduation'; searchButtonName='Graduation'">Graduation</a>
-              </li>
-            </ul>
-          </div>
-
-          <input [(ngModel)]="searchText" [typeahead]="groupPage.content" typeaheadOptionField="{{groupField}}"
-                 [typeaheadScrollable]="true"
-                 [typeaheadOptionsInScrollableView]="5" placeholder="Search..." (keyup)="searchTrigger()">
-        </div>
-      </div>
-    </div>
   </div>
 
   <br/>

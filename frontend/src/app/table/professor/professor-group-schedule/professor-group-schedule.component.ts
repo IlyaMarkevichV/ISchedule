@@ -18,9 +18,6 @@ import {Group} from "../../../model/group";
 })
 export class ProfessorGroupScheduleComponent implements OnInit, OnDestroy {
 
-  @Input()
-  public tableModel: TableModel;
-
   private subscriptions: Subscription[] = [];
   public professorMap: Map<number, DaysOfWeek<Lesson>>;
   public isGroupsScheduleCollapsed: boolean = false;
@@ -68,8 +65,6 @@ export class ProfessorGroupScheduleComponent implements OnInit, OnDestroy {
 
   getGroupPage(pageNumber: number) {
     this.loadingService.show();
-    console.log(pageNumber);
-    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
     this.subscriptions.push(this.tableModelService.getPageObservable<Group>(
       RequestHelper.GROUP,
       pageNumber - 1,
@@ -88,8 +83,6 @@ export class ProfessorGroupScheduleComponent implements OnInit, OnDestroy {
 
   getStudentPage(pageNumber: number) {
     this.loadingService.show();
-    console.log(pageNumber);
-    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
     this.subscriptions.push(this.tableModelService.getPageObservable<StudentAccount>(
       RequestHelper.STUDENT,
       pageNumber - 1,

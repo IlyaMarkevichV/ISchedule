@@ -97,7 +97,7 @@
       <label>Room</label>
       <input class="form-control" name="grade" [(ngModel)]="editableLesson.lessonRoom" #room="ngModel"
              placeholder="Room" required/>
-      <div [hidden]="room.untouched || room.invalid" class="alert alert-danger">
+      <div [hidden]="room.untouched || room.valid" class="alert alert-danger">
         Please set valid Room
       </div>
     </div>

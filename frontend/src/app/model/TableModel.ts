@@ -9,7 +9,6 @@ import {LessonInfo} from "./lessonInfo";
 import {Day} from "./day";
 
 export class TableModel {
-  students: StudentAccount[];
   professors: ProfessorAccount[];
   groups: Group[];
   faculties: Faculty[];

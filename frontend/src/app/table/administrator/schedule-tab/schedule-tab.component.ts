@@ -5,12 +5,12 @@ import {Subscription} from "rxjs";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {TableModelService} from "../../../service/table-model.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {DatePipe} from "@angular/common";
 import {ProfessorAccount} from "../../../model/professor-account";
 import {Group} from "../../../model/group";
-import {LessonInfo} from "../../../model/lessonInfo";
-import {LessonTime} from "../../../model/lessonTime";
-import {Day} from "../../../model/day";
+import {DaysOfWeek} from "../../../model/DaysOfWeek";
+import {RequestHelper} from "../../../model/RequestHelper";
+import {Constants} from "../../../share/constants";
+import {Page} from "../../../model/page";
 
 @Component({
   selector: 'schedule-tab',
@@ -19,14 +19,7 @@ import {Day} from "../../../model/day";
 })
 export class ScheduleTabComponent implements OnInit, OnDestroy {
 
-  @Input()
-  public tableModel: TableModel;
-
-  @Output()
-  public loadLessons: EventEmitter<any> = new EventEmitter<any>();
-
   public isGroupsScheduleCollapsed: boolean = false;
-  public isProfessorsScheduleCollapsed: boolean = false;
 
   private subscriptions: Subscription[] = [];
 
@@ -35,6 +28,13 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
 
   public editableLesson: Lesson;
 
+  public professorPage: Page<ProfessorAccount>;
+  public groupPage: Page<Group>;
+  public sortDirection: boolean = false;
+  public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+  public adminMap: Map<number, DaysOfWeek<Lesson>>;
+  public professorMap: Map<number, DaysOfWeek<Lesson>>;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService) {
@@ -42,14 +42,25 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.editableLesson = new Lesson();
+
+    this.adminMap = new Map<number, DaysOfWeek<Lesson>>();
+    this.professorMap = new Map<number, DaysOfWeek<Lesson>>();
+
+    this.groupPage = new Page<Group>();
+    this.professorPage = new Page<ProfessorAccount>();
+
+    this.getGroupPage(1);
+    this.getProfessorPage(1);
+
+    this.groupPage.content.forEach(group =>
+      this.adminMap.set(group.id, new DaysOfWeek<Lesson>()));
+    this.professorPage.content.forEach(professor => {
+      this.professorMap.set(professor.id, new DaysOfWeek<Lesson>());
+    })
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
-  updateSchedule(): void {
-    this.loadLessons.emit();
   }
 
   deleteLesson(lesson: Lesson, group?: Group): void {
@@ -58,12 +69,12 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     if (group) {
       lesson.groups = lesson.groups.filter(gr => gr.id != group.id);
       this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
-        this.updateSchedule();
+        this.getGroupSchedule(group.id);
         this.loadingService.hide();
       }));
     } else {
       this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(() => {
-        this.updateSchedule();
+        this.getProfessorSchedule(lesson.professor.id);
         this.loadingService.hide();
       }));
     }
@@ -81,17 +92,70 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
-  saveLesson(): void {
+  getGroupSchedule(groupId: number) {
     this.loadingService.show();
-    console.log(this.editableLesson);
-    this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
-      this.updateSchedule();
-      this.closeModal();
+    if (!this.adminMap.has(groupId)) {
+      this.adminMap.set(groupId, new DaysOfWeek<Lesson>());
+    }
+
+    this.subscriptions.push(
+      this.tableModelService.getGroupLessons(groupId, new Date()).subscribe(req => {
+        let tempDays: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonsToDaysOfWeek(req as Lesson[]);
+        this.adminMap.set(groupId, tempDays);
+        this.loadingService.hide();
+      }));
+  }
+
+  getProfessorSchedule(professorId: number) {
+    this.loadingService.show();
+    if (!this.professorMap.has(professorId)) {
+      this.professorMap.set(professorId, new DaysOfWeek<Lesson>());
+    }
+
+    this.subscriptions.push(this.tableModelService.getProfessorLessons(
+      professorId, new Date()).subscribe(request => {
+      let tempDays: DaysOfWeek<Lesson> = DaysOfWeek.transformLessonsToDaysOfWeek(request as Lesson[]);
+      console.log(tempDays);
+      this.professorMap.set(professorId, tempDays);
       this.loadingService.hide();
     }));
   }
 
-  compareFn(obj1: any, obj2: any): boolean {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  getGroupPage(pageNumber: number) {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getPageObservable<Group>(
+      RequestHelper.GROUP,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.groupPage = req as Page<Group>;
+        this.groupPage.number += 1;
+
+        this.groupPage.content.forEach(group =>
+          this.adminMap.has(group.id) ? true : this.adminMap.set(group.id, new DaysOfWeek<Lesson>()));
+
+        this.loadingService.hide();
+      }));
+  }
+
+
+  getProfessorPage(pageNumber: number) {
+    this.loadingService.show();
+    this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
+      RequestHelper.PROFESSOR,
+      pageNumber - 1,
+      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      'id,' + (this.sortDirection ? 'desc' : 'asc'))
+      .subscribe(req => {
+        this.professorPage = req as Page<ProfessorAccount>;
+        this.professorPage.number += 1;
+
+        this.professorPage.content.forEach(professor => {
+          this.professorMap.has(professor.id) ? true : this.professorMap.set(professor.id, new DaysOfWeek<Lesson>())
+        });
+          this.loadingService.hide();
+        })
+      );
   }
 }

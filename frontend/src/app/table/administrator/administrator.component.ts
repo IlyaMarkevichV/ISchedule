@@ -12,23 +12,18 @@ import {LessonTabComponent} from "./lesson-tab/lesson-tab.component";
   styleUrls: ['./administrator.component.css']
 })
 export class AdministratorComponent {
-  /*
-
-    @ViewChild(StudentTabComponent)
-    protected studentComponent: StudentTabComponent;
-
-    @ViewChild(ProfessorTabComponent)
-    protected professorComponent: ProfessorTabComponent;
-
-    @ViewChild(GroupTabComponent)
-    protected groupComponent: GroupTabComponent;
-
-    @ViewChild(ScheduleTabComponent)
-    protected scheduleComponent: ScheduleTabComponent;
-  */
 
   @ViewChild(LessonTabComponent)
   public lessonComponent: LessonTabComponent;
+
+  @ViewChild(StudentTabComponent)
+  public studentComponent: StudentTabComponent;
+
+  @ViewChild(ProfessorTabComponent)
+  public professorComponent: ProfessorTabComponent;
+
+  @ViewChild(GroupTabComponent)
+  public groupComponent: GroupTabComponent;
 
   @Input()
   public tableModel: TableModel;
@@ -41,12 +36,6 @@ export class AdministratorComponent {
 
   @Output()
   loadProfessors: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  loadStudents: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  loadLessons: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
   }
