@@ -50,6 +50,9 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   public sortDirection: boolean = false;
   public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
 
+  public maxDate: Date;
+  public minDate: Date;
+
   // Dependency injection
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -66,6 +69,11 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
 
     this.professorPage = new Page<ProfessorAccount>();
     this.getPage(1);
+
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 25, 0, 1);
+    this.minDate = new Date();
+    this.minDate.setFullYear(this.maxDate.getFullYear() - 75, 0, 1);
   }
 
   ngOnDestroy(): void {

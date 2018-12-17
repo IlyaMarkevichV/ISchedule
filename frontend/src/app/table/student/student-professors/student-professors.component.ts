@@ -71,8 +71,6 @@ export class StudentProfessorsComponent implements OnInit, OnDestroy {
 
   getPage(pageNumber: number) {
     this.loadingService.show();
-    console.log(pageNumber);
-    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
     this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
       RequestHelper.PROFESSOR,
       pageNumber - 1,
@@ -81,6 +79,8 @@ export class StudentProfessorsComponent implements OnInit, OnDestroy {
       .subscribe(req => {
         this.professorPage = req as Page<ProfessorAccount>;
         this.professorPage.number += 1;
+        this.professorPage.content.forEach(professor =>
+          this.studentMap.set(professor.id, new DaysOfWeek<Lesson>()));
         this.loadingService.hide();
       }));
   }

@@ -127,6 +127,8 @@
                  placeholder="Datepicker"
                  bsDatepicker [(ngModel)]="editableProfessor.account.birthday"
                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                 [maxDate]="maxDate"
+                 [minDate]="minDate"
                  placement="right"
                  #bday="ngModel">
         </div>

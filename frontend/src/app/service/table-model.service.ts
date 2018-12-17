@@ -172,8 +172,6 @@ export class TableModelService {
     let requestParams: string = "status=" + status + "&group_id=" + groupId
       + "&lesson_id=" + lessonId + "&from=" + from + "&to=" + to;
 
-    console.log('/api/ba-attendance/group?' + requestParams);
-
     return this.http.get<Attendance[]>(
       '/api/ba-attendance/group?' + requestParams);
   }

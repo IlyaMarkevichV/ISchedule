@@ -25,6 +25,9 @@ export class AdministratorComponent {
   @ViewChild(GroupTabComponent)
   public groupComponent: GroupTabComponent;
 
+  @ViewChild(ScheduleTabComponent)
+  public scheduleComponent: ScheduleTabComponent;
+
   @Input()
   public tableModel: TableModel;
 

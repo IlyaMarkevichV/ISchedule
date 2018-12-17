@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.time.DayOfWeek;
-import java.util.ArrayList;
 
 @Service
 public class LessonDateServiceImpl implements LessonDateService {
@@ -34,17 +32,13 @@ public class LessonDateServiceImpl implements LessonDateService {
 
     @Override
     public Iterable<Lesson> getProfessorLessonsBetweenMondayAndSaturday(Integer professorId, Date from) {
-        Date[] dates = DateHelper.getBeginAndEndOfWeek(from);
+        Date[] dates = DateHelper.getMondayAndSaturday(from);
         return repository.getProfessorLessonsBetween(professorId, dates[0], dates[1]);
     }
 
     @Override
     public Iterable<Lesson> getGroupLessonsBetween(UniversityGroup group, Date from) {
-        Date[] dates = DateHelper.getBeginAndEndOfWeek(from);
-        Iterable<Lesson> lessons = repository.getGroupLessonsBetween(group, dates[0], dates[1]);
-        for (Lesson lesson : lessons) {
-            log.info("Lesson: {}", lesson.getId());
-        }
-        return lessons;
+        Date[] dates = DateHelper.getMondayAndSaturday(from);
+        return repository.getGroupLessonsBetween(group, dates[0], dates[1]);
     }
 }

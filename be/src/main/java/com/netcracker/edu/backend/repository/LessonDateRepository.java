@@ -13,7 +13,7 @@ import java.sql.Date;
 public interface LessonDateRepository extends CrudRepository<LessonDate, Integer> {
 
     @Query("SELECT DISTINCT ld.lesson FROM LessonDate ld " +
-            "INNER JOIN ld.lesson ls " +
+            "INNER JOIN ld.lesson ls ON ld.lesson.id = ls.id " +
             "WHERE ls.professor.id = :professorId AND ld.date BETWEEN :dateFrom AND :dateTo " +
             "ORDER BY ld.lesson.lessonTime.begin ASC, ld.date ASC")
     Iterable<Lesson> getProfessorLessonsBetween(
@@ -29,11 +29,4 @@ public interface LessonDateRepository extends CrudRepository<LessonDate, Integer
             @Param("uniGroup") UniversityGroup group,
             @Param("dateFrom") Date from,
             @Param("dateTo") Date to);
-
-    //@Query(value = "SELECT ld.lesson FROM LessonDate ld WHERE ld.")
-    @Query(value = "SELECT * " +
-            "FROM schedule_group sg", nativeQuery = true)
-    Iterable<Lesson> getLessonsByGroupIdAndDayOfWeek(
-            @Param("dayName") Integer day,
-            @Param("groupId") Integer groupId);
 }

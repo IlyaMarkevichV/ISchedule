@@ -47,6 +47,9 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
   public sortDirection: boolean = false;
 
+  public maxDate: Date;
+  public minDate: Date;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -64,6 +67,11 @@ export class StudentTabComponent implements OnInit, OnDestroy {
 
     this.studentPage = new Page<StudentAccount>();
     this.getPage(1);
+
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 15, 0, 1);
+    this.minDate = new Date();
+    this.minDate.setFullYear(this.maxDate.getFullYear() - 30, 0, 1);
   }
 
   ngOnDestroy(): void {

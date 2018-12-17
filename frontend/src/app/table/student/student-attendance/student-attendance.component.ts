@@ -15,15 +15,27 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
   @Input()
   public student: StudentAccount;
 
-  public dates: Date[] = [new Date(2018, 0, 1), new Date(2018, 0 ,2)];
+  public dates: Date[];
   private subscriptions: Subscription[] = [];
   public attendances: Attendance[];
+  public minDate: Date;
+  public maxDate: Date;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService) {
   }
 
   ngOnInit() {
+    this.maxDate = new Date();
+    this.minDate = new Date();
+    if (this.maxDate.getMonth() >= 8) {
+      this.maxDate.setFullYear(this.maxDate.getFullYear() + 1, 6, 5);
+      this.minDate.setFullYear(this.maxDate.getFullYear() - 1, 8, 1);
+    } else {
+      this.maxDate.setFullYear(this.maxDate.getFullYear(), 6, 5);
+      this.minDate.setFullYear(this.maxDate.getFullYear() - 1, 8, 1);
+    }
+    this.dates = [this.minDate, new Date(this.minDate.getFullYear(), this.minDate.getMonth() + 1, this.minDate.getDate())]
   }
 
   ngOnDestroy(): void {

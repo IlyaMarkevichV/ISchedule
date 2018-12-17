@@ -10,7 +10,7 @@ import java.time.YearMonth;
 
 public final class DateHelper {
 
-    public static Date[] getBeginAndEndOfWeek(@NotNull Date date) {
+    public static Date[] getMondayAndSaturday(@NotNull Date date) {
         YearMonth month = YearMonth.now();
         LocalDate currentDate = month.atDay(date.toLocalDate().getDayOfMonth());
         LocalDate monday = currentDate.with(DayOfWeek.MONDAY);
@@ -22,6 +22,7 @@ public final class DateHelper {
         return dates;
     }
 
+    //check for usage!!!
     public static Date addNDays(@NotNull Date date, int n) {
         if (n == 0)
             return date;

@@ -45,7 +45,7 @@ public class LessonScheduler {
         this.attendanceRepository = attendanceRepository;
     }
 
-    @Scheduled(cron = "0 59 4 ? * MON")
+    @Scheduled(cron = "9 0 0 ? * MON")
     public void addLessonsToLessonDateTable() {
         //get current week monday
         Date monday = Date.valueOf(LocalDate.now().with(DayOfWeek.MONDAY));
@@ -74,25 +74,25 @@ public class LessonScheduler {
      * нужно добавить каждому студенту из группы его метку о посещении.
      * 1) возвращаем список всех студентов
      * 2) итерируем по нему
-     * 3) итерируя, находим по params: DayOfWeek, Group для студента посещения
-     * 4) создаем посещение
+     * 3) итерируя, находим по params: DayOfWeek, Group для студента
+     * 4) создаем посещения
      */
-    @Scheduled(cron = "0 51 16 ? * MON-SAT")
+    @Scheduled(cron = "0 0 15 ? * MON-SAT")
     public void addAttendanceForEveryStudentAtCurrentDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         Date currentDate = Date.valueOf(LocalDate.now());
         Iterable<Student> students = studentRepository.findAll();
 
-        for (Student student : students) {
+        students.forEach(student -> {
             Iterable<Lesson> studentLessons =
                     scheduleGroupRepository.getLessonsByGroupIdAndDayOfWeek(
                             DAYS[currentDay.getValue() - 1], student.getGroup().getId());
 
             List<Attendance> studentAttendances = new ArrayList<Attendance>();
             studentLessons.forEach(lesson ->
-                    studentAttendances.add(new Attendance(student, lesson, currentDate, (byte)3)));
+                    studentAttendances.add(new Attendance(student, lesson, currentDate, (byte) 3)));
 
             attendanceRepository.saveAll(studentAttendances);
-        }
+        });
     }
 }
