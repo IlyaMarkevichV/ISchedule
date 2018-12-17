@@ -1,7 +1,7 @@
 package com.netcracker.edu.fapi.service;
 
 import com.netcracker.edu.fapi.models.LessonViewModel;
-import com.netcracker.edu.fapi.service.impl.RestPageImpl;
+import com.netcracker.edu.fapi.models.RestPageImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;

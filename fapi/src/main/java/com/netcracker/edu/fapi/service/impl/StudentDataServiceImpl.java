@@ -1,5 +1,6 @@
 package com.netcracker.edu.fapi.service.impl;
 
+import com.netcracker.edu.fapi.models.RestPageImpl;
 import com.netcracker.edu.fapi.models.StudentViewModel;
 import com.netcracker.edu.fapi.service.StudentDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class StudentDataServiceImpl implements StudentDataService {

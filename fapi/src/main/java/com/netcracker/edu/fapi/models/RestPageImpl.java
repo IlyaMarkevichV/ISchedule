@@ -1,4 +1,4 @@
-package com.netcracker.edu.fapi.service.impl;
+package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

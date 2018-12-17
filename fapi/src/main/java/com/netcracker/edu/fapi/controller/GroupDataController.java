@@ -2,14 +2,12 @@ package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.GroupViewModel;
 import com.netcracker.edu.fapi.service.GroupDataService;
-import com.netcracker.edu.fapi.service.impl.RestPageImpl;
+import com.netcracker.edu.fapi.models.RestPageImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/ba-groups")

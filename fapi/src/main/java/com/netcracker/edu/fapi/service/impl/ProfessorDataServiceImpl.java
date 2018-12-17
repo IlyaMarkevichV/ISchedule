@@ -1,21 +1,17 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.ProfessorViewModel;
+import com.netcracker.edu.fapi.models.RestPageImpl;
 import com.netcracker.edu.fapi.service.ProfessorDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.print.Pageable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class ProfessorDataServiceImpl implements ProfessorDataService {
