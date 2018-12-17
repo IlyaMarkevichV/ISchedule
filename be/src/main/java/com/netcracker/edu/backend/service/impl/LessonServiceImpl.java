@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.DayOfWeek;
@@ -33,6 +34,7 @@ public class LessonServiceImpl implements LessonService {
         this.lessonDateRepository = lessonDateRepository;
     }
 
+    @Transactional
     @Override
     public Lesson saveLesson(Lesson lesson) {
         if (lesson.getId() == 0) {
@@ -47,7 +49,7 @@ public class LessonServiceImpl implements LessonService {
 
             LocalDate localDate = LocalDate
                     .now()
-                    .with(DayOfWeek.values()[lesson.getDay().getId()-1]);
+                    .with(DayOfWeek.values()[lesson.getDay().getId() - 1]);
             lessonDateRepository.save(new LessonDate(lesson, Date.valueOf(localDate)));
             return lesson;
         } else {
@@ -60,6 +62,7 @@ public class LessonServiceImpl implements LessonService {
         return repository.findById(id);
     }
 
+    @Transactional
     @Override
     public void deleteLesson(Integer id) {
         Optional<Lesson> lessonOptional = repository.findById(id);

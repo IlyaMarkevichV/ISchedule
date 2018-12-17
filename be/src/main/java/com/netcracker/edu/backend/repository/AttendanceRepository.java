@@ -2,9 +2,11 @@ package com.netcracker.edu.backend.repository;
 
 import com.netcracker.edu.backend.entity.Attendance;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 
+@Repository
 public interface AttendanceRepository extends CrudRepository<Attendance, Integer> {
 
     Iterable<Attendance> getAttendancesByStatusAndStudent_IdAndDateBetween(
