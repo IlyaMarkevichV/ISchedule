@@ -8,7 +8,7 @@ import {TableModelService} from "../service/table-model.service";
 import {Constants} from "../share/constants";
 import {Token} from "../model/token";
 import {TokenStorage} from "../service/token-storage.service";
-import {AuthorizationService} from "../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../service/authorization-and-transmit.service";
 import {Role} from "../model/role";
 import {TableModel} from "../model/TableModel";
 import {ProfessorAccount} from "../model/professor-account";

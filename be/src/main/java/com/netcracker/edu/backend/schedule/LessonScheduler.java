@@ -77,7 +77,7 @@ public class LessonScheduler {
      * 3) итерируя, находим по params: DayOfWeek, Group для студента
      * 4) создаем посещения
      */
-    @Scheduled(cron = "0 0 15 ? * MON-SAT")
+    @Scheduled(cron = "30 42 20 ? * MON-SAT")
     public void addAttendanceForEveryStudentAtCurrentDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         Date currentDate = Date.valueOf(LocalDate.now());

@@ -8,7 +8,7 @@ import {Group} from "../model/group";
 import {Role} from "../model/role";
 import {ProfessorAccount} from "../model/professor-account";
 import {StudentAccount} from "../model/student-account";
-import {AuthorizationService} from "../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../service/authorization-and-transmit.service";
 import {Lesson} from "../model/lesson";
 import {LessonTime} from "../model/lessonTime";
 import {LessonInfo} from "../model/lessonInfo";
@@ -35,7 +35,7 @@ export class TableComponent implements OnInit, OnDestroy {
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
     private tableModelService: TableModelService,
-    private authService: AuthorizationService,
+    private authService: AuthorizationAndTransmitService,
     private tokenStorage: TokenStorage) {
   }
 

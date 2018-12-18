@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TableModel} from "../../model/TableModel";
 import {UserAccount} from "../../model/UserAccount";
 import {ProfessorAccount} from "../../model/professor-account";
-import {AuthorizationService} from "../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../service/authorization-and-transmit.service";
 import {TableModelService} from "../../service/table-model.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Subscription} from "rxjs";
@@ -25,12 +25,15 @@ export class ProfessorComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  @Input()
+  public t: boolean = false;
+
 
   constructor(
     private tableModelService: TableModelService,
     private tokenStorage: TokenStorage,
     private loadingService: Ng4LoadingSpinnerService,
-    private authService: AuthorizationService) {
+    private authService: AuthorizationAndTransmitService) {
   }
 
   ngOnInit() {
@@ -48,9 +51,9 @@ export class ProfessorComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.tableModelService.getProfessorLessons(
           this.professor.id, new Date()).subscribe(request => {
           this.authService.transmitProfessorLessons(request as Lesson[]);
+          this.loadingService.hide();
         }));
 
-        this.loadingService.hide();
       }));
   }
 

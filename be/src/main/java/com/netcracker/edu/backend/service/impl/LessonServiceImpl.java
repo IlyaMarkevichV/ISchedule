@@ -3,7 +3,6 @@ package com.netcracker.edu.backend.service.impl;
 import com.netcracker.edu.backend.entity.*;
 import com.netcracker.edu.backend.repository.LessonDateRepository;
 import com.netcracker.edu.backend.repository.LessonRepository;
-import com.netcracker.edu.backend.schedule.LessonScheduler;
 import com.netcracker.edu.backend.service.LessonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,9 +36,22 @@ public class LessonServiceImpl implements LessonService {
     public Lesson saveLesson(Lesson lesson) {
         if (lesson.getId() == 0) {
 
-            long count = repository.countOfSimilarLessons(lesson.getLessonInfo(), lesson.getProfessor(),
+            long professorCounter = repository.countOfSimilarLessonsForProfessor(lesson.getLessonInfo(), lesson.getProfessor(),
                     lesson.getLessonTime(), lesson.getDay());
-            if (count == 1) {
+
+            boolean noOtherSimilarLessons = true;
+            for (UniversityGroup group : lesson.getGroups()) {
+                long groupCounter = repository.countOfSimilarLessonsForGroup(lesson.getLessonInfo(),
+                        group, lesson.getLessonTime(), lesson.getDay());
+                log.warn("Group counter = {}", groupCounter);
+
+                if (groupCounter >= 1) {
+                    noOtherSimilarLessons = false;
+                    break;
+                }
+            }
+
+            if (professorCounter >= 1 && !noOtherSimilarLessons) {
                 lesson.setId(-1);
                 return lesson;
             }

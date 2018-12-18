@@ -11,7 +11,7 @@ import {st} from "@angular/core/src/render3";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorizationService {
+export class AuthorizationAndTransmitService {
 
   private userAccount = new BehaviorSubject(new UserAccount());
   private professor = new BehaviorSubject(new ProfessorAccount());
@@ -38,7 +38,7 @@ export class AuthorizationService {
   transmitProfessorLessons(lessons: Lesson[]) {
     let array: Array<Lesson> = new Array<Lesson>();
     lessons.forEach(lesson => array.push(lesson));
-    this.daysProfessor.next(array);
+    this.daysProfessor.next(lessons);
   }
 
   transmitStudentLessons(lessons: Lesson[]) {

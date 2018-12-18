@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthorizationService} from "../../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../../service/authorization-and-transmit.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Lesson} from "../../../model/lesson";
 
@@ -13,7 +13,7 @@ export class StudentLessonsComponent implements OnInit {
   public studentLessons: Lesson[] = [];
 
   constructor(
-    private authService: AuthorizationService,
+    private authService: AuthorizationAndTransmitService,
     private loadingService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {

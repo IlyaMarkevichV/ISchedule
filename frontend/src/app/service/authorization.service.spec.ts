@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AuthorizationService } from './authorization.service';
+import { AuthorizationAndTransmitService } from './authorization-and-transmit.service';
 
-describe('AuthorizationService', () => {
+describe('AuthorizationAndTransmitService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AuthorizationService = TestBed.get(AuthorizationService);
+    const service: AuthorizationAndTransmitService = TestBed.get(AuthorizationAndTransmitService);
     expect(service).toBeTruthy();
   });
 });

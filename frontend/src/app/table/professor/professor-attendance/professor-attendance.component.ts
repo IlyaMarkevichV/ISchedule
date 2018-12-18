@@ -1,12 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {TableModelService} from "../../../service/table-model.service";
-import {AuthorizationService} from "../../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../../service/authorization-and-transmit.service";
 import {Subscription} from "rxjs";
 import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {Lesson} from "../../../model/lesson";
 import {Attendance} from "../../../model/Attendance";
 import {Group} from "../../../model/group";
+import {ProfessorAccount} from "../../../model/professor-account";
 
 @Component({
   selector: 'professor-attendance',
@@ -18,13 +19,16 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   public days: DaysOfWeek<Lesson>;
   public attendances: Map<number, Attendance[]>;
-  public currentLessons: Lesson[];
+  public currentLessons: Lesson[] = [];
   public alerts: Map<number, boolean>;
+
+  @Input()
+  public professor: ProfessorAccount;
 
   constructor(
     private loadingService: Ng4LoadingSpinnerService,
     private tableModelService: TableModelService,
-    private authService: AuthorizationService) {
+    private authService: AuthorizationAndTransmitService) {
   }
 
   ngOnInit() {
@@ -32,19 +36,21 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
     this.alerts = new Map<number, boolean>();
     this.attendances = new Map<number, Attendance[]>();
     this.days = new DaysOfWeek<Lesson>();
+    this.currentLessons = [];
+
     this.subscriptions.push(this.authService.currentProfessorLessons.subscribe(req => {
       this.days = DaysOfWeek.transformLessonsToDaysOfWeek(req);
       this.currentLessons = DaysOfWeek.getLessonsAccordingToWeekDay(this.days);
 
-      //add in map all non-repeat groups and create alerts for them
-      for (let lesson of this.currentLessons) {
-        for (let group of lesson.groups) {
-          if (!this.attendances.has(group.id)) {
-            this.attendances.set(group.id, []);
-            this.alerts.set(group.id, false);
+        //add in map all non-repeat groups and create alerts for them
+        for (let lesson of this.currentLessons) {
+          for (let group of lesson.groups) {
+            if (!this.attendances.has(group.id)) {
+              this.attendances.set(group.id, []);
+              this.alerts.set(group.id, false);
+            }
           }
         }
-      }
       this.loadingService.hide();
     }))
   }

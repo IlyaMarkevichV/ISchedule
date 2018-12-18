@@ -6,7 +6,7 @@ import {Subscription} from "rxjs";
 import {TableModelService} from "../../../service/table-model.service";
 import {TokenStorage} from "../../../service/token-storage.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {AuthorizationService} from "../../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../../service/authorization-and-transmit.service";
 import {Lesson} from "../../../model/lesson";
 import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {BsModalService} from "ngx-bootstrap";
@@ -29,7 +29,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
               private tableModelService: TableModelService,
               private modalService: BsModalService,
               private datePipe: DatePipe,
-              private authService: AuthorizationService) {
+              private authService: AuthorizationAndTransmitService) {
   }
 
   ngOnInit() {

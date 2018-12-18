@@ -34,11 +34,27 @@ export class DaysOfWeek<T> {
     return days;
   }
 
+  /**
+   *     switch (new Date(). getDay()) {
+      case 0:
+        return days.monday == undefined ? [] : days.monday;
+      case 1:
+        return days.tuesday == undefined ? [] : days.tuesday;
+      case 3:
+        return days.wednesday == undefined ? [] : days.wednesday;
+      case 4:
+        return days.thursday == undefined ? [] : days.thursday;
+      case 5:
+        return days.friday == undefined ? [] : days.friday;
+      case 6:
+        return days.saturday == undefined ? [] : days.saturday;
+   * @param days
+   */
   public static getLessonsAccordingToWeekDay(days: DaysOfWeek<Lesson>): Lesson[] {
     switch (new Date(). getDay()) {
-      case 0:
-        return days.monday;
       case 1:
+        return days.monday;
+      case 2:
         return days.tuesday;
       case 3:
         return days.wednesday;

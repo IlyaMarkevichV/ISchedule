@@ -6,7 +6,7 @@ import {Subscription} from "rxjs";
 import {TableModelService} from "../../service/table-model.service";
 import {TokenStorage} from "../../service/token-storage.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {AuthorizationService} from "../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../service/authorization-and-transmit.service";
 import {Lesson} from "../../model/lesson";
 import {StudentAccount} from "../../model/student-account";
 
@@ -29,7 +29,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     private tableModelService: TableModelService,
     private tokenStorage: TokenStorage,
     private loadingService: Ng4LoadingSpinnerService,
-    private authService: AuthorizationService) {
+    private authService: AuthorizationAndTransmitService) {
   }
 
   ngOnInit() {

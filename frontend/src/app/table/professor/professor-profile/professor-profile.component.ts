@@ -7,7 +7,7 @@ import {ProfessorAccount} from "../../../model/professor-account";
 import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {Lesson} from "../../../model/lesson";
 import {Subscription} from "rxjs";
-import {AuthorizationService} from "../../../service/authorization.service";
+import {AuthorizationAndTransmitService} from "../../../service/authorization-and-transmit.service";
 
 @Component({
   selector: 'professor-profile',
@@ -27,7 +27,7 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
               private tableModelService: TableModelService,
               private modalService: BsModalService,
               private datePipe: DatePipe,
-              private authService: AuthorizationService) {
+              private authService: AuthorizationAndTransmitService) {
   }
 
   ngOnInit() {
@@ -36,6 +36,7 @@ export class ProfessorProfileComponent implements OnInit, OnDestroy {
     this.professorLessons = new Array<string>();
 
     this.subscriptions.push(this.authService.currentProfessorLessons.subscribe(req => {
+      console.log("profile: ", req);
       let set: Set<string> = new Set<string>();
       req.forEach(lesson => set.add(lesson.lessonInfo.lessonName));
       this.professorLessons = Array.from(set);
