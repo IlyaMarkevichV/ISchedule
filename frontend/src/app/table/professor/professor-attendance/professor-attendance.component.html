@@ -1,57 +1,65 @@
-<accordion id="first" [closeOthers]="true" *ngFor="let lesson of currentLessons">
-  <accordion-group id="first-group"
-                   heading="{{lesson.lessonTime.begin | date:'HH:mm' }}-{{lesson.lessonTime.end | date:'HH:mm' }} -|- Lesson: {{lesson.lessonInfo.lessonName}}">
-    <div class="jumbotron">
-      <accordion [closeOthers]="true" id="second" *ngFor="let group of lesson.groups">
-        <accordion-group id="second-group" heading="Group: {{group.id}}"
-                         (isOpenChange)="getAttendanceByGroupId(group.id, lesson.id)">
-          <ng-template [ngIf]="attendances.get(group.id) && attendances.get(group.id).length != 0">
-            <table class="table table-hover" id="table">
-              <thead>
-              Students
-              <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Date</th>
-              </tr>
-              </thead>
+<ng-template [ngIf]="currentLessons == []">
+  <accordion id="first" [closeOthers]="true" *ngFor="let lesson of currentLessons">
+    <accordion-group id="first-group"
+                     heading="{{lesson.lessonTime.begin | date:'HH:mm' }}-{{lesson.lessonTime.end | date:'HH:mm' }} -|- Lesson: {{lesson.lessonInfo.lessonName}}">
+      <div class="jumbotron">
+        <accordion [closeOthers]="true" id="second" *ngFor="let group of lesson.groups">
+          <accordion-group id="second-group" heading="Group: {{group.id}}"
+                           (isOpenChange)="getAttendanceByGroupId(group.id, lesson.id)">
+            <ng-template [ngIf]="attendances.get(group.id) && attendances.get(group.id).length != 0">
+              <table class="table table-hover" id="table">
+                <thead>
+                Students
+                <tr>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Date</th>
+                </tr>
+                </thead>
 
-              <tbody id="tableBody"
-                     *ngFor="let attendance of attendances.get(group.id)">
-              <tr>
-                <td>{{ attendance.student.account.firstName }}</td>
-                <td>{{ attendance.student.account.lastName }}</td>
-                <td>{{ attendance.date | date }}</td>
-                <td>
-                  <div class="row">
-                    <form>
-                      <label class="radio-inline">
-                        <input type="radio" name="optradio" (click)="attendance.status = 1">Present
-                      </label>
-                      <label class="radio-inline">
-                        <input type="radio" name="optradio" (click)="attendance.status = 2">Absent
-                      </label>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <div *ngIf="alerts.get(group.id)">
-              <alert type="warning">
-                <strong>Warning!</strong> Not all students checked and marked.
+                <tbody id="tableBody"
+                       *ngFor="let attendance of attendances.get(group.id)">
+                <tr>
+                  <td>{{ attendance.student.account.firstName }}</td>
+                  <td>{{ attendance.student.account.lastName }}</td>
+                  <td>{{ attendance.date | date }}</td>
+                  <td>
+                    <div class="row">
+                      <form>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" (click)="attendance.status = 1">Present
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" (click)="attendance.status = 2">Absent
+                        </label>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div *ngIf="alerts.get(group.id)">
+                <alert type="warning">
+                  <strong>Warning!</strong> Not all students checked and marked.
+                </alert>
+              </div>
+              <button type="button" class="btn btn-info justify-content-center" (click)="saveAttendances(group.id, lesson.id)">Save
+              </button>
+            </ng-template>
+            <div *ngIf="attendances.get(group.id) && attendances.get(group.id).length == 0">
+              <alert type="success">
+                <strong>Yahoo!</strong> You successfully marked all student in this group.
               </alert>
             </div>
-            <button type="button" class="btn btn-info justify-content-center" (click)="saveAttendances(group.id, lesson.id)">Save
-            </button>
-          </ng-template>
-          <div *ngIf="attendances.get(group.id) && attendances.get(group.id).length == 0">
-            <alert type="success">
-              <strong>Yahoo!</strong> You successfully marked all student in this group.
-            </alert>
-          </div>
-        </accordion-group>
-      </accordion>
-    </div>
-  </accordion-group>
-</accordion>
+          </accordion-group>
+        </accordion>
+      </div>
+    </accordion-group>
+  </accordion>
+</ng-template>
+
+<ng-template [ngIf]="currentLessons != []">
+  <alert type="success">
+    <strong>At this point</strong>, you have marked all students or have not yet downloaded lists of visits for you today.
+  </alert>
+</ng-template>

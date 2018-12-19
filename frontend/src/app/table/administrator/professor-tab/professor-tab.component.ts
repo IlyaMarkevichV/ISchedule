@@ -53,6 +53,8 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
   public maxDate: Date;
   public minDate: Date;
 
+  public wrongLogin: boolean = false;
+
   // Dependency injection
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -86,10 +88,15 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     this.editableProfessor.account.birthday =
       this.datePipe.transform(this.editableProfessor.account.birthday, 'yyyy-MM-dd');
 
-    this.subscriptions.push(this.tableModelService.saveProfessor(this.editableProfessor).subscribe(() => {
-      this.updateProfessors();
-      this.closeModal();
-      this.refreshEditableProfessor();
+    this.subscriptions.push(this.tableModelService.saveProfessor(this.editableProfessor).subscribe(professor => {
+      if (professor && professor.id == -1 && professor.account.id == -1) {
+        this.wrongLogin = true;
+      } else {
+        this.wrongLogin = false;
+        this.updateProfessors();
+        this.closeModal();
+        this.refreshEditableProfessor();
+      }
       this.loadingService.hide();
     }));
   }
@@ -143,7 +150,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
       RequestHelper.PROFESSOR,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.professorPage = req as Page<ProfessorAccount>;

@@ -3,9 +3,7 @@ import {
   OnInit,
   TemplateRef,
   OnDestroy,
-  Input,
-  EventEmitter,
-  Output
+  Input
 } from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs";
@@ -50,6 +48,8 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   public maxDate: Date;
   public minDate: Date;
 
+  public wrongLogin: boolean = false;
+
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
               private modalService: BsModalService,
@@ -90,10 +90,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template);
   }
 
-  compareFn(obj1: any, obj2: any): boolean {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
-  }
-
   public closeModal(): void {
     this.modalRef.hide();
   }
@@ -125,10 +121,15 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     this.editableStudent.account.birthday =
       this.datePipe.transform(this.editableStudent.account.birthday, 'yyyy-MM-dd');
 
-    this.subscriptions.push(this.tableModelService.saveStudent(this.editableStudent).subscribe(() => {
-      this.updateStudents();
-      this.closeModal();
-      this.refreshEditableStudent();
+    this.subscriptions.push(this.tableModelService.saveStudent(this.editableStudent).subscribe(student => {
+      if (student && student.id == -1 && student.account.id == -1) {
+        this.wrongLogin = true;
+      } else {
+        this.wrongLogin = false;
+        this.updateStudents();
+        this.closeModal();
+        this.refreshEditableStudent();
+      }
       this.loadingService.hide()
     }));
   }
@@ -143,17 +144,21 @@ export class StudentTabComponent implements OnInit, OnDestroy {
   getPage(pageNumber: number) {
     this.loadingService.show();
     console.log(pageNumber);
-    console.log('id,'  + (this.sortDirection ? 'desc' : 'asc'));
+    console.log('id,' + (this.sortDirection ? 'desc' : 'asc'));
     this.subscriptions.push(this.tableModelService.getPageObservable<StudentAccount>(
       RequestHelper.STUDENT,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.studentPage = req as Page<StudentAccount>;
         this.studentPage.number += 1;
         this.loadingService.hide();
       }));
+  }
+
+  compareFn(obj1: any, obj2: any): boolean {
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 }
 

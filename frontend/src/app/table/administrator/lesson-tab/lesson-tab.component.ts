@@ -29,7 +29,7 @@ export class LessonTabComponent implements OnInit, OnDestroy {
 
   public editableLesson: Lesson;
   public lessonPage: Page<Lesson>;
-  public itemPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
+  public itemsPerPage: number = Constants.NUMBER_OF_ROWS_ON_ONE_PAGE;
   public sortDirection: boolean = true;
 
   public warning: boolean = false;
@@ -115,7 +115,7 @@ export class LessonTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getPageObservable<Lesson>(
       RequestHelper.LESSON,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.lessonPage = req as Page<Lesson>;

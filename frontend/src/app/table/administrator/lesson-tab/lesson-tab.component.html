@@ -3,7 +3,6 @@
   <div class="col">
     <div class="btn-group" role="group" aria-label="Basic example">
       <button type="button" class="btn btn-success" (click)="openModal(lessonModal)">Create Lesson</button>
-      <button type="button" class="btn btn-success" (click)="updateLessons()">Update</button>
     </div>
   </div>
 </div>
@@ -44,19 +43,41 @@
   </tr>
   </tbody>
 </table>
-<pager
-  [totalItems]="lessonPage.totalElements"
-  [(ngModel)]="lessonPage.number"
-  (pageChanged)="getPage($event.page)"
-  pageBtnClass="btn"
-  [itemsPerPage]="itemPerPage"
-  class="pull-left">
-</pager>
-<button type="button" class="btn btn-default"
-        (click)="sortDirection=!sortDirection;
+<div class="row">
+  <div *ngIf="lessonPage.totalPages != 1">
+    <div class="justify-content-start">
+      <button type="button" class="btn btn-default"
+              (click)="sortDirection=!sortDirection;
           getPage(lessonPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
-</button>
-
+      </button>
+    </div>
+    <div class="justify-content-center">
+      <pager
+        [totalItems]="lessonPage.totalElements"
+        [(ngModel)]="lessonPage.number"
+        (pageChanged)="getPage($event.page)"
+        pageBtnClass="btn"
+        [itemsPerPage]="itemsPerPage"
+        class="pull-left">
+      </pager>
+    </div>
+  </div>
+  <div class="justify-content-end">
+    <h6>Items per page: </h6>
+  </div>
+  <div class="justify-content-end">
+    <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+           pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+    <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+      Please set correct number - [1, 99]
+    </div>
+  </div>
+  <div class="justify-content-end">
+    <button type="button" class="btn btn-default" [disabled]="num.invalid"
+            (click)="getPage(lessonPage.number)">Save
+    </button>
+  </div>
+</div>
 <!-- Modal -->
 <ng-template #lessonModal>
   <div class="modal-header">
@@ -79,7 +100,8 @@
       <label>Professor</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
         <option *ngFor="let professor of tableModel.professors"
-                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}} - {{professor.fieldOfResearch}}
+                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
+          - {{professor.fieldOfResearch}}
         </option>
       </select>
     </div>

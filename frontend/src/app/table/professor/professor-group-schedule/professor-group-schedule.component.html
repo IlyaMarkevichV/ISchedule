@@ -31,18 +31,42 @@
     </accordion-group>
   </accordion>
 
-  <pager
-    [totalItems]="groupPage.totalElements"
-    [(ngModel)]="groupPage.number"
-    (pageChanged)="getGroupPage($event.page)"
-    pageBtnClass="btn"
-    [itemsPerPage]="itemsPerPage"
-    class="pull-left">
-  </pager>
-  <button type="button" class="btn btn-default"
-          (click)="sortDirection=!sortDirection;
+  <div class="row">
+    <div *ngIf="groupPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
           getGroupPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
-  </button>
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="groupPage.totalElements"
+          [(ngModel)]="groupPage.number"
+          (pageChanged)="getGroupPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getGroupPage(groupPage.number)">Save
+      </button>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template [ngIf]="isGroupsScheduleCollapsed">
@@ -67,16 +91,39 @@
     </accordion-group>
   </accordion>
 
-  <pager
-    [totalItems]="studentPage.totalElements"
-    [(ngModel)]="studentPage.number"
-    (pageChanged)="getStudentPage($event.page)"
-    pageBtnClass="btn"
-    [itemsPerPage]="itemsPerPage"
-    class="pull-left">
-  </pager>
-  <button type="button" class="btn btn-default"
-          (click)="sortDirection=!sortDirection;
+  <div class="row">
+    <div *ngIf="studentPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
           getStudentPage(studentPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
-  </button>
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="studentPage.totalElements"
+          [(ngModel)]="studentPage.number"
+          (pageChanged)="getStudentPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getStudentPage(studentPage.number)">Save
+      </button>
+    </div>
+  </div>
 </ng-template>

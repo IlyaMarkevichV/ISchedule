@@ -148,7 +148,7 @@ export class GroupTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getPageObservable<Group>(
       RequestHelper.GROUP,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.groupPage = req as Page<Group>;

@@ -29,10 +29,8 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
     this.maxDate = new Date();
     this.minDate = new Date();
     if (this.maxDate.getMonth() >= 8) {
-      this.maxDate.setFullYear(this.maxDate.getFullYear() + 1, 6, 5);
-      this.minDate.setFullYear(this.maxDate.getFullYear() - 1, 8, 1);
+      this.minDate.setFullYear(this.maxDate.getFullYear(), 8, 1);
     } else {
-      this.maxDate.setFullYear(this.maxDate.getFullYear(), 6, 5);
       this.minDate.setFullYear(this.maxDate.getFullYear() - 1, 8, 1);
     }
     this.dates = [this.minDate, new Date(this.minDate.getFullYear(), this.minDate.getMonth() + 1, this.minDate.getDate())]

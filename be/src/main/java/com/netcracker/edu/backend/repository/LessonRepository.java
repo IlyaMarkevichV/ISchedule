@@ -17,19 +17,17 @@ public interface LessonRepository extends
 
     @Query(value = "SELECT COUNT(lesson) " +
             "FROM Lesson lesson " +
-            "WHERE lesson.lessonInfo = :lessonInfo AND lesson.professor = :professor AND " +
+            "WHERE lesson.professor = :professor AND " +
             "lesson.lessonTime = :lessonTime AND lesson.day = :day")
-    long countOfSimilarLessonsForProfessor(@Param("lessonInfo") LessonInfo lessonInfo,
-                                           @Param("professor") Professor professor,
+    long countOfSimilarLessonsForProfessor(@Param("professor") Professor professor,
                                            @Param("lessonTime") LessonTime lessonTime,
                                            @Param("day") Day day);
 
     @Query(value = "SELECT COUNT(lesson) " +
             "FROM Lesson lesson " +
-            "WHERE lesson.lessonInfo = :lessonInfo AND (SELECT COUNT(g) FROM lesson.groups g WHERE g = :gr) = 1 AND " +
+            "WHERE (SELECT COUNT(g) FROM lesson.groups g WHERE g = :gr) > 0 AND " +
             "lesson.lessonTime = :lessonTime AND lesson.day = :day")
-    long countOfSimilarLessonsForGroup(@Param("lessonInfo") LessonInfo lessonInfo,
-                                       @Param("gr") UniversityGroup group,
+    long countOfSimilarLessonsForGroup(@Param("gr") UniversityGroup group,
                                        @Param("lessonTime") LessonTime lessonTime,
                                        @Param("day") Day day);
 }

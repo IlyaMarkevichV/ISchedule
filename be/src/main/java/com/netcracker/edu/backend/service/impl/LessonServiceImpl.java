@@ -36,14 +36,13 @@ public class LessonServiceImpl implements LessonService {
     public Lesson saveLesson(Lesson lesson) {
         if (lesson.getId() == 0) {
 
-            long professorCounter = repository.countOfSimilarLessonsForProfessor(lesson.getLessonInfo(), lesson.getProfessor(),
-                    lesson.getLessonTime(), lesson.getDay());
+            long professorCounter = repository.countOfSimilarLessonsForProfessor(
+                    lesson.getProfessor(), lesson.getLessonTime(), lesson.getDay());
 
             boolean noOtherSimilarLessons = true;
             for (UniversityGroup group : lesson.getGroups()) {
-                long groupCounter = repository.countOfSimilarLessonsForGroup(lesson.getLessonInfo(),
+                long groupCounter = repository.countOfSimilarLessonsForGroup(
                         group, lesson.getLessonTime(), lesson.getDay());
-                log.warn("Group counter = {}", groupCounter);
 
                 if (groupCounter >= 1) {
                     noOtherSimilarLessons = false;
@@ -51,7 +50,7 @@ public class LessonServiceImpl implements LessonService {
                 }
             }
 
-            if (professorCounter >= 1 && !noOtherSimilarLessons) {
+            if (professorCounter >= 1 || !noOtherSimilarLessons) {
                 lesson.setId(-1);
                 return lesson;
             }

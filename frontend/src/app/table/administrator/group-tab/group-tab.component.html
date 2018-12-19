@@ -4,7 +4,6 @@
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-success" (click)="openModal(groupModal)">Add Group</button>
-        <button type="button" class="btn btn-success" (click)="updateGroups()">Update</button>
         <button type="button" class="btn btn-success" (click)="openModal(facultyModal)">Add/Delete faculty</button>
       </div>
     </div>
@@ -42,24 +41,47 @@
     </tr>
     </tbody>
   </table>
-  <pager
-    [totalItems]="groupPage.totalElements"
-    [(ngModel)]="groupPage.number"
-    (pageChanged)="getPage($event.page)"
-    pageBtnClass="btn"
-    [itemsPerPage]="itemsPerPage"
-    class="pull-left">
-  </pager>
-  <button type="button" class="btn btn-default"
-          (click)="sortDirection=!sortDirection;
+  <div class="row">
+    <div *ngIf="groupPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
           getPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
-  </button>
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="groupPage.totalElements"
+          [(ngModel)]="groupPage.number"
+          (pageChanged)="getPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getPage(groupPage.number)">Save
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->
 <ng-template #groupModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new Group</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new group</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -77,9 +99,9 @@
     <div class="form-group">
       <label>Speciality</label>
       <input class="form-control" name="speciality" [(ngModel)]="editableGroup.speciality" #speciality="ngModel"
-             placeholder="Speciality" required/>
+             placeholder="Speciality" pattern="[a-zA-Z]{3,45}" required/>
       <div [hidden]="speciality.valid || speciality.untouched" class="alert alert-danger">
-        Please set Speciality
+        Please set correct speciality
       </div>
     </div>
 
@@ -87,22 +109,21 @@
       <label>Grade</label>
       <input class="form-control" name="grade" [(ngModel)]="editableGroup.grade" #grade="ngModel"
              placeholder="Grade" required
-             pattern="[0-9]{1}"/>
+             pattern="[0-5]{1}"/>
       <div [hidden]="grade.valid || grade.untouched" class="alert alert-danger">
-        Please set valid Grade
+        Please set correct grade
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-md-5 col-lg-4 form-group">
-        <input class="form-control"
-               placeholder="Datepicker"
-               bsDatepicker [(ngModel)]="editableGroup.graduation"
-               [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-               placement="right"
-               #bday="ngModel">
-      </div>
-      <br/>
+    <div class="form-group">
+      <label>Graduation</label>
+      <input class="form-control"
+             placeholder="Datepicker"
+             bsDatepicker [(ngModel)]="editableGroup.graduation"
+             [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+             [minDate]=""
+             placement="right"
+             #bday="ngModel">
     </div>
 
   </div>
@@ -141,14 +162,19 @@
     <div class="form-group">
       <label>Faculty name</label>
       <input class="form-control" name="facultyName" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
-             required placeholder="Faculty Name"/>
+             pattern="[a-zA-Z]{3,35}" required placeholder="Faculty Name"/>
       <div [hidden]="facName.valid || facName.untouched" class="alert alert-danger">
-        Please set correct Faculty name
+        Please set correct faculty name
       </div>
     </div>
   </div>
 
-  <div class="form-group" *ngIf="addFac==='true'">
+  <div class="modal-body" *ngIf="addFac==='true'">
+    <alert type="warning">
+      <strong>Warning!</strong> If you delete a faculty, then all groups and students belonging to it will also be
+      deleted.
+      To prevent deleting all students make sure you transfer them to another groups.
+    </alert>
     <div class="form-group">
       <label>Faculty</label>
       <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">

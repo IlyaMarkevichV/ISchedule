@@ -4,7 +4,6 @@
     <div class="col">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-success" (click)="openModal(studentModal)">Add Student</button>
-        <button type="button" class="btn btn-success" (click)="updateStudents()">Update</button>
       </div>
     </div>
   </div>
@@ -43,24 +42,47 @@
     </tr>
     </tbody>
   </table>
-  <pager
-    [totalItems]="studentPage.totalElements"
-    [(ngModel)]="studentPage.number"
-    (pageChanged)="getPage($event.page)"
-    pageBtnClass="btn"
-    [itemsPerPage]="itemsPerPage"
-    class="pull-left">
-  </pager>
-  <button type="button" class="btn btn-default"
-          (click)="sortDirection=!sortDirection;
+  <div class="row">
+    <div *ngIf="studentPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
           getPage(studentPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
-  </button>
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="studentPage.totalElements"
+          [(ngModel)]="studentPage.number"
+          (pageChanged)="getPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getPage(studentPage.number)">Save
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->
 <ng-template #studentModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit": "Create"}} new Student UserAccount</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new student account</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -70,20 +92,20 @@
     <div class="form-group">
       <label>First Name</label>
       <input class="form-control" name="firstName" [(ngModel)]="editableStudent.account.firstName"
-             #firstName="ngModel"
+             #firstName="ngModel" pattern="[a-zA-Z]{3,35}"
              placeholder="First Name" required/>
       <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
-        Please set First Name
+        Please set correct first name
       </div>
     </div>
 
     <div class="form-group">
       <label>Last Name</label>
       <input class="form-control" name="lastName" [(ngModel)]="editableStudent.account.lastName"
-             #lastName="ngModel"
+             #lastName="ngModel" pattern="[a-zA-Z]{3,35}"
              placeholder="Last Name" required/>
       <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
-        Please set Last Name
+        Please set correct last name
       </div>
     </div>
 
@@ -92,15 +114,15 @@
       <input class="form-control" name="log" [(ngModel)]="editableStudent.account.login" #log="ngModel" required
              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
       <div [hidden]="log.valid || log.untouched" class="alert alert-danger">
-        Incorrect Login
+        Please set correct login
       </div>
     </div>
     <div class="form-group">
       <label>Password</label>
       <input class="form-control" name="pass" [(ngModel)]="editableStudent.account.password" #pass="ngModel" required
-             placeholder="Password"/>
+             pattern="[a-zA-Z0-9]{7,255}" placeholder="Password"/>
       <div [hidden]="pass.valid || pass.untouched" class="alert alert-danger">
-        Please set Password
+        Please set correct password
       </div>
     </div>
 
@@ -115,10 +137,10 @@
     <div class="form-group">
       <label>Address</label>
       <input class="form-control" name="address" [(ngModel)]="editableStudent.address"
-             #address="ngModel"
+             #address="ngModel" pattern="[a-zA-Z]{5,45}"
              placeholder="Address" required/>
       <div [hidden]="address.valid || address.untouched" class="alert alert-danger">
-        Please set Address
+        Please set correct address
       </div>
     </div>
 
@@ -141,9 +163,12 @@
 
   </div>
   <div class="modal-footer">
+    <alert type="warning" *ngIf="wrongLogin">
+      <strong>Warning!</strong> We already have account with similar data.
+    </alert>
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
             [disabled]="firstName.invalid || address.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableStudent.account.birthday">
-      {{editMode ? "Save": "Create"}}
+      {{editMode ? "Save" : "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
   </div>

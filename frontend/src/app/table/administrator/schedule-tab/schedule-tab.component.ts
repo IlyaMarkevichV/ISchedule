@@ -68,10 +68,20 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     //if we pass group then we delete lesson from group. in other case we delete lesson at all
     if (group) {
       lesson.groups = lesson.groups.filter(gr => gr.id != group.id);
-      this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
-        this.getGroupSchedule(group.id);
-        this.loadingService.hide();
-      }));
+
+      //we are deleting lesson if we have no more groups in it
+      if (lesson.groups.length == 0) {
+        this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(() => {
+          this.getGroupSchedule(group.id);
+          this.loadingService.hide()
+        }))
+      } else {
+        this.subscriptions.push(this.tableModelService.saveLesson(lesson).subscribe(req => {
+          this.getGroupSchedule(group.id);
+          this.loadingService.hide();
+        }));
+      }
+
     } else {
       this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(() => {
         this.getProfessorSchedule(lesson.professor.id);
@@ -126,7 +136,7 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getPageObservable<Group>(
       RequestHelper.GROUP,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.groupPage = req as Page<Group>;
@@ -145,7 +155,7 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.tableModelService.getPageObservable<ProfessorAccount>(
       RequestHelper.PROFESSOR,
       pageNumber - 1,
-      Constants.NUMBER_OF_ROWS_ON_ONE_PAGE,
+      this.itemsPerPage,
       'id,' + (this.sortDirection ? 'desc' : 'asc'))
       .subscribe(req => {
         this.professorPage = req as Page<ProfessorAccount>;
@@ -154,8 +164,8 @@ export class ScheduleTabComponent implements OnInit, OnDestroy {
         this.professorPage.content.forEach(professor => {
           this.professorMap.has(professor.id) ? true : this.professorMap.set(professor.id, new DaysOfWeek<Lesson>())
         });
-          this.loadingService.hide();
-        })
-      );
+        this.loadingService.hide();
+      })
+    );
   }
 }
