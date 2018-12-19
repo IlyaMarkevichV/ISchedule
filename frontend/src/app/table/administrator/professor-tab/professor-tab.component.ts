@@ -132,6 +132,7 @@ export class ProfessorTabComponent implements OnInit, OnDestroy {
     if (professorAccount) {
       this.editableProfessor = ProfessorAccount.cloneAcc(professorAccount);
       this.editMode = true;
+      this.editableProfessor.account.password = null;
     } else {
       this.refreshEditableProfessor();
       this.editMode = false;

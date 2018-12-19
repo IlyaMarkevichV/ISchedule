@@ -8,6 +8,7 @@ import {TableModelService} from "../../../service/table-model.service";
 import {RequestHelper} from "../../../model/RequestHelper";
 import {Constants} from "../../../share/constants";
 import {Page} from "../../../model/page";
+import {Group} from "../../../model/group";
 
 @Component({
   selector: 'lesson-tab',
@@ -33,6 +34,7 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   public sortDirection: boolean = true;
 
   public warning: boolean = false;
+  public groupWarning: boolean = false;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -56,6 +58,16 @@ export class LessonTabComponent implements OnInit, OnDestroy {
 
   saveLesson(): void {
     this.loadingService.show();
+    let groups: Group[] = this.editableLesson.groups;
+    for (let i: number = 0; i < groups.length - 1; i++) {
+      if (groups[i].grade != groups[i + 1].grade) {
+        this.groupWarning = true;
+        this.loadingService.hide();
+        return;
+      }
+    }
+    this.groupWarning = false;
+
     this.subscriptions.push(this.tableModelService.saveLesson(this.editableLesson).subscribe(req => {
       if (req.id == -1) {
         this.warning = true;
@@ -68,7 +80,7 @@ export class LessonTabComponent implements OnInit, OnDestroy {
     }));
   }
 
-  deleteLesson(lesson:Lesson): void {
+  deleteLesson(lesson: Lesson): void {
     this.loadingService.show();
     this.subscriptions.push(this.tableModelService.deleteLesson(lesson.id).subscribe(req => {
       this.updateLessons();

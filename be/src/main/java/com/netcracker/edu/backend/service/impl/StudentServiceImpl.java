@@ -27,16 +27,17 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student saveStudent(Student entity) {
-        Optional<Account> accountOptional = accountRepository.getAccountByLogin(
-                entity.getAccount().getLogin());
+        if (entity.getId() == 0) {
+            Optional<Account> accountOptional = accountRepository.getAccountByLogin(
+                    entity.getAccount().getLogin());
 
-        //check: is user with this login contains in db?
-        if (accountOptional.isPresent()) {
-            entity.setId(-1);
-            entity.getAccount().setId(-1);
-            return entity;
+            //check: is user with this login contains in db?
+            if (accountOptional.isPresent()) {
+                entity.setId(-1);
+                entity.getAccount().setId(-1);
+                return entity;
+            }
         }
-
         return studentRepository.save(entity);
     }
 

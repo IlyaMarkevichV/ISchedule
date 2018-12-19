@@ -81,7 +81,7 @@
 <!-- Modal -->
 <ng-template #lessonModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new Professor UserAccount</h4>
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} lesson</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -118,7 +118,7 @@
     <div class="form-group">
       <label>Room</label>
       <input class="form-control" name="grade" [(ngModel)]="editableLesson.lessonRoom" #room="ngModel"
-             placeholder="Room" required/>
+             placeholder="Room" pattern="[0-9]{1,5}" required/>
       <div [hidden]="room.untouched || room.valid" class="alert alert-danger">
         Please set valid Room
       </div>
@@ -136,7 +136,7 @@
       <label>Groups</label>
       <select multiple class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.groups">
         <option *ngFor="let group of tableModel.groups"
-                [ngValue]="group">Id: {{group.id}} Faculty: {{group.faculty.facultyName}}
+                [ngValue]="group">Id: {{group.id}} Faculty: {{group.faculty.facultyName}} Grade: {{group.grade}}
         </option>
       </select>
     </div>
@@ -145,6 +145,9 @@
   <div class="modal-footer">
     <alert type="warning" *ngIf="warning">
       <strong>Warning!</strong> Lesson with the same data already contains in schedule.
+    </alert>
+    <alert type="warning" *ngIf="groupWarning">
+      <strong>Warning!</strong> We can't add groups with different grade to the same lesson.
     </alert>
     <button type="button" class="btn btn-default"
             [disabled]="room.invalid" (click)="saveLesson()">
