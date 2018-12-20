@@ -82,7 +82,6 @@ export class StudentTabComponent implements OnInit, OnDestroy {
     if (studentAccount) {
       this.editableStudent = StudentAccount.cloneStudentAccount(studentAccount);
       this.editMode = true;
-      this.editableStudent.account.password = null;
     } else {
       this.refreshEditableStudent();
       this.editMode = false;

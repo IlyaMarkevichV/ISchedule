@@ -1,4 +1,4 @@
-<ng-template [ngIf]="currentLessons == []">
+
   <accordion id="first" [closeOthers]="true" *ngFor="let lesson of currentLessons">
     <accordion-group id="first-group"
                      heading="{{lesson.lessonTime.begin | date:'HH:mm' }}-{{lesson.lessonTime.end | date:'HH:mm' }} -|- Lesson: {{lesson.lessonInfo.lessonName}}">
@@ -56,9 +56,8 @@
       </div>
     </accordion-group>
   </accordion>
-</ng-template>
 
-<ng-template [ngIf]="currentLessons != []">
+<ng-template [ngIf]="currentLessons == []">
   <alert type="success">
     <strong>At this point</strong>, you have marked all students or have not yet downloaded lists of visits for you today.
   </alert>

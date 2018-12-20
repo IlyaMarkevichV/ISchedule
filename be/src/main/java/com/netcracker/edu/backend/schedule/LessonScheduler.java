@@ -45,7 +45,8 @@ public class LessonScheduler {
         this.attendanceRepository = attendanceRepository;
     }
 
-    @Scheduled(cron = "9 0 0 ? * MON")
+    //real: "9 0 0 ? * MON"
+    @Scheduled(cron = "30 58 14 ? * THU")
     public void addLessonsToLessonDateTable() {
         //get current week monday
         Date monday = Date.valueOf(LocalDate.now().with(DayOfWeek.MONDAY));
@@ -71,13 +72,14 @@ public class LessonScheduler {
     }
 
     /**
+     * real: "30 42 20 ? * MON-SAT"
      * нужно добавить каждому студенту из группы его метку о посещении.
      * 1) возвращаем список всех студентов
      * 2) итерируем по нему
      * 3) итерируя, находим по params: DayOfWeek, Group для студента
      * 4) создаем посещения
      */
-    @Scheduled(cron = "30 42 20 ? * MON-SAT")
+    @Scheduled(cron = "30 1 15 ? * THU")
     public void addAttendanceForEveryStudentAtCurrentDay() {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         Date currentDate = Date.valueOf(LocalDate.now());

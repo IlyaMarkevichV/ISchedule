@@ -35,6 +35,7 @@ export class LessonTabComponent implements OnInit, OnDestroy {
 
   public warning: boolean = false;
   public groupWarning: boolean = false;
+  public chosenGroupWarning: boolean = false;
 
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private tableModelService: TableModelService,
@@ -59,6 +60,15 @@ export class LessonTabComponent implements OnInit, OnDestroy {
   saveLesson(): void {
     this.loadingService.show();
     let groups: Group[] = this.editableLesson.groups;
+
+    if (groups.length == 0) {
+      this.chosenGroupWarning = true;
+      this.loadingService.hide();
+      return;
+    } else {
+      this.chosenGroupWarning = false;
+    }
+
     for (let i: number = 0; i < groups.length - 1; i++) {
       if (groups[i].grade != groups[i + 1].grade) {
         this.groupWarning = true;

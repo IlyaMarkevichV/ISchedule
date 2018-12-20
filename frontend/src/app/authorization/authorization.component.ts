@@ -12,6 +12,7 @@ import {AuthorizationAndTransmitService} from "../service/authorization-and-tran
 import {Role} from "../model/role";
 import {TableModel} from "../model/TableModel";
 import {ProfessorAccount} from "../model/professor-account";
+import {Interceptor} from "../service/interceptor.service";
 
 
 @Component({
@@ -31,7 +32,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   constructor(private loadingService: Ng4LoadingSpinnerService,
               private router: Router,
               private tableModelService: TableModelService,
-              private tokeStorage: TokenStorage) {
+              private tokeStorage: TokenStorage,
+              private interceptor: Interceptor) {
   }
 
   ngOnInit() {
@@ -45,13 +47,19 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
     this.loadingService.show();
 
+    this.alertUserAboutError = false;
     this.subscriptions.push(this.tableModelService.attemptAuth(this.login, this.password).subscribe(authToken => {
       let token: Token = authToken as Token;
+      if (token.token === '') {
+        this.alertUserAboutError = true;
+        this.loadingService.hide();
+        return;
+      }
       this.tokeStorage.saveToken(token.token);
-
-      //TODO: validation
-
       this.router.navigate(['table']);
+      this.loadingService.hide();
+    }, () => {
+      this.alertUserAboutError = true;
       this.loadingService.hide();
     }));
   }

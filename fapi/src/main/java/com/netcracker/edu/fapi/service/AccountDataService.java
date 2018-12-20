@@ -8,4 +8,6 @@ public interface AccountDataService {
     AccountViewModel getAccountByLogin(String login);
 
     AccountViewModel getAccountById(Integer id);
+
+    Integer validatePass(AccountViewModel accountViewModel);
 }

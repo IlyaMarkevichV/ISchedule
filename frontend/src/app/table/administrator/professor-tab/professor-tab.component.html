@@ -118,7 +118,7 @@
     <div class="form-group">
       <label>{{editMode ? "Change password" : "Password"}}</label>
       <input class="form-control" name="pass" [(ngModel)]="editableProfessor.account.password" #pass="ngModel" required
-             pattern="[a-zA-Z0-9]{7,255}" placeholder="Password"/>
+             pattern="[a-zA-Z0-9]{7,255}" type="password" placeholder="Password"/>
       <div [hidden]="pass.valid || pass.untouched" class="alert alert-danger">
         Please set correct password
       </div>

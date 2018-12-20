@@ -14,6 +14,7 @@ import {LessonInfo} from "../model/lessonInfo";
 import {Lesson} from "../model/lesson";
 import {Page} from "../model/page";
 import {Attendance} from "../model/Attendance";
+import {a} from "@angular/core/src/render3";
 
 @Injectable({
   providedIn: 'root'
@@ -172,11 +173,17 @@ export class TableModelService {
     let requestParams: string = "status=" + status + "&group_id=" + groupId
       + "&lesson_id=" + lessonId + "&from=" + from + "&to=" + to;
 
+    console.log(requestParams);
+
     return this.http.get<Attendance[]>(
       '/api/ba-attendance/group?' + requestParams);
   }
 
   saveAttendance(attendances: Attendance[]): Observable<Attendance[]> {
     return this.http.post<Attendance[]>('/api/ba-attendance/list', attendances);
+  }
+
+  validatePass(acc: UserAccount): Observable<number> {
+    return this.http.post<number>('/api/ba-accounts/change-password', acc);
   }
 }

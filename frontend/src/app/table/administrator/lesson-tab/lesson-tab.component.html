@@ -149,6 +149,9 @@
     <alert type="warning" *ngIf="groupWarning">
       <strong>Warning!</strong> We can't add groups with different grade to the same lesson.
     </alert>
+    <alert type="warning" *ngIf="chosenGroupWarning">
+      <strong>Warning!</strong> Please add one or more group to this lesson.
+    </alert>
     <button type="button" class="btn btn-default"
             [disabled]="room.invalid" (click)="saveLesson()">
       {{editMode ? "Save" : "Create"}}

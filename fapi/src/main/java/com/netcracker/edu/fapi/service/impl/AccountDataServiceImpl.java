@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +22,12 @@ public class AccountDataServiceImpl implements AccountDataService, UserDetailsSe
 
     @Value("${backend.server.url}")
     private String backendUrlServer;
+
+    private BCryptPasswordEncoder encoder;
+
+    public AccountDataServiceImpl(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Override
     public AccountViewModel getAccountByLogin(@NotNull String login) {
@@ -51,5 +58,11 @@ public class AccountDataServiceImpl implements AccountDataService, UserDetailsSe
 
     private List<GrantedAuthority> getAuthority(AccountViewModel account) {
         return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority(account.getRole().getRoleName()));
+    }
+
+    @Override
+    public Integer validatePass(AccountViewModel accountViewModel) {
+        AccountViewModel account = getAccountByLogin(accountViewModel.getLogin());
+        return encoder.matches(accountViewModel.getPassword(), account.getPassword()) ? 1 : 0;
     }
 }

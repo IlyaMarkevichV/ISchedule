@@ -31,4 +31,9 @@ public class AccountDataController {
     public ResponseEntity<AccountViewModel> getAccountById(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(accountDataService.getAccountById(id));
     }
+
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    public ResponseEntity<Integer> validatePassword(@RequestBody AccountViewModel accountViewModel) {
+        return ResponseEntity.ok(accountDataService.validatePass(accountViewModel));
+    }
 }

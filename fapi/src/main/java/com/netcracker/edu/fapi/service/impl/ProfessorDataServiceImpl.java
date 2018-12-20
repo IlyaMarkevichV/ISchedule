@@ -28,10 +28,8 @@ public class ProfessorDataServiceImpl implements ProfessorDataService {
 
     @Override
     public ProfessorViewModel saveProfessor(ProfessorViewModel entityViewModel) {
-        if (entityViewModel.getId() == 0) {
-            String encodedPassword = encoder.encode(entityViewModel.getAccount().getPassword());
-            entityViewModel.getAccount().setPassword(encodedPassword);
-        }
+        String encodedPassword = encoder.encode(entityViewModel.getAccount().getPassword());
+        entityViewModel.getAccount().setPassword(encodedPassword);
 
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "/api/professors", entityViewModel, ProfessorViewModel.class).getBody();
@@ -57,6 +55,7 @@ public class ProfessorDataServiceImpl implements ProfessorDataService {
                 backendServerUrl + "/api/professors?" + request.getQueryString(),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<RestPageImpl<ProfessorViewModel>>() {}).getBody();
+                new ParameterizedTypeReference<RestPageImpl<ProfessorViewModel>>() {
+                }).getBody();
     }
 }
