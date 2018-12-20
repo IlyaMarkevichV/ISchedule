@@ -17,6 +17,7 @@
       <th>Group ID</th>
       <th>First Name</th>
       <th>Last name</th>
+      <th>Email</th>
       <th>Birthday</th>
       <th>Address</th>
     </tr>
@@ -29,6 +30,7 @@
       <td>{{ student.group.id }}</td>
       <td>{{ student.account.firstName}}</td>
       <td>{{ student.account.lastName }}</td>
+      <td>{{ student.account.login }}</td>
       <td>{{ student.account.birthday | date }}</td>
       <td>{{ student.address }}</td>
       <td>
@@ -37,7 +39,7 @@
         </button>
       </td>
       <td>
-        <button type="button" class="btn btn-secondary" (click)="openModal(studentModal, student)">Edit</button>
+        <button type="button" class="btn btn-secondary" (click)="openModal(studentEditModal, student)">Edit</button>
       </td>
     </tr>
     </tbody>
@@ -168,6 +170,92 @@
     </alert>
     <button type="button" class="btn btn-default" (click)="addStudentAccount()"
             [disabled]="firstName.invalid || address.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableStudent.account.birthday">
+      {{editMode ? "Save" : "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #studentEditModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} student account</h4>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>First Name</label>
+      <input class="form-control" name="firstName" [(ngModel)]="editableStudent.account.firstName"
+             #fName="ngModel" pattern="[a-zA-Z]{3,35}"
+             placeholder="First Name" required/>
+      <div [hidden]="fName.valid || fName.untouched" class="alert alert-danger">
+        Please set correct first name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input class="form-control" name="lastName" [(ngModel)]="editableStudent.account.lastName"
+             #lName="ngModel" pattern="[a-zA-Z]{3,35}"
+             placeholder="Last Name" required/>
+      <div [hidden]="lName.valid || lName.untouched" class="alert alert-danger">
+        Please set correct last name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Login</label>
+      <input class="form-control" name="log" [(ngModel)]="editableStudent.account.login" #lo="ngModel" required
+             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+      <div [hidden]="lo.valid || lo.untouched" class="alert alert-danger">
+        Please set correct login
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Group</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableStudent.group">
+        <option *ngFor="let group of tableModel.groups" [ngValue]="group">{{group.id}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <input class="form-control" name="address" [(ngModel)]="editableStudent.address"
+             #addr="ngModel" pattern="[a-zA-Z ,]{5,45}"
+             placeholder="Address" required/>
+      <div [hidden]="addr.valid || addr.untouched" class="alert alert-danger">
+        Please set correct address
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Birthday</label>
+      <div class="row">
+        <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+          <input class="form-control"
+                 placeholder="Datepicker"
+                 bsDatepicker [(ngModel)]="editableStudent.account.birthday"
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                 [maxDate]="maxDate"
+                 [minDate]="minDate"
+                 placement="right"
+                 #btday="ngModel">
+        </div>
+        <br/>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <alert type="warning" *ngIf="wrongLogin">
+      <strong>Warning!</strong> We already have account with similar data.
+    </alert>
+    <button type="button" class="btn btn-default" (click)="addStudentAccount()"
+            [disabled]="fName.invalid || addr.invalid || lName.invalid || lo.invalid || btday.invalid || !editableStudent.account.birthday">
       {{editMode ? "Save" : "Create"}}
     </button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

@@ -45,7 +45,7 @@ public class LessonScheduler {
         this.attendanceRepository = attendanceRepository;
     }
 
-    //real: "9 0 0 ? * MON"
+    //real: "0 5 0 ? * MON"
     @Scheduled(cron = "30 58 14 ? * THU")
     public void addLessonsToLessonDateTable() {
         //get current week monday
