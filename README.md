@@ -5,3 +5,4 @@ ISchedule - web приложение, позволяющее пользоват�
 # Содержание
 1. [Документация](https://github.com/IlyaMarkevichV/ISchedule/tree/master/Documentation) <br>
   1.1 [SRS](https://github.com/IlyaMarkevichV/ISchedule/blob/master/Documentation/SRS/SRS.md) <br>
+  1.2 [Diagrams](https://github.com/IlyaMarkevichV/ISchedule/blob/master/Documentation/Diagrams/Diagrams.md) <br>
