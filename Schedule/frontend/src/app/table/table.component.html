@@ -1,0 +1,41 @@
+<!--<div class="mb-3">
+  <pre class="card card-block card-header">Event select is fired. The heading of the selected professorField is: {{person}}</pre>
+</div>-->
+
+<!--
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<tabset>
+  <tab heading="Students" class="mt-2" (select)="studentComponent.updateStudents()">
+    <student-tab [(tableModel)]="tableModel"></student-tab>
+  </tab>
+
+  <tab heading="Professors" class="mt-2" (select)="professorComponent.updateProfessors()">
+    <professor-tab [(tableModel)]="tableModel"></professor-tab>
+  </tab>
+
+  <tab heading="Groups" class="mt-2" (select)="groupComponent.updateGroups()">
+    <group [(tableModel)]="tableModel"></group>
+  </tab>
+
+</tabset>
+-->
+
+<ng-template [ngIf]="userRole === 'ADMIN'">
+  <administrator [(tableModel)]="tableModel"
+                 (loadFaculties)="loadFaculties()"
+                 (loadGroups)="loadGroups()"
+                 (loadProfessors)="loadProfessors()"
+                 (loadStudents)="loadStudents()"
+                 (loadLessons)="loadLessons()"></administrator>
+</ng-template>
+
+<ng-template [ngIf]="userRole === 'PROFESSOR'">
+  <professor [(tableModel)]="tableModel"></professor>
+</ng-template>
+
+<ng-template [ngIf]="userRole === 'STUDENT'">
+  <student [(tableModel)]="tableModel"></student>
+</ng-template>
+
+<!--<professor></professor>-->

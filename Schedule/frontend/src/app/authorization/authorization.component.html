@@ -1,0 +1,29 @@
+<div class="form-group">
+
+  <label>Email address </label>
+  <input class="form-control ng-pristine ng-invalid ng-touched" name="email" [(ngModel)]="login" #email="ngModel" required
+         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+</div>
+<div [hidden]="email.valid || email.untouched" class="alert alert-danger">
+  Incorrect E-mail
+</div>
+
+<div class="form-group">
+  <label>Password </label>
+  <input type="password" class="form-control" name="password" [(ngModel)]="password" #pass="ngModel" required
+         pattern="[a-zA-Z0-9]{3,}" placeholder="Password"/>
+</div>
+<div [hidden]="pass.valid || pass.untouched" class="alert alert-danger">
+  Enter password
+</div>
+
+<div *ngIf="alertUserAboutError" class="alert alert-danger">
+  The username and password that you entered did not match records. Please double-check and try again.
+</div>
+
+<button type="button" class="btn btn-default" (click)="authorization()"
+        [disabled]="email.invalid || pass.invalid">
+  LOG IN
+</button>
+
+

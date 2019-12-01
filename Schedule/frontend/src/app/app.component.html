@@ -1,0 +1,21 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<div class="container">
+  <!--[seeTables]="seeTables" (logout)="seeTables = $event"-->
+  <navbar></navbar>
+  <br/>
+  <br/>
+  <!--  <authorization *ngIf="!seeTables" (authorizedEvent)="seeTables = $event"></authorization>
+    <table-component *ngIf="seeTables"></table-component>-->
+
+  <router-outlet></router-outlet>
+</div>
+
+</body>
+
+

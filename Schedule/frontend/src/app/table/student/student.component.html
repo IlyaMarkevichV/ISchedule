@@ -1,0 +1,37 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<tabset type="pills">
+  <tab heading="Profile" class="mt-2">
+    <br/>
+    <br/>
+    <br/>
+    <student-profile [student]="student"></student-profile>
+  </tab>
+
+  <tab heading="Lessons in current term" class="mt-2">
+    <br/>
+    <br/>
+    <br/>
+    <ng-template [ngIf]="student">
+      <student-lessons></student-lessons>
+    </ng-template>
+  </tab>
+
+  <tab heading="Professor schedule" class="mt-2">
+    <br/>
+    <br/>
+    <br/>
+    <ng-template [ngIf]="student">
+      <student-professors [(tableModel)]="tableModel"></student-professors>
+    </ng-template>
+  </tab>
+
+  <tab heading="Attendance" class="mt-2">
+    <br/>
+    <br/>
+    <br/>
+    <ng-template [ngIf]="student">
+      <student-attendance [student]="student"></student-attendance>
+    </ng-template>
+  </tab>
+</tabset>
