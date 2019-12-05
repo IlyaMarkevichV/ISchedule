@@ -1,0 +1,265 @@
+<div class="tab-pane active">
+  <div class="row">
+
+    <div class="col">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-success" (click)="openModal(professorModal)">Add Professor</button>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+
+  <table class="table table-hover" id="table">
+    <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Birthday</th>
+      <th>Academic Rank</th>
+      <th>Field of Research</th>
+    </tr>
+    </thead>
+
+    <tbody id="tableBody"
+           *ngFor="let professor of professorPage.content">
+    <tr>
+      <td>{{ professor.account.firstName }}</td>
+      <td>{{ professor.account.lastName }}</td>
+      <td>{{professor.account.login}}</td>
+      <td>{{ professor.account.birthday | date }}</td>
+      <td>{{ professor.academicRank }}</td>
+      <td>{{ professor.fieldOfResearch }}</td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="deleteProfessorAccount(professor)">
+          Delete
+        </button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="openModal(professorEditModal, professor)">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div *ngIf="professorPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getPage(professorPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="professorPage.totalElements"
+          [(ngModel)]="professorPage.number"
+          (pageChanged)="getPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getPage(professorPage.number)">Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<ng-template #professorModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} professor account</h4>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>First Name</label>
+      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.account.firstName"
+             #firstName="ngModel"
+             pattern="[a-zA-Z]{3,35}" placeholder="First Name" required/>
+      <div [hidden]="firstName.valid || firstName.untouched" class="alert alert-danger">
+        Please set correct first name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.account.lastName" #lastName="ngModel"
+             pattern="[a-zA-Z]{3,35}" placeholder="Last Name" required/>
+      <div [hidden]="lastName.valid || lastName.untouched" class="alert alert-danger">
+        Please set correct last name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Login</label>
+      <input class="form-control" name="log" [(ngModel)]="editableProfessor.account.login" #log="ngModel" required
+             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+      <div [hidden]="log.valid || log.untouched" class="alert alert-danger">
+        Please set correct login
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input class="form-control" name="pass" [(ngModel)]="editableProfessor.account.password" #pass="ngModel" required
+             pattern="[a-zA-Z0-9]{7,255}" type="password" placeholder="Password"/>
+      <div [hidden]="pass.valid || pass.untouched" class="alert alert-danger">
+        Please set correct password
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Academic Rank</label>
+      <input class="form-control" name="academicRank" [(ngModel)]="editableProfessor.academicRank"
+             #academicRank="ngModel"
+             pattern="[a-zA-Z]{3,45}" placeholder="Academic Rank" required/>
+      <div [hidden]="academicRank.valid || academicRank.untouched" class="alert alert-danger">
+        Please set correct academic Rank
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Field of Research</label>
+      <input class="form-control" name="research" [(ngModel)]="editableProfessor.fieldOfResearch" #research="ngModel"
+             pattern="[a-zA-Z ,]{5,45}" placeholder="Field of Research" required/>
+      <div [hidden]="research.valid || research.untouched" class="alert alert-danger">
+        Please set correct field of research
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Birthday</label>
+      <div class="row">
+        <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+          <input class="form-control"
+                 placeholder="Datepicker"
+                 bsDatepicker [(ngModel)]="editableProfessor.account.birthday"
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                 [maxDate]="maxDate"
+                 [minDate]="minDate"
+                 placement="right"
+                 #bday="ngModel">
+        </div>
+        <br/>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <alert type="warning" *ngIf="wrongLogin">
+      <strong>Warning!</strong> We already have account with similar data.
+    </alert>
+    <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
+            [disabled]="firstName.invalid || academicRank.invalid || research.invalid || lastName.invalid || log.invalid || pass.invalid || bday.invalid || !editableProfessor.account.birthday">
+      {{editMode ? "Save" : "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #professorEditModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} professor account</h4>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>First Name</label>
+      <input class="form-control" name="firstName" [(ngModel)]="editableProfessor.account.firstName"
+             #fName="ngModel"
+             pattern="[a-zA-Z]{3,35}" placeholder="First Name" required/>
+      <div [hidden]="fName.valid || fName.untouched" class="alert alert-danger">
+        Please set correct first name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input class="form-control" name="lastName" [(ngModel)]="editableProfessor.account.lastName" #lName="ngModel"
+             pattern="[a-zA-Z]{3,35}" placeholder="Last Name" required/>
+      <div [hidden]="lName.valid || lName.untouched" class="alert alert-danger">
+        Please set correct last name
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Login</label>
+      <input class="form-control" name="log" [(ngModel)]="editableProfessor.account.login" #lo="ngModel" required
+             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$" placeholder="E-mail"/>
+      <div [hidden]="lo.valid || lo.untouched" class="alert alert-danger">
+        Please set correct login
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Academic Rank</label>
+      <input class="form-control" name="academicRank" [(ngModel)]="editableProfessor.academicRank"
+             #aRank="ngModel"
+             pattern="[a-zA-Z]{3,45}" placeholder="Academic Rank" required/>
+      <div [hidden]="aRank.valid || aRank.untouched" class="alert alert-danger">
+        Please set correct academic Rank
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Field of Research</label>
+      <input class="form-control" name="research" [(ngModel)]="editableProfessor.fieldOfResearch" #res="ngModel"
+             pattern="[a-zA-Z ,]{5,45}" placeholder="Field of Research" required/>
+      <div [hidden]="res.valid || res.untouched" class="alert alert-danger">
+        Please set correct field of research
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Birthday</label>
+      <div class="row">
+        <div class="col-xs-12 col-md-5 col-lg-4 form-group">
+          <input class="form-control"
+                 placeholder="Datepicker"
+                 bsDatepicker [(ngModel)]="editableProfessor.account.birthday"
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                 [maxDate]="maxDate"
+                 [minDate]="minDate"
+                 placement="right"
+                 #btday="ngModel">
+        </div>
+        <br/>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <alert type="warning" *ngIf="wrongLogin">
+      <strong>Warning!</strong> We already have account with similar data.
+    </alert>
+    <button type="button" class="btn btn-default" (click)="addProfessorAccount()"
+            [disabled]="fName.invalid || aRank.invalid || res.invalid || lName.invalid || lo.invalid || btday.invalid || !editableProfessor.account.birthday">
+      {{editMode ? "Save" : "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
+
+

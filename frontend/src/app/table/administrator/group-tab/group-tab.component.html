@@ -1,0 +1,198 @@
+<div class="tab-pane active">
+
+  <div class="row">
+    <div class="col">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-success" (click)="openModal(groupModal)">Add Group</button>
+        <button type="button" class="btn btn-success" (click)="openModal(facultyModal)">Add/Delete faculty</button>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+
+  <table class="table table-hover" id="table">
+    <thead>
+    <tr>
+      <th>Group ID</th>
+      <th>Faculty Name</th>
+      <th>Speciality</th>
+      <th>Grade</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+
+    <tbody id="tableBody"
+           *ngFor="let group of groupPage.content">
+    <tr>
+      <td>{{ group.id }}</td>
+      <td>{{ group.faculty.facultyName }}</td>
+      <td>{{ group.speciality }}</td>
+      <td>{{ group.grade }}</td>
+      <td>{{ group.graduation | date }}</td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="deleteGroup(group.id)">
+          Delete
+        </button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="openModal(groupModal, group)">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div *ngIf="groupPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="groupPage.totalElements"
+          [(ngModel)]="groupPage.number"
+          (pageChanged)="getPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getPage(groupPage.number)">Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<ng-template #groupModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} new group</h4>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Faculty</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
+        <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Speciality</label>
+      <input class="form-control" name="speciality" [(ngModel)]="editableGroup.speciality" #speciality="ngModel"
+             placeholder="Speciality" pattern="[a-zA-Z]{3,45}" required/>
+      <div [hidden]="speciality.valid || speciality.untouched" class="alert alert-danger">
+        Please set correct speciality
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Grade</label>
+      <input class="form-control" name="grade" [(ngModel)]="editableGroup.grade" #grade="ngModel"
+             placeholder="Grade" required
+             pattern="[0-5]{1}"/>
+      <div [hidden]="grade.valid || grade.untouched" class="alert alert-danger">
+        Please set correct grade
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Graduation</label>
+      <input class="form-control"
+             placeholder="Datepicker"
+             bsDatepicker [(ngModel)]="editableGroup.graduation"
+             [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+             [minDate]=""
+             placement="right"
+             #bday="ngModel">
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="addGroup()"
+            [disabled]="!editableGroup.grade || !editableGroup.graduation || !editableGroup.speciality">
+      {{editMode ? "Save" : "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #facultyModal>
+  <div class="modal-header">
+    <form>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" id="customRadio" name="example" value="false"
+               [(ngModel)]="addFac">
+        <label class="custom-control-label" for="customRadio">Create</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" id="customRadio2" name="example" [(ngModel)]="addFac"
+               value="true">
+        <label class="custom-control-label" for="customRadio2">Delete</label>
+      </div>
+    </form>
+    <br/>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="addFac==='false'">
+    <div class="form-group">
+      <label>Faculty name</label>
+      <input class="form-control" name="facultyName" [(ngModel)]="editableGroup.faculty.facultyName" #facName="ngModel"
+             pattern="[a-zA-Z]{3,35}" required placeholder="Faculty Name"/>
+      <div [hidden]="facName.valid || facName.untouched" class="alert alert-danger">
+        Please set correct faculty name
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body" *ngIf="addFac==='true'">
+    <alert type="warning">
+      <strong>Warning!</strong> If you delete a faculty, then all groups and students belonging to it will also be
+      deleted.
+      To prevent deleting all students make sure you transfer them to another groups.
+    </alert>
+    <div class="form-group">
+      <label>Faculty</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableGroup.faculty">
+        <option *ngFor="let faculty of tableModel.faculties" [ngValue]="faculty">{{faculty.facultyName}}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- TODO: check 'addFac' for valid swap from string to boolean -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="addFaculty()" *ngIf="addFac==='false'"
+            [disabled]="!editableGroup.faculty.facultyName">
+      Create
+    </button>
+
+    <button type="button" class="btn btn-default" (click)="deleteFaculty()" *ngIf="addFac==='true'">
+      Delete
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>

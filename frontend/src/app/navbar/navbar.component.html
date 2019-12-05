@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-md bg-light navbar-light">
+
+  <!-- Toggler/collapsibe Button for small screens -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+    <span class="badge badge-info"><h4>Student Attendance Management</h4></span>
+  </div>
+
+  <ng-template [ngIf]="router.url !== '/login'">
+    <div class="collapse navbar-collapse justify-content-end">
+      <button type="button" class="btn btn-default"
+              (click)="logout()">
+        Log out
+      </button>
+    </div>
+  </ng-template>
+
+</nav>

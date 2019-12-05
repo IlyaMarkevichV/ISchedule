@@ -1,0 +1,430 @@
+<div class="row">
+  <br/>
+  <h4>What schedule you want to see? </h4>
+  <div class="btn-group">
+    <button type="button" class="btn btn-success"
+            (click)="isGroupsScheduleCollapsed = !isGroupsScheduleCollapsed">
+      {{ isGroupsScheduleCollapsed ? 'Professors' : 'Groups' }}
+    </button>
+  </div>
+</div>
+
+<br/>
+
+<ng-template [ngIf]="!isGroupsScheduleCollapsed">
+  <accordion [closeOthers]="true" *ngFor="let group of groupPage.content">
+    <accordion-group heading="Group: {{group.id}}" (click)="getGroupSchedule(group.id)">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Monday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).monday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Tuesday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).tuesday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Wednesday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).wednesday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Thursday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).thursday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Friday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).friday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson,group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Saturday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of adminMap.get(group.id).saturday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson, group)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+
+  <div class="row">
+    <div *ngIf="groupPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getGroupPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="groupPage.totalElements"
+          [(ngModel)]="groupPage.number"
+          (pageChanged)="getGroupPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getGroupPage(groupPage.number)">Save
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="isGroupsScheduleCollapsed">
+  <accordion [closeOthers]="true" *ngFor="let professor of professorPage.content">
+    <accordion-group heading="Professor: {{professor.account.firstName}} {{professor.account.lastName}}"
+                     (click)="getProfessorSchedule(professor.id)">
+
+      <div class="jumbotron">
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Monday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).monday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Tuesday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).tuesday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Wednesday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).wednesday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Thursday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).thursday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="jumbotron bg-white text-black">
+            <h4>Friday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).friday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="jumbotron bg-white text-black">
+            <h4>Saturday</h4>
+
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Lesson</th>
+                <th>Room</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let lesson of professorMap.get(professor.id).saturday">
+              <tr>
+                <td>{{lesson.lessonTime.begin | date:'HH:mm'}}-{{lesson.lessonTime.end | date:'HH:mm'}}</td>
+                <td>{{lesson.lessonInfo.lessonName}}</td>
+                <td>{{lesson.lessonRoom}}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </accordion-group>
+  </accordion>
+
+  <div class="row">
+    <div *ngIf="professorPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getProfessorPage(professorPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="professorPage.totalElements"
+          [(ngModel)]="professorPage.number"
+          (pageChanged)="getProfessorPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getProfessorPage(professorPage.number)">Save
+      </button>
+    </div>
+  </div>
+</ng-template>

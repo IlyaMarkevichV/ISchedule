@@ -1,0 +1,161 @@
+<div class="row">
+
+  <div class="col">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-success" (click)="openModal(lessonModal)">Create Lesson</button>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<table class="table table-hover" id="table">
+  <thead>
+  <tr>
+    <th>Lesson name</th>
+    <th>Professor name</th>
+    <th>Begin</th>
+    <th>End</th>
+    <th>Room</th>
+    <th>Day</th>
+    <th>Groups</th>
+  </tr>
+  </thead>
+
+  <tbody id="tableBody"
+         *ngFor="let lesson of lessonPage.content">
+  <tr>
+    <td>{{ lesson.lessonInfo.lessonName }}</td>
+    <td>{{ lesson.professor.account.firstName }} {{ lesson.professor.account.lastName }}</td>
+    <td>{{ lesson.lessonTime.begin | date:'HH:mm' }}</td>
+    <td>{{ lesson.lessonTime.end | date:'HH:mm' }}</td>
+    <td>{{ lesson.lessonRoom }}</td>
+    <td>{{ lesson.day.dayName }}</td>
+    <td>{{ (lesson.groups | toArray: lesson.groups).join(', ') }}</td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="deleteLesson(lesson)">
+        Delete
+      </button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-secondary" (click)="openModal(lessonModal, lesson)">Edit</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="row">
+  <div *ngIf="lessonPage.totalPages != 1">
+    <div class="justify-content-start">
+      <button type="button" class="btn btn-default"
+              (click)="sortDirection=!sortDirection;
+          getPage(lessonPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+      </button>
+    </div>
+    <div class="justify-content-center">
+      <pager
+        [totalItems]="lessonPage.totalElements"
+        [(ngModel)]="lessonPage.number"
+        (pageChanged)="getPage($event.page)"
+        pageBtnClass="btn"
+        [itemsPerPage]="itemsPerPage"
+        class="pull-left">
+      </pager>
+    </div>
+  </div>
+  <div class="justify-content-end">
+    <h6>Items per page: </h6>
+  </div>
+  <div class="justify-content-end">
+    <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+           pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+    <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+      Please set correct number - [1, 99]
+    </div>
+  </div>
+  <div class="justify-content-end">
+    <button type="button" class="btn btn-default" [disabled]="num.invalid"
+            (click)="getPage(lessonPage.number)">Save
+    </button>
+  </div>
+</div>
+<!-- Modal -->
+<ng-template #lessonModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{editMode ? "Edit" : "Create"}} lesson</h4>
+    <button type="button" class="close pull-right"
+            aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Lesson</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonInfo">
+        <option *ngFor="let lessonInfo of tableModel.lessonInfos" [ngValue]="lessonInfo">{{lessonInfo.lessonName}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Professor</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.professor">
+        <option *ngFor="let professor of tableModel.professors"
+                [ngValue]="professor">{{professor.account.lastName}} {{professor.account.firstName}}
+          - {{professor.fieldOfResearch}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Time</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.lessonTime">
+        <option *ngFor="let time of tableModel.lessonTimes" [ngValue]="time">{{time.begin | date:'HH:mm'}}
+          - {{time.end | date:'HH:mm'}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Room</label>
+      <input class="form-control" name="grade" [(ngModel)]="editableLesson.lessonRoom" #room="ngModel"
+             placeholder="Room" pattern="[0-9]{1,5}" required/>
+      <div [hidden]="room.untouched || room.valid" class="alert alert-danger">
+        Please set valid Room
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Day</label>
+      <select class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.day">
+        <option *ngFor="let day of tableModel.studyDays" [ngValue]="day">{{day.dayName}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Groups</label>
+      <select multiple class="form-control" [compareWith]="compareFn" [(ngModel)]="editableLesson.groups">
+        <option *ngFor="let group of tableModel.groups"
+                [ngValue]="group">Id: {{group.id}} Faculty: {{group.faculty.facultyName}} Grade: {{group.grade}}
+        </option>
+      </select>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <alert type="warning" *ngIf="warning">
+      <strong>Warning!</strong> Lesson with the same data already contains in schedule.
+    </alert>
+    <alert type="warning" *ngIf="groupWarning">
+      <strong>Warning!</strong> We can't add groups with different grade to the same lesson.
+    </alert>
+    <alert type="warning" *ngIf="chosenGroupWarning">
+      <strong>Warning!</strong> Please add one or more group to this lesson.
+    </alert>
+    <button type="button" class="btn btn-default"
+            [disabled]="room.invalid" (click)="saveLesson()">
+      {{editMode ? "Save" : "Create"}}
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
