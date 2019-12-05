@@ -1,5 +1,4 @@
-
-  <accordion id="first" [closeOthers]="true" *ngFor="let lesson of currentLessons">
+<accordion id="first" [closeOthers]="true" *ngFor="let lesson of currentLessons">
     <accordion-group id="first-group"
                      heading="{{lesson.lessonTime.begin | date:'HH:mm' }}-{{lesson.lessonTime.end | date:'HH:mm' }} -|- Lesson: {{lesson.lessonInfo.lessonName}}">
       <div class="jumbotron">

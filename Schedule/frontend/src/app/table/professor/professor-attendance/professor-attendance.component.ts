@@ -6,7 +6,6 @@ import {Subscription} from "rxjs";
 import {DaysOfWeek} from "../../../model/DaysOfWeek";
 import {Lesson} from "../../../model/lesson";
 import {Attendance} from "../../../model/Attendance";
-import {Group} from "../../../model/group";
 import {ProfessorAccount} from "../../../model/professor-account";
 
 @Component({
@@ -42,15 +41,15 @@ export class ProfessorAttendanceComponent implements OnInit, OnDestroy {
       this.days = DaysOfWeek.transformLessonsToDaysOfWeek(req);
       this.currentLessons = DaysOfWeek.getLessonsAccordingToWeekDay(this.days);
 
-        //add in map all non-repeat groups and create alerts for them
-        for (let lesson of this.currentLessons) {
-          for (let group of lesson.groups) {
-            if (!this.attendances.has(group.id)) {
-              this.attendances.set(group.id, []);
-              this.alerts.set(group.id, false);
-            }
+      //add in map all non-repeat groups and create alerts for them
+      for (let lesson of this.currentLessons) {
+        for (let group of lesson.groups) {
+          if (!this.attendances.has(group.id)) {
+            this.attendances.set(group.id, []);
+            this.alerts.set(group.id, false);
           }
         }
+      }
       this.loadingService.hide();
     }))
   }
