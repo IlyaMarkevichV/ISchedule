@@ -1,0 +1,50 @@
+package backend.service.impl;
+
+import backend.entity.UniversityGroup;
+import backend.repository.UniversityGroupRepository;
+import backend.service.UniversityGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class UniversityGroupServiceImpl implements UniversityGroupService {
+
+    private UniversityGroupRepository repository;
+
+    @Autowired
+    public UniversityGroupServiceImpl(UniversityGroupRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public UniversityGroup saveGroup(UniversityGroup entity) {
+        return repository.save(entity);
+    }
+
+    @Override
+    public Optional<UniversityGroup> getGroupById(Integer id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public void deleteGroup(Integer id) {
+        Optional<UniversityGroup> groupOptional = repository.findById(id);
+        if (!groupOptional.isPresent())
+            return;
+
+        UniversityGroup group = groupOptional.get();
+        group.getLessons().clear();
+
+        repository.save(group);
+        repository.deleteById(id);
+    }
+
+    @Override
+    public Page<UniversityGroup> getPage(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+}
