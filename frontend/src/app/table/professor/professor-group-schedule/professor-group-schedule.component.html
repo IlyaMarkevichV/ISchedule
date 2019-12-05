@@ -1,0 +1,129 @@
+<div class="row">
+  <br/>
+  <h4>What schedule you want to see?  </h4>
+  <div class="btn-group">
+    <button type="button" class="btn btn-success"
+            (click)="isGroupsScheduleCollapsed = !isGroupsScheduleCollapsed">
+      {{ isGroupsScheduleCollapsed ? 'Students' : 'Groups' }}
+    </button>
+  </div>
+</div>
+
+<br/>
+
+<ng-template [ngIf]="!isGroupsScheduleCollapsed">
+  <accordion [closeOthers]="true" *ngFor="let group of groupPage.content">
+    <accordion-group heading="Group Id: {{group.id}}" (click)="getGroupSchedule(group.id)">
+      <div class="jumbotron">
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(group.id).monday" [dayName]="'Monday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(group.id).tuesday" [dayName]="'Tuesday'"></mini-schedule-table>
+        </div>
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(group.id).wednesday" [dayName]="'Wednesday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(group.id).thursday" [dayName]="'Thursday'"></mini-schedule-table>
+        </div>
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(group.id).friday" [dayName]="'Friday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(group.id).saturday" [dayName]="'Saturday'"></mini-schedule-table>
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+
+  <div class="row">
+    <div *ngIf="groupPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getGroupPage(groupPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="groupPage.totalElements"
+          [(ngModel)]="groupPage.number"
+          (pageChanged)="getGroupPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getGroupPage(groupPage.number)">Save
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="isGroupsScheduleCollapsed">
+  <accordion [closeOthers]="true" *ngFor="let student of studentPage.content">
+    <accordion-group heading="Student: {{student.account.firstName}} {{student.account.lastName}}" (click)="getGroupSchedule(student.group.id)">
+      <div class="jumbotron">
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).monday" [dayName]="'Monday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).tuesday" [dayName]="'Tuesday'"></mini-schedule-table>
+        </div>
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).wednesday" [dayName]="'Wednesday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).thursday" [dayName]="'Thursday'"></mini-schedule-table>
+        </div>
+        <div class="row">
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).friday" [dayName]="'Friday'"></mini-schedule-table>
+          <mini-schedule-table [lessons]="professorMap.get(student.group.id).saturday" [dayName]="'Saturday'"></mini-schedule-table>
+        </div>
+      </div>
+      <!--<pagination-controls id="groups" (pageChange)="page = $event" align="center"></pagination-controls>
+  -->
+    </accordion-group>
+  </accordion>
+
+  <div class="row">
+    <div *ngIf="studentPage.totalPages != 1">
+      <div class="justify-content-start">
+        <button type="button" class="btn btn-default"
+                (click)="sortDirection=!sortDirection;
+          getStudentPage(studentPage.number)">{{sortDirection ? 'desc'.toUpperCase() : 'asc'.toUpperCase()}}
+        </button>
+      </div>
+      <div class="justify-content-center">
+        <pager
+          [totalItems]="studentPage.totalElements"
+          [(ngModel)]="studentPage.number"
+          (pageChanged)="getStudentPage($event.page)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <h6>Items per page: </h6>
+    </div>
+    <div class="justify-content-end">
+      <input class="form-control" name="firstName" [(ngModel)]="itemsPerPage" #num="ngModel"
+             pattern="^[1-9][0-9]?$" placeholder="Number of rows on page" required/>
+      <div [hidden]="num.valid || num.untouched" class="alert alert-danger">
+        Please set correct number - [1, 99]
+      </div>
+    </div>
+    <div class="justify-content-end">
+      <button type="button" class="btn btn-default" [disabled]="num.invalid"
+              (click)="getStudentPage(studentPage.number)">Save
+      </button>
+    </div>
+  </div>
+</ng-template>
