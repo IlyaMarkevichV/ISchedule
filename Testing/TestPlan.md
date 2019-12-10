@@ -106,7 +106,7 @@
 
 ## Представление результатов
 
-Результаты представлены  в документе ["Результаты тестирования"](https://github.com/IlyaMarkevichV/ISchedule/Testing/TestResult.md).
+Результаты представлены  в документе ["Результаты тестирования"](https://github.com/IlyaMarkevichV/ISchedule/blob/master/Testing/TestResult.md).
 
 <a name="conclusion"/>
 
