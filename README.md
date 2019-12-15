@@ -10,3 +10,4 @@ ISchedule - web приложение, позволяющее пользоват�
 4. [Testing](https://github.com/IlyaMarkevichV/ISchedule/tree/master/Testing)<br>
   4.1 [Test plan](https://github.com/IlyaMarkevichV/ISchedule/blob/master/Testing/TestPlan.md) <br>
   4.2 [Test results](https://github.com/IlyaMarkevichV/ISchedule/blob/master/Testing/TestResult.md) <br>
+5. [Design patterns](https://github.com/IlyaMarkevichV/ISchedule/tree/master/DesignPatterns) <br>
